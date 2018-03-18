@@ -23,13 +23,14 @@ begin
     process
         variable csv_file: csv_file_reader_type;
         variable read_boolean: boolean;
-        variable read_real: real;
+        variable read_integer: integer;
     begin
         puts("Starting testbench...");
         csv_file.initialize("i2s.csv");
 
         while not csv_file.end_of_file loop
 		csv_file.readline;
+		read_integer := csv_file.read_integer; -- discard
 		read_boolean := csv_file.read_integer_as_boolean;
 		if read_boolean then
 			dout <= '1';
