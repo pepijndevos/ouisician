@@ -15,9 +15,17 @@ end;
 
 architecture testbench of i2sbench is
 
+  signal rst : std_logic;
 	signal dout : std_logic;
+	signal din : std_logic;
 	signal lrclk : std_logic;
 	signal bclk : std_logic;
+
+  signal wout1 : signed(15 downto 0);
+  signal wout2 : signed(15 downto 0);
+  signal wout3 : signed(15 downto 0);
+  signal wout4 : signed(15 downto 0);
+
     
 begin
     process
@@ -27,6 +35,9 @@ begin
     begin
         puts("Starting testbench...");
         csv_file.initialize("i2s.csv");
+
+        rst <= '0';
+        rst <= '1' after 20 ns;
 
         while not csv_file.end_of_file loop
 		csv_file.readline;
@@ -54,4 +65,20 @@ begin
         puts("End of testbench. All tests passed.");
         stop;
     end process;
+
+  i2s_inst: entity work.i2s(behavioral)
+    port map (rst => rst,
+      bclk => bclk,
+      rlclk =>lrclk,
+      din => dout,
+      dout => din,
+      win1 => x"5555",
+      win2 => x"ffff",
+      win3 => x"aaaa",
+      win4 => x"0000",
+      wout1 => wout1,
+      wout2 => wout2,
+      wout3 => wout3,
+      wout4 => wout4);
+
 end;
