@@ -33,7 +33,7 @@ entity IIR_LPF is
 Generic (
     output_width : integer := 16;
     input_width : integer := 16;
-    B0 : integer := 51 ; -- scaled by 2^19
+    B0 : integer := 51 ; -- scaled by 2^19 
     B1 : integer := -102;
     B2 : integer := 51;
     A1 : integer := 539050;
@@ -41,10 +41,8 @@ Generic (
 );
     Port ( CLK : in STD_LOGIC;
            Reset : in STD_LOGIC;
-           Ready : in STD_LOGIC;
-           IIR_in : in STD_LOGIC_VECTOR (15 downto 0);
-           Done : out STD_LOGIC;
-           IIR_out : out STD_LOGIC_VECTOR (15 downto 0)
+           IIR_in : in signed(15 downto 0);
+           IIR_out : out signed(15 downto 0)
 );
 end IIR_LPF;
 
@@ -60,18 +58,18 @@ signal sum_in : signed(input_width-1 downto 0) := (others=> '0');
 signal sum_A1A2 : signed(input_width-1 downto 0) := (others => '0');
 signal sum_B1B2 : signed(input_width-1 downto 0) := (others=> '0');
 signal sum_out : signed(input_width-1 downto 0) := (others => '0');
-signal gain_b0 : signed((input_width+18 downto 0) := others => '0'); --multiplication of constant with 19 bits
-signal gain_b1 : signed((input_width+18 downto 0) := others => '0'); 
-signal gain_b2 : signed((input_width+18 downto 0) := others => '0'); 
-signal gain_a1 : signed((input_width+18 downto 0) := others => '0'); 
-signal gain_a2 : signed((input_width+18 downto 0) := others => '0'); 
+signal gain_b0 : signed(input_width+18 downto 0) := (others => '0'); --multiplication of constant with 19 bits
+signal gain_b1 : signed(input_width+18 downto 0) := (others => '0'); 
+signal gain_b2 : signed(input_width+18 downto 0) := (others => '0'); 
+signal gain_a1 : signed(input_width+18 downto 0) := (others => '0'); 
+signal gain_a2 : signed(input_width+18 downto 0) := (others => '0'); 
 signal Z1 : signed(input_width-1 downto 0) := (others=> '0');
 signal Z2 : signed(input_width-1 downto 0) := (others=> '0');
-signal x : signed(input_width-1 downto 0):= (others=>'0');
-signal y : std_logic_vector(input_width-1 downto 0) := (others=>'0');
+
 
 begin
-    process(CLK,Reset) is
+process(CLK,Reset) is
+begin
         if (Reset = '0') then
             sum_in <= (others=>'0');
             sum_A1A2 <=(others=>'0');
@@ -84,23 +82,21 @@ begin
             gain_a2 <= (others=>'0');
             Z1 <= (others=>'0');
             Z2 <= (others=>'0');
-            IIR_in <= (others=>'0');
             IIR_out <= (others=>'0');
-            Done <= (others=>'0');
-        elsif (rising_edge(CLK)) then
-            x <= signed(IIR_in);
-            sum_in <= x + sum_A1A2(input_width+18 downto 18);
-            sum_A1A2 <= gain_a1(input_width+18 downto 18) + gain_a2(input_width+18 downto 18);
-            sum_B1B2 <= gain_b1(input_width+18 downto 18) + gain_b2(input_width+18 downto 18);
-            sum_out <= gain_b0(input_width+18 downto 18) + sum_B1B2;
+        elsif rising_edge(CLK) then
+            sum_in <= IIR_in + sum_A1A2;
+            sum_A1A2 <= gain_a1(input_width+18 downto 19) + gain_a2(input_width+18 downto 19);
+            sum_B1B2 <= gain_b1(input_width+18 downto 19) + gain_b2(input_width+18 downto 19);
+            sum_out <= gain_b0(input_width+18 downto 19) + sum_B1B2;
             Z1 <= sum_in;
             Z2 <= Z1;
-            gain_b0 =  constB0 * sum_in;
-            gain_b1 = constB1 * Z1;
-            gain_b2 = constB2 * Z2;
-            gain_a1 = constA1 * Z1;
-            gain_a2 = constA2 * Z2;  
+            gain_b0 <=  constB0 * sum_in;
+            gain_b1 <= constB1 * Z1;
+            gain_b2 <= constB2 * Z2;
+            gain_a1 <= constA1 * Z1;
+            gain_a2 <= constA2 * Z2;  
+	    IIR_out <= sum_out;
         end if;
-
-end IIR_Filter;
+end process;
+end behaviour;
 
