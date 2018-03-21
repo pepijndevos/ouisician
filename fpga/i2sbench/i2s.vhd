@@ -49,13 +49,13 @@ begin
       buf := (others => '0');
       lastrl := '0';
     elsif falling_edge(bclk) then
-      if lastrl = '0' and rlclk = '1' then
+	   if lastrl = '0' and rlclk = '1' then
         buf(63 downto 48) := std_logic_vector(win1);
         buf(47 downto 32) := std_logic_vector(win2);
         buf(31 downto 16) := std_logic_vector(win3);
         buf(15 downto 0)  := std_logic_vector(win4);
       end if;
-      dout <= buf(63);
+	   dout <= buf(63);
       buf := buf(62 downto 0) & '0';
       lastrl := rlclk;
     end if;

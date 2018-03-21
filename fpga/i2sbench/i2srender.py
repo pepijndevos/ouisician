@@ -1,6 +1,6 @@
 import pandas 
 import matplotlib.pyplot as plt
-data = pandas.read_csv('i2sdump.csv')
+data = pandas.read_csv('i2secho.csv')
 
 chan = pandas.DataFrame({
     "ch1":data.Value[0::4].values,
