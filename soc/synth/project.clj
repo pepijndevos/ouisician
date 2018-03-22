@@ -7,4 +7,5 @@
                  [overtone "0.10.3"]]
   :main ^:skip-aot synth.core
   :target-path "target/%s"
+  :repl-options { :timeout 120000 }
   :profiles {:uberjar {:aot :all}})
