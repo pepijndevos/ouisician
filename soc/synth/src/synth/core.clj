@@ -1,7 +1,8 @@
 (ns synth.core
-  (:use overtone.live
-        [overtone.inst.sampled-piano :only [sampled-piano]])
+  (:use overtone.core)
   (:gen-class))
+
+(connect-external-server 4555)
 
 (def server (osc-server 44100 "osc-clj"))
 
@@ -14,7 +15,7 @@
     (ctl ins param scaled)))
 
 (defn start-mic [ch volpath panpath mixpath roompath damppath]
-  (let [ins (microphone 0 ch)]
+  (let [ins (microphone 1 0 ch)]
     (osc-handle server volpath
       (partial control-param ins :vol 0 1))
     (osc-handle server panpath
@@ -26,13 +27,11 @@
     (osc-handle server damppath
       (partial control-param ins :damp 0 1))))
 
-(defn start-piano []
-  (midi-poly-player sampled-piano))
-
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   (zero-conf-on)
   (osc-listen server (fn [msg] (println msg)) :debug)
-  (start-mic 0 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
-  (start-piano))
+  ;(start-mic 0 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
+  (start-mic 1 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
+  (println "Running"))
