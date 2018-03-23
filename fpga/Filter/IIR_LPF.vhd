@@ -65,38 +65,43 @@ signal gain_a1 : signed(input_width+18 downto 0) := (others => '0');
 signal gain_a2 : signed(input_width+18 downto 0) := (others => '0'); 
 signal Z1 : signed(input_width-1 downto 0) := (others=> '0');
 signal Z2 : signed(input_width-1 downto 0) := (others=> '0');
-
+signal x : signed(input_width-1 downto 0) := (others=>'0');
+signal y : signed(input_width-1 downto 0) := (others=>'0');
 
 begin
+
+
 process(CLK,Reset) is
 begin
-        if (Reset = '0') then
-            sum_in <= (others=>'0');
-            sum_A1A2 <=(others=>'0');
-            sum_B1B2 <=(others=>'0');
-            sum_out <= (others=>'0');
-            gain_b0 <= (others=>'0');
-            gain_b1 <= (others=>'0');
-            gain_b2 <= (others=>'0');
-            gain_a1 <= (others=>'0');
-            gain_a2 <= (others=>'0');
-            Z1 <= (others=>'0');
-            Z2 <= (others=>'0');
-            IIR_out <= (others=>'0');
-        elsif rising_edge(CLK) then
-            sum_in <= IIR_in + sum_A1A2;
-            sum_A1A2 <= gain_a1(input_width+18 downto 19) + gain_a2(input_width+18 downto 19);
-            sum_B1B2 <= gain_b1(input_width+18 downto 19) + gain_b2(input_width+18 downto 19);
-            sum_out <= gain_b0(input_width+18 downto 19) + sum_B1B2;
-            Z1 <= sum_in;
-            Z2 <= Z1;
-            gain_b0 <=  constB0 * sum_in;
-            gain_b1 <= constB1 * Z1;
-            gain_b2 <= constB2 * Z2;
-            gain_a1 <= constA1 * Z1;
-            gain_a2 <= constA2 * Z2;  
-	    IIR_out <= sum_out;
-        end if;
+if rising_edge(CLK) then
+	    	if (Reset = '0') then
+            		sum_in <= (others=>'0');
+            		sum_A1A2 <=(others=>'0');
+           		sum_B1B2 <=(others=>'0');
+            		sum_out <= (others=>'0');
+            		gain_b0 <= (others=>'0');
+            		gain_b1 <= (others=>'0');
+            		gain_b2 <= (others=>'0');
+            		gain_a1 <= (others=>'0');
+            		gain_a2 <= (others=>'0');
+            		Z1 <= (others=>'0');
+            		Z2 <= (others=>'0');
+            		IIR_out <= (others=>'0');
+		else
+			Z1 <= sum_in;
+            		Z2 <= Z1;
+	    		IIR_out <= sum_out;
+			gain_b0 <=  constB0 * sum_in;
+			gain_b1 <= constB1 * Z1;
+			gain_b2 <= constB2 * Z2;
+			gain_a1 <= constA1 * Z1;
+			gain_a2 <= constA2 * Z2;  
+			sum_in <= IIR_in + sum_A1A2;
+			sum_A1A2 <= gain_a1(input_width+18 downto 19) + gain_a2(input_width+18 downto 19);
+			sum_B1B2 <= gain_b1(input_width+18 downto 19) + gain_b2(input_width+18 downto 19);
+			sum_out <= gain_b0(input_width+18 downto 19) + sum_B1B2;
+		end if;
+	end if;
 end process;
 end behaviour;
 
