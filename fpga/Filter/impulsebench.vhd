@@ -11,22 +11,25 @@ architecture testbench of impulsebench is
 	signal sndclk : std_logic := '0';
 	signal word : signed(15 downto 0);
         signal resp : signed(15 downto 0);
-	signal rest : std_logic :='1';
+	signal reset : std_logic :='1';
 
-component IIR_LPF
+component IIR_Implement
 Generic (
-    output_width : integer := 16;
-    input_width : integer := 16;
-    B0 : integer := 51 ; -- scaled by 2^19
-    B1 : integer := -102;
-    B2 : integer := 51;
-    A1 : integer := 539050;
-    A2 : integer := -1063133
+    w_out : integer := 16;
+    w_in : integer := 16;
+    w_coef: integer:= 20;
+	
+    B0 : integer := 6 ; -- scaled by 2^16, described by 2^19, 
+    B1 : integer := 13 ;
+    B2 : integer :=  6;
+    A1 : integer := -132892;
+    A2 : integer :=  67381 
 );
-Port ( CLK : in STD_LOGIC;
-       Reset : in STD_LOGIC;
-       IIR_in : in signed(15 downto 0);
-       IIR_out : out signed(15 downto 0)
+    Port ( iCLK : in STD_LOGIC; --50mhz internal clock
+	   sCLK : in STD_LOGIC; --sample clock at 48khz
+           Reset : in STD_LOGIC;
+           IIR_in : in signed(15 downto 0);
+           IIR_out : out signed(15 downto 0)   
 );
 end component;
 
@@ -48,10 +51,11 @@ begin
     end if;
   end process;
 
-  filter_inst : IIR_LPF port map (
-    CLK => sndclk,
+  filter_inst : IIR_Implement port map (
+    sCLK => sndclk,
+    iCLK => clk,
     IIR_in => word,
     IIR_out => resp,
-    Reset => rest
+    Reset => reset
   );
 end;
