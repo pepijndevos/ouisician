@@ -75,3 +75,5 @@ vsim.dbg
 
 # ignore LTspice 
 *.raw
+*.raw
+*.raw
