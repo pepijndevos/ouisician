@@ -1,0 +1,11 @@
+* C:\Gedeeld\Project\Git\Normalization\LTspice\Test.asc
+V1 Vin 0 0 AC 0.1
+V2 Vdd 0 5
+R1 N001 Vin 100
+R2 Vout N001 100
+V3 0 N002 5
+XU2 0 N001 Vdd N002 Vout LM4562
+.ac oct 10000 0.1 1000Meg
+.lib NewOpamps\LM4562.lib
+.backanno
+.end
