@@ -1,33 +1,12 @@
 * C:\Gedeeld\Project\Git\Normalization\LTspice\Test.asc
-<<<<<<< HEAD
-V1 Vin 0 SINE(0 0.4 100) AC 1
-V2 Vdd 0 5
-R1 N001 Vin 100
-=======
-V1 Vin 0 SINE(0 1.1 100) AC 1
+V1 Vin 0 SINE(0 0.2 100) AC 1
 V2 Vdd 0 10
-R1 N001 Vin 1000
-R2 Vout N001 100
 V3 0 N002 10
-XU1 N001 0 Vout Vdd N002 TS92X
-;ac oct 1000 0.1 100Meg
-.tran 0 0.1 0 0.01 startup
-.lib C:\Gedeeld\Project\Git\Normalization\sub\NewOpamps\ts92x_series.lib
-=======
-* D:\GitHub\ouisician\Normalization\LTspice\Test.asc
-V1 Vin 0 SINE(0 0.3 100) AC 0.5
-V2 Vdd 0 10
-R1 N001 Vin 10
->>>>>>> 12ed782170899327ca1b795852dbd7d1c25a6100
-R2 Vout N001 100
-V3 0 N002 10
-XU1 0 N001 Vdd N002 Vout LM4562
-<<<<<<< HEAD
-;ac oct 1000 0.1 100Meg
-.tran 0 0.1 0 0.01 startup
-=======
-.tran 0 0.1 0 0.01
->>>>>>> 12ed782170899327ca1b795852dbd7d1c25a6100
+XU1 Vin N001 Vdd N002 Vout LM4562
+R3 Vout N001 100
+R1 N001 0 100
+;tran 0 0.1 0 0.01
+.tran 0 0.1 0 0.001
 .lib NewOpamps\LM4562.lib
 .backanno
 .end
