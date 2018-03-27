@@ -5,14 +5,14 @@ use IEEE.NUMERIC_STD.ALL;
 entity iir is
 Generic (
     w_in : integer := 16;
-    w_coef : integer := 16;
+    w_coef : integer := 22;
 
-    B0 : integer := 300; 
-    B1 : integer := 600;
-    B2 : integer := 300;
-    A0 : integer := 1024;
-    A1 : integer := 0;
-    A2 : integer := 176
+    B0 : integer := 2; 
+    B1 : integer := 3;
+    B2 : integer := 2;
+    A0 : integer := 1048576;
+    A1 : integer := -2093361;
+    A2 : integer := 1044792
 );
     port (
       rst    : in std_logic;
@@ -31,11 +31,12 @@ begin
   constant cA0 : signed(w_coef-1 downto 0) := to_signed(A0, w_coef);
   constant cA1 : signed(w_coef-1 downto 0) := to_signed(A1, w_coef);
   constant cA2 : signed(w_coef-1 downto 0) := to_signed(A2, w_coef);
-  variable X2 : signed(w_in+w_coef-1 downto 0);
-  variable X1 : signed(w_in+w_coef-1 downto 0);
-  variable Y2 : signed(w_in+w_coef-1 downto 0);
-  variable Y1 : signed(w_in+w_coef-1 downto 0);
-  variable acc : signed(w_in+w_coef-4 downto 0);
+  constant scale : integer := 2**(w_coef-w_in);
+  variable X2 : signed(2*w_coef-1 downto 0);
+  variable X1 : signed(2*w_coef-1 downto 0);
+  variable Y2 : signed(2*w_coef-1 downto 0);
+  variable Y1 : signed(2*w_coef-1 downto 0);
+  variable acc : signed(2*w_coef+4 downto 0);
   begin
     if rst = '0' then
       X1 := to_signed(0, X1'length);
@@ -46,13 +47,13 @@ begin
       acc := resize(cB2 * X2, acc'length);
       acc := acc + resize(cB1 * X1, acc'length);
       X2 := X1;
-      acc := acc + resize(cB0 * word, acc'length);
+      acc := acc + resize(cB0 * word * scale, acc'length);
       X1 := resize(word, X1'length);
       acc := acc - resize(cA2 * Y2, acc'length);
       acc := acc - resize(cA1 * Y1, acc'length);
       Y2 := Y1;
       Y1 := resize(acc/cA0, Y1'length);
-      resp <= resize(Y1, resp'length);
+      resp <= resize(Y1/scale, resp'length);
     end if;
   end process;
 
