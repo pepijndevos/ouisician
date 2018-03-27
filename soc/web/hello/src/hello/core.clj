@@ -1,5 +1,5 @@
 (ns hello
-  (:use ring.adapter.jetty))
+  (:use 'ring.adapter.jetty))
 
 (defn handler [request]
   {:status 200
