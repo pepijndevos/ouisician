@@ -1,3 +1,4 @@
+
 -- IIR Filter after IIR Direct Form 1
 -- Filter can be cascaded
 -- B0-B2 and A1+A2 are the coefficients in Q2.X format
@@ -26,7 +27,7 @@ entity IIRDF1 is
     port (
         iCLK            : in std_logic;
         iRESET_N        : in std_logic;
-        sCLK            : in std_logic;                         -- indicates a new input value
+        --sCLK            : in std_logic;                         -- indicates a new input value
         IIR_in          : in signed (15 downto 0);   -- singed is expected             
         IIR_out         : out signed (15 downto 0)   -- Output
     );
@@ -52,35 +53,39 @@ signal new_val : std_logic := '0';
 signal iIIR_RX         :  signed (INPUT_WIDTH-1 downto 0);
 signal oIIR_TX         :  signed (INPUT_WIDTH-1 downto 0);   -- Output
 
-signal sCLKprev : std_logic := '0';
+--signal sCLKprev : std_logic := '0';
+signal counter : integer := 0;
 
 begin
 iIIR_RX <= resize(IIR_in,32); -- cast input to 32
 IIR_out <= resize(oIIR_TX,16);-- cast output to 16 bits
 
---process(iCLK)
---begin
---if(rising_edge(iCLK)) then
---	if(sCLKprev = '0' and sCLK ='1') then
---		new_val <= '1';
---	else
---		new_val <= '0';
---	end if;
---sCLKprev <= sCLK;
---end if;
---end process;
-
-
-process(iCLK,sCLK)
+process(iCLK)
 begin
 if(rising_edge(iCLK)) then
-	if(rising_edge(sCLK)) then
+	--if(sCLKprev = '0' and sCLK ='1') then
+	if(counter = 1041) then 
 		new_val <= '1';
+		counter <= 0;
 	else
-	new_val <= '0';
+		new_val <= '0';
+		counter <= counter+1;
 	end if;
+--sCLKprev <= sCLK;
 end if;
 end process;
+
+
+--process(iCLK,sCLK)
+--begin
+--if(rising_edge(iCLK)) then
+--	if(rising_edge(sCLK)) then
+--		new_val <= '1';
+--	else
+--	new_val <= '0';
+--	end if;
+--end if;
+--end process;
 
 
 process(iCLK,iRESET_N)
