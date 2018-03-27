@@ -2,21 +2,32 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity IIRDF1_real_tb is
-end entity IIRDF1_real_tb;
+entity IIR_tb_biquad is
+end entity IIR_tb_biquad;
 
-architecture behavior of IIRDF1_real_tb is
+architecture behavior of IIR_tb_biquad is
     -- define clock period here
     constant cp: time := 20 ns;
 	 constant cs: time := 20.83 us;
 
-component Crossover_LPF is
+component IIRDF1 is
+    generic (
+        INPUT_WIDTH : integer := 32;
+        QFORMAT   : integer := 30;  
+      A0 : real := 1.0;
+    	B0 : real := 0.9862119; 
+    	B1 : real := -1.972423;
+   	B2 : real := 0.9862119;
+   	A1 : real := -1.972233;
+    	A2 : real :=  0.9726139
+    );
+        
     port (
-        main_CLK       : in std_logic;
-        Reset          : in std_logic;
-        samp_CLK       : in std_logic;                         -- indicates a new input value
-        IIR_in         : in signed (15 downto 0);               
-        IIR_out        : out signed (15 downto 0)   -- Output
+        iCLK            : in std_logic;
+        iRESET_N        : in std_logic;
+        sCLK            : in std_logic;                         -- indicates a new input value
+        IIR_in          : in signed (15 downto 0);   -- singed is expected             
+        IIR_out         : out signed (15 downto 0)   -- Output
     );
 end component;
     
@@ -61,11 +72,11 @@ end process;
 --end if;
 --end process;
 
-	dut: Crossover_LPF
+	dut: IIRDF1
     port map (
-        main_CLK  => nclk,    
-        Reset     => nreset,   
-        samp_CLK   =>sndclk,   
+        iCLK  => nclk,    
+        iRESET_N     => nreset,   
+        sCLK   =>sndclk,   
         IIR_in      =>nValue,              
         IIR_out    => resp    
     );
