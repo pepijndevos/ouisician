@@ -27,4 +27,12 @@ flt = src.getFilters.coeffs;
 flt.Stage1.Numerator
 flt.Stage2.Numerator
 
+%% iir attempt
 
+[b,a] = butter(2,Fc/(Fsi/2));
+%[b,a] = butter(2,0.5);
+
+as = round(a*2^20)
+bs = round(b*2^20)
+fvtool(b, a)
+fvtool(bs, as)
