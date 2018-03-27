@@ -49,6 +49,9 @@
                     format = "i2s";
 
                     r_cpu_dai: cpu {
+						#address-cells = <0>;
+						#size-cells = <0>;
+						#sound-dai-cells = <0>;
 						sound-dai = <&mcasp0>;
 						/* clocks = <&clk_mcasp0>;*/
 					};
@@ -62,6 +65,9 @@
                     format = "i2s";
 
                     p_cpu_dai: cpu {
+						#address-cells = <0>;
+						#size-cells = <0>;
+						#sound-dai-cells = <0>;
                         sound-dai = <&mcasp0>;
 						/* clocks = <&clk_mcasp0>;*/
                     };
@@ -115,6 +121,8 @@
 	fragment@4 {
 		target = <&mcasp0>;
 		__overlay__ {
+			#address-cells = <0>;
+			#size-cells = <0>;
 			#sound-dai-cells = <0>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&mcasp0_pins>;
