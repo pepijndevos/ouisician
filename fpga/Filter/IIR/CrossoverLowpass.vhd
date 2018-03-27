@@ -2,17 +2,17 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 use ieee.NUMERIC_STD.ALL;  
 
-entity Crossover_LPF is
+entity CrossoverLowpass is
     port (
         main_CLK       : in std_logic;
         Reset          : in std_logic;
         samp_CLK       : in std_logic;                         -- indicates a new input value
-        IIR_in         : in signed (15 downto 0);               
-        IIR_out        : out signed (15 downto 0)   -- Output
+        data_in         : in signed (15 downto 0);               
+        data_out        : out signed (15 downto 0)   -- Output
     );
-end entity Crossover_LPF;
+end entity CrossoverLowpass;
 
-architecture behaviour of Crossover_LPF is
+architecture behaviour of CrossoverLowpass is
 
 --Component initiate
 component IIRDF1 is
@@ -30,7 +30,7 @@ component IIRDF1 is
     port (
         iCLK            : in std_logic;
         iRESET_N        : in std_logic;
-        sCLK            : in std_logic;                         -- indicates a new input value
+        --sCLK            : in std_logic;                         -- indicates a new input value
         IIR_in          : in signed (15 downto 0);   -- singed is expected             
         IIR_out         : out signed (15 downto 0)   -- Output
     );
@@ -42,13 +42,13 @@ signal IIR_connect : signed(15 downto 0) := (others=>'0');
 signal signal_out : signed(15 downto 0) := (others=>'0');
 
 begin
-
-
+signal_in <= data_in;
+data_out <=  signal_out;
 IIR1_LPF : IIRDF1
 port map (
 	iCLK        => main_CLK,
 	iRESET_N    => Reset,
-	sCLK        => samp_CLK,
+	--sCLK        => samp_CLK,
 	IIR_in     => signal_in,
 	IIR_out     => IIR_connect
 );
@@ -57,7 +57,7 @@ IIR2_LPF : IIRDF1
 port map (
 	iCLK        => main_CLK,
 	iRESET_N    => Reset,
-	sCLK        => samp_CLK,
+	--sCLK        => samp_CLK,
 	IIR_in     => signal_in,
 	IIR_out     => signal_out
 );
