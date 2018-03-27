@@ -5,7 +5,7 @@ clc;
 Fs = 48000;
 Ts = 1/48000;
 
-[b,a] = butter(2,150*2/Fs,'low')
+[b,a] = butter(2,150*2/Fs,'high')
 %[b1,a1] = butter(2,150*2/Fs,'high');
 
 bs = b./a(3);
