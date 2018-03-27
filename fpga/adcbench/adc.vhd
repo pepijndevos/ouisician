@@ -15,19 +15,19 @@ architecture behavioral of adc is
 begin
   process(clk, rst)
     variable buf : std_logic_vector(1023 downto 0);
-    variable sum : signed(9 downto 0);
-    variable data_num : signed(0 downto 0);
-    variable last_num : signed(0 downto 0);
+    variable sum : unsigned(11 downto 0);
+    variable data_num : unsigned(0 downto 0);
+    variable last_num : unsigned(0 downto 0);
   begin
     if rst = '0' then
       buf := (others => '0');
-      sum := to_signed(-512, sum'length);
+      sum := to_unsigned(0, sum'length);
     elsif rising_edge(clk) then
-      data_num(0) := data;
+      data_num(0) := buf(buf'low);
       last_num(0) := buf(buf'high);
       sum := sum - last_num + data_num;
-      word <= sum & "000000";
-      buf := buf(1022 downto 0) & data;
+      word <= resize((signed(resize(sum, word'length)) - x"200")*64, word'length);
+      buf := buf(buf'high-1 downto buf'low) & data;
     end if;
   end process;
 
