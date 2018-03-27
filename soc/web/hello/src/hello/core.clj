@@ -1,4 +1,4 @@
-(ns ring.example.hello-world
+(ns hello
   (:use ring.adapter.jetty))
 
 (defn handler [request]
