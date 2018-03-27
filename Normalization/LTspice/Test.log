@@ -1,158 +1,66 @@
 Circuit: * C:\Gedeeld\Project\Git\Normalization\LTspice\Test.asc
 
-Number of points per octave reduced from 10000 to 1874.
-WARNING: Node U2:1:U11:VP1 is floating.
-WARNING: Node U2:1:14 is floating.
-WARNING: Node U2:1:U11:VP2 is floating.
-WARNING: Node U2:1:U11:VP3 is floating.
-WARNING: Node U2:1:U11:VP4 is floating.
-WARNING: Node U2:1:U11:VZ1 is floating.
-WARNING: Node U2:1:U11:VZ2 is floating.
-WARNING: Node U2:1:U11:VZ3 is floating.
-WARNING: Node U2:1:U11:VZ4 is floating.
-WARNING: Node U2:1:9 is floating.
+WARNING: Node U1:1:U11:VP1 is floating.
+WARNING: Node U1:1:14 is floating.
+WARNING: Node U1:1:U11:VP2 is floating.
+WARNING: Node U1:1:U11:VP3 is floating.
+WARNING: Node U1:1:U11:VP4 is floating.
+WARNING: Node U1:1:U11:VZ1 is floating.
+WARNING: Node U1:1:U11:VZ2 is floating.
+WARNING: Node U1:1:U11:VZ3 is floating.
+WARNING: Node U1:1:U11:VZ4 is floating.
+WARNING: Node U1:1:9 is floating.
 
 Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to skip.)
 Starting Gmin stepping
 Gmin = 10
+Gmin = 1.07374
 vernier = 0.5
-Gmin = 2.3014
 vernier = 0.25
 vernier = 0.125
-Gmin = 1.85241
+Gmin = 0.717975
 vernier = 0.166667
-vernier = 0.0833333
-vernier = 0.111111
-Gmin = 1.52875
-vernier = 0.0555555
-vernier = 0.074074
-vernier = 0.037037
-Gmin = 1.43972
-vernier = 0.0493827
-vernier = 0.0246913
-Gmin = 1.34974
-vernier = 0.0329218
-vernier = 0.0164609
-Gmin = 1.28755
-vernier = 0.0219478
-vernier = 0.0109739
-Gmin = 1.24085
-vernier = 0.0146319
-vernier = 0.0195092
-Gmin = 1.19818
-vernier = 0.00975459
-vernier = 0.0130061
-vernier = 0.00650306
-Gmin = 1.18367
-vernier = 0.00867074
-Gmin = 1.16082
-vernier = 0.011561
-vernier = 0.00578049
-vernier = 0.00770732
-Gmin = 1.14584
-vernier = 0.0102764
-vernier = 0.00513821
-Gmin = 1.13195
-vernier = 0.00685095
-vernier = 0.00342548
-vernier = 0.0045673
-Gmin = 1.12326
-vernier = 0.00608973
-vernier = 0.00304487
-Gmin = 1.11517
-vernier = 0.00405982
-vernier = 0.00541309
-vernier = 0.00270655
-Gmin = 1.10691
-vernier = 0.00360873
-vernier = 0.00481163
-Gmin = 1.09738
-vernier = 0.00240582
-vernier = 0.00320776
-Gmin = 1.0919
-vernier = 0.00427701
-vernier = 0.0021385
-vernier = 0.00285134
-Gmin = 1.08646
-vernier = 0.00142567
-Gmin = 1.08183
-vernier = 0.00190089
-vernier = 0.00253452
-vernier = 0.00126726
-Gmin = 1.07802
-vernier = 0.00168968
-Gmin = 1.07393
-vernier = 0.00225291
-vernier = 0.00112645
-vernier = 0.00150194
-Gmin = 1.07122
-vernier = 0.00200258
-vernier = 0.00100129
-Gmin = 1.0684
-vernier = 0.00133505
-vernier = 0.00178007
-Gmin = 1.06458
-vernier = 0.000890036
-vernier = 0.00118671
-Gmin = 1.06261
-vernier = 0.00158229
-vernier = 0.000791143
-Gmin = 1.06051
-vernier = 0.00105486
-vernier = 0.00140648
-Gmin = 1.05734
-vernier = 0.000703238
-vernier = 0.00093765
-Gmin = 1.05579
-vernier = 0.0012502
-vernier = 0.0006251
-Gmin = 1.05382
-vernier = 0.000833466
-vernier = 0.00111129
-Gmin = 1.05159
-vernier = 0.000555644
-vernier = 0.000740858
-Gmin = 1.05018
-vernier = 0.000987811
-Gmin = 1.04784
-vernier = 0.000493906
-vernier = 0.000658541
-Gmin = 1.04677
-vernier = 0.000878054
-vernier = 0.000439027
-Gmin = 1.04527
-vernier = 0.000585369
-vernier = 0.000780492
-Gmin = 1.04381
-vernier = 0.00104066
-vernier = 0.000520328
-Gmin = 1.04239
-vernier = 0.00069377
-vernier = 0.000925027
-vernier = 0.000462513
-Gmin = 1.04103
-vernier = 0.000616684
-Gmin = 1.03963
-vernier = 0.000822246
-vernier = 0.000411123
+vernier = 0.222222
+Gmin = 0.485472
+vernier = 0.296296
+Gmin = 0.259172
+vernier = 0.395061
+vernier = 0.526748
+Gmin = 0.0946116
+vernier = 0.702331
+vernier = 0.936441
+Gmin = 0.0200397
+vernier = 1
+Gmin = 0.00229389
+Gmin = 0.000246304
+Gmin = 2.64467e-005
+Gmin = 2.8397e-006
+Gmin = 3.0491e-007
+Gmin = 3.27395e-008
+Gmin = 3.51537e-009
+Gmin = 3.7746e-010
+Gmin = 4.05295e-011
+Gmin = 4.35182e-012
+Gmin = 4.67273e-013
 Gmin = 0
-Gmin stepping failed
+Gmin stepping succeeded in finding the operating point.
 
-Starting source stepping with srcstepmethod=0
-Singular matrix:  Check node u2:1:9
-   Iteration No. 1
-Singular matrix:  Check node u2:1:u11:vz1
-   Iteration No. 2
-Could not converge to DC with sources off!
-Starting source stepping with srcstepmethod=1
-Singular matrix:  Check nodes u2:1:14 and u2:1:9
-   Iteration No. 1
-Singular matrix:  Check nodes u2:1:14 and u2:1:9
-   Iteration No. 2
-Could not converge to DC with sources off!
-Singular matrix:  Check nodes u2:1:u11:vz2 and u2:1:u11:vz3
-   Iteration No. 1
-Fatal Error: Singular matrix:  check nodes u2:1:u11:vz2 and u2:1:u11:vz3
-   Iteration No. 1
 
-This circuit has floating nodes.
+Date: Fri Mar 23 16:26:55 2018
+Total elapsed time: 0.258 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 11503
+traniter = 10485
+tranpoints = 2242
+accept = 1662
+rejected = 580
+matrix size = 72
+fillins = 38
+solver = Normal
+Thread vector: 12.2/8.2[2] 2.5/2.2[2] 4.6/3.2[2] 0.4/0.9[1]  2592/500
+Matrix Compiler1: 4.76 KB object code size  1.5/0.8/[0.5]
+Matrix Compiler2: 6.39 KB object code size  1.1/1.8/[0.5]
+

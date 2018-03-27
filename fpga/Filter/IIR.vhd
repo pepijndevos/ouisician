@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- IIR Filter after IIR Direct Form 1
 -- Filter can be cascaded
 -- B0-B2 and A1+A2 are the coefficients in Q2.X format
@@ -118,3 +119,4 @@ begin
     end if;
 end process;
 end architecture;
+

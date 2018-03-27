@@ -39,7 +39,7 @@
 * Input bias current, input bias offset, voltage offset and quiescent 
 * current
 *****************************************************************************
-.SUBCKT LM4562 Vinm Vinp VCC VEE Vout
+.SUBCKT LM4562 Vinp Vinm VCC VEE Vout
 X1 VCC VEE Vinp Vinm Vout AMP
 .ENDS
 
@@ -138,7 +138,8 @@ GBOTTOM NET128 GNDF Vimon 0 1
 .SUBCKT IDEAL_DIODE  A C
 +PARAMS: EMCO = 0.01 BRKV = 60 IBRKV = 1M
 D1 A C IDIODE
-.MODEL IDIODE D(N = {EMCO} BV = {BRKV} IBV = {IBRKV})
+*.MODEL IDIODE D(N = {EMCO} BV = {BRKV} IBV = {IBRKV})
+.MODEL IDIODE D(Ron=10 Roff=1G Vfwd=.6 Vrev=60)
 .ENDS
 
 **************************************
