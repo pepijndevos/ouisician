@@ -115,6 +115,7 @@
 	fragment@4 {
 		target = <&mcasp0>;
 		__overlay__ {
+			#sound-dai-cells = <0>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&mcasp0_pins>;
 
