@@ -1,0 +1,22 @@
+# system info Clock_12_288Mhz on 2018.03.28.21:49:45
+system_info:
+name,value
+DEVICE,5CSEMA5F31C6
+DEVICE_FAMILY,Cyclone V
+GENERATION_ID,1522266569
+#
+#
+# Files generated for Clock_12_288Mhz on 2018.03.28.21:49:45
+files:
+filepath,kind,attributes,module,is_top
+simulation/Clock_12_288Mhz.vhd,VHDL,,Clock_12_288Mhz,true
+simulation/submodules/Clock_12_288Mhz_audio_pll_0.vhd,VHDL,,Clock_12_288Mhz_audio_pll_0,false
+simulation/submodules/Clock_12_288Mhz_audio_pll_0_audio_pll.vo,VERILOG,,Clock_12_288Mhz_audio_pll_0_audio_pll,false
+simulation/submodules/altera_up_avalon_reset_from_locked_signal.v,VERILOG,,altera_up_avalon_reset_from_locked_signal,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+Clock_12_288Mhz.audio_pll_0,Clock_12_288Mhz_audio_pll_0
+Clock_12_288Mhz.audio_pll_0.audio_pll,Clock_12_288Mhz_audio_pll_0_audio_pll
+Clock_12_288Mhz.audio_pll_0.reset_from_locked,altera_up_avalon_reset_from_locked_signal
