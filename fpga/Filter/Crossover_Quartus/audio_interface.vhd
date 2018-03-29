@@ -105,11 +105,7 @@ constant SCI_DAT_ROM : rom_type := (
 	"00000000", -- Normal, 8kHz - R8 old : "00001100" old is all 0
 	"00000001" -- Reactivate - R9
 );
- signal counter : signed(31 downto 0);
-  signal win1 : signed(15 downto 0);
-  signal win2 : signed(15 downto 0);
-  signal win3 : signed(15 downto 0);
-  signal wout : signed(63 downto 0);
+
 
 BEGIN
 
@@ -556,8 +552,8 @@ BEGIN
 	I2C_SCLK <= SCLK_int;
 	
 
-	--AUD_DACDAT <= LRDATA(Bcount);
-	AUD_DACDAT <= adc_reg_val(Bcount);
+	AUD_DACDAT <= LRDATA(Bcount);
+	--AUD_DACDAT <= adc_reg_val(Bcount);
 	data_over <= flag1;
 	init_finish <= init_over;
 	ADCDATA <= adc_reg_val; -- put the 32 bit word in the ADCDATA
