@@ -12,7 +12,7 @@ N   = 128;        % FIR filter order
 %% firceqrip attempt
 
 Rp  = 0.00057565; % Corresponds to 0.01 dB peak-to-peak ripple
-Rst = 1e-4;       % Corresponds to 80 dB stopband attenuation
+Rst = 1e-3;       % Corresponds to 80 dB stopband attenuation
 
 eqnum = firceqrip(N,Fc/(Fsi/2),[Rp Rst],'passedge'); % eqnum = vec of coeffs
 fvtool(eqnum,'Fs',Fsi,'Color','White') % Visualize filter
@@ -24,8 +24,8 @@ src = dsp.SampleRateConverter('InputSampleRate',Fsi,...
 
 info(src)
 flt = src.getFilters.coeffs;
-flt.Stage1.Numerator
-flt.Stage2.Numerator
+a1 = flt.Stage1.Numerator;
+a2 = flt.Stage2.Numerator;
 
 %% iir attempt
 
