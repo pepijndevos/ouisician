@@ -5,11 +5,11 @@ use work.data_types.all;
 
 entity polyphase is
 Generic (
-    coef_scale : integer := 2;
-    w_acc : integer := 48;
-
-    coef : array_of_integers := (1, -2, 1, 1, 2, 3, -4, -1);
-    D : integer := 2
+    coef_scale : integer := 1024;
+    w_acc : integer := 32;
+    coef : array_of_integers :=
+(1, -5, -17, -24, 3, 83, 194, 277, 277, 194, 83, 3, -24, -17, -5, 1);
+    D : integer := 4
 );
     port (
       rst    : in std_logic;
@@ -54,9 +54,32 @@ begin
   outclk <= genclk;
 
   process(clk, rst)
+    variable counter : integer range 0 to D+1;
+    variable acc : signed(w_acc-1 downto 0);
+    variable lastinclk : std_logic;
   begin
     if rst = '0' then
+      counter := 0;
+      lastinclk := '0';
     elsif rising_edge(clk) then
+      if lastinclk = '0' and inclk = '1' then
+        inbuf <= word & inbuf(0 to D-2);
+        if counter = D then
+          -- sum output
+          acc := to_signed(0, acc'length);
+          for i in outbuf'range loop
+            acc := acc + outbuf(i);
+          end loop;
+          resp <= resize(acc, resp'length);
+
+          genclk <= '1';
+          counter := 0;
+        else
+          genclk <= '0';
+          counter := counter + 1;
+        end if;
+      end if;
+      lastinclk := inclk;
     end if;
   end process;
 
