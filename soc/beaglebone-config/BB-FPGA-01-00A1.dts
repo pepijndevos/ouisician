@@ -33,7 +33,7 @@
               simple-audio-card,name = "TI BeagleBone Green Wireless";
               simple-audio-card,format = "i2s";
 
-              dailink0_master: simple-audio-card,cpu {
+              simple-audio-card,cpu {
                 sound-dai = <&mcasp0>;
               };
 
