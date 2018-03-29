@@ -5,10 +5,9 @@ use work.data_types.all;
 
 entity fir is
 Generic (
-    coef_scale : integer := 2;
-    w_acc : integer := 48;
-
-    coef : array_of_integers := (1, -2, 1)
+    coef_scale : integer;
+    w_acc : integer;
+    coef : array_of_integers
 );
     port (
       rst    : in std_logic;

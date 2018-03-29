@@ -14,11 +14,12 @@ architecture testbench of impulsebench is
 	signal word : signed(15 downto 0);
   signal resp : signed(15 downto 0);
 
-  component fir
+  component polyphase
     port (
       rst    : in std_logic;
       clk    : in std_logic;
-      sndclk : in std_logic;
+      inclk : in std_logic;
+      outclk : out std_logic;
       word   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
@@ -43,10 +44,11 @@ begin
     end if;
   end process;
 
-  filter_inst : fir port map (
+  filter_inst : polyphase port map (
     rst => rst,
     clk => clk,
-    sndclk => sndclk,
+    inclk => sndclk,
+    outclk => open,
     word => word,
     resp => resp
   );
