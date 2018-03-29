@@ -8,7 +8,7 @@
 	part-number = "BB-FPGA-01";
 
 	/* version */
-	version = "00A0";
+	version = "00A1";
 	
 	/* state the resources this cape uses */
 	exclusive-use =
