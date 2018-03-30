@@ -27,11 +27,17 @@
     (osc-handle server damppath
       (partial control-param ins :damp 0 1))))
 
+(defn numbered-file [fname]
+  (->> (range)
+    (map #(java.io.File. (format fname %)))
+    (remove #(.exists %))
+    (first)))
+
 (defn record [btn]
   (osc-handle server btn
     (fn [{[state] :args}]
       (if (> state 0.5)
-        (recording-start "output.wav")
+        (recording-start (numbered-file "output%d.wav"))
         (recording-stop)))))
 
 (defn -main
