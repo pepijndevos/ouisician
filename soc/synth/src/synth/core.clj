@@ -27,6 +27,13 @@
     (osc-handle server damppath
       (partial control-param ins :damp 0 1))))
 
+(defn record [btn]
+  (osc-handle server btn
+    (fn [{[state] :args}]
+      (if (> state 0.5)
+        (recording-start "output.wav")
+        (recording-stop)))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
@@ -34,4 +41,5 @@
   (osc-listen server (fn [msg] (println msg)) :debug)
   ;(start-mic 0 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
   (start-mic 1 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
+  (record "/1/toggle1")
   (println "Running"))
