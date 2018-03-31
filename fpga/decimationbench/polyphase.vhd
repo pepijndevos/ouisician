@@ -53,7 +53,7 @@ architecture behavioral of polyphase is
 begin
   outclk <= genclk;
 
-  process(clk, rst)
+  process(inclk, rst)
     variable counter : integer range 0 to D+1;
     variable acc : signed(w_acc-1 downto 0);
   begin
