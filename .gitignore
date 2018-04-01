@@ -75,3 +75,7 @@ vsim.dbg
 
 # ignore LTspice 
 *.raw
+
+# ignore media files
+*.mp3
+*.flv
