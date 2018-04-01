@@ -4,20 +4,21 @@ use IEEE.NUMERIC_STD.ALL;
 use work.data_types.all;
 
 entity polyphase is
-Generic (
-    coef_scale : integer := 1024;
-    w_acc : integer := 32;
-    coef : array_of_integers :=
-(1, -5, -17, -24, 3, 83, 194, 277, 277, 194, 83, 3, -24, -17, -5, 1);
-    D : integer := 4
-);
+    Generic (
+        coef_scale : integer := 1024;
+        w_acc : integer := 32;
+        w_in : integer := 16;
+        w_out : integer := 16;
+        coef : array_of_integers := (1, -5, -17, -24, 3, 83, 194, 277, 277, 194, 83, 3, -24, -17, -5, 1);
+        D : integer := 4
+    );
     port (
       rst    : in std_logic;
       clk    : in std_logic;
       inclk : in std_logic;
       outclk : out std_logic;
-      word   : in signed(15 downto 0);
-      resp   : out signed(15 downto 0)
+      word   : in signed(w_in-1 downto 0);
+      resp   : out signed(w_out-1 downto 0)
     );
 end;
 
@@ -26,14 +27,16 @@ architecture behavioral of polyphase is
     Generic (
         coef_scale : integer;
         w_acc : integer;
+        w_in : integer;
+        w_out : integer;
         coef : array_of_integers
     );
     port (
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
-      word   : in signed(15 downto 0);
-      resp   : out signed(15 downto 0)
+      word   : in signed(w_in-1 downto 0);
+      resp   : out signed(w_out-1 downto 0)
     );
   end component;
 
@@ -46,9 +49,10 @@ architecture behavioral of polyphase is
     return phase_coef;
   end phase;
 
-  type buf_type is array (0 to D-1) of signed(15 downto 0);
-  signal inbuf : buf_type;
-  signal outbuf : buf_type;
+  type inbuf_type is array (0 to D-1) of signed(w_in-1 downto 0);
+  type outbuf_type is array (0 to D-1) of signed(w_out-1 downto 0);
+  signal inbuf : inbuf_type;
+  signal outbuf : outbuf_type;
   signal genclk : std_logic;
 begin
   outclk <= genclk;
@@ -84,6 +88,8 @@ for i in 0 to D-1 generate
     generic map (
       coef_scale => coef_scale,
       w_acc => w_acc,
+      w_in => w_in,
+      w_out => w_out,
       coef => phase(i)
     )
     port map (

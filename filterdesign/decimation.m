@@ -25,12 +25,12 @@ SD=2*1e-4;
 
 f1 = [0, 1/D, 2/D1-1/D, 1];
 a1 = [1 1 0 0];
-eq1 = round(firpm(255, f1, a1)*2^16);
+eq1 = round(firpm(255, f1, a1)*16000); 
 fvtool(eq1,'Fs',Fsi)
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
 a2 = [1 1 0 0];
-eq2 = round(firpm(1023, f2, a2)*2^16);
+eq2 = round(firpm(511, f2, a2)*2^16);
 fvtool(eq2,'Fs',Fsi/D1)
 
 csvwrite('fir1.csv',reshape(eq1, [], 32));
