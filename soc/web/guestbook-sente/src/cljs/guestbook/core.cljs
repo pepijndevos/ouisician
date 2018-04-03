@@ -33,28 +33,33 @@
 (defn message-form [fields errors]
   [:div.content
    [:div.form-group
-    ; [errors-component errors :name]
-    ; [:p "Name:"
-    ;  [:input.form-control
-    ;   {:type      :text
-    ;    :on-change #(swap! fields assoc :name (-> % .-target .-value))
-    ;    :value     (:name @fields)}]]
-    ; [errors-component errors :message]
-    ; [:p "Message:"
-    ;  [:textarea.form-control
-    ;   {:rows      4
-    ;    :cols      5
-    ;    :value     (:message @fields)
-    ;    :on-change #(swap! fields assoc :message (-> % .-target .-value))}]]
-    [:input.btn.btn-primary
-     {:type     :submit
-      :on-click #(ws/send-message! [:guestbook/add-message @fields] 8000)
-      :value    "+"}]
-      [:input.btn.btn-primary
-       {:type     :submit
-        :on-click #(ws/send-message! [:guestbook/add-message_down @fields] 7000)
-        :value    "-"}]
-      ]])
+        [:input.btn.btn-primary
+              {:type     :submit
+                     :on-click #(ws/send-message! [:guestbook/add-message @fields] 8000)
+                           :value    "+"}]
+              [:input.btn.btn-primary
+                      {:type     :submit
+                               :on-click #(ws/send-message! [:guestbook/add-message_down @fields] 7000)
+                                       :value    "-"}]
+                    ]])
+
+;    [errors-component errors :name]
+;    [:p "Name:"
+;     [:input.form-control
+;      {:type      :text
+;       :on-change #(swap! fields assoc :name (-> % .-target .-value))
+;       :value     (:name @fields)}]]
+;    [errors-component errors :message]
+;    [:p "Message:"
+;     [:textarea.form-control
+;      {:rows      4
+;       :cols      50
+;       :value     (:message @fields)
+;       :on-change #(swap! fields assoc :message (-> % .-target .-value))}]]
+;    [:input.btn.btn-primary
+;     {:type     :submit
+;      :on-click #(ws/send-message! [:guestbook/add-message @fields] 8000)
+;      :value    "comment"}]]])
 
 (defn response-handler [messages fields errors]
   (fn [{[_ message] :?data}]

@@ -42,17 +42,18 @@
 
 (defn handle-message! [{:keys [id client-id ?data]}]
   (if (= id :guestbook/add-message)
-    (println "message up")
-    (if (= id :guestbook/add-message_down)
-    (println "message down")))
-    )
-    ; (let [response (-> ?data
-    ;                    (assoc :timestamp (java.util.Date.))
-    ;                    save-message!)]
-    ;   (if (:errors response)
-    ;     (chsk-send! client-id [:guestbook/error response])
-    ;     (doseq [uid (:any @connected-uids)]
-    ;       (chsk-send! uid [:guestbook/add-message response]))))))
+        (println "message up")
+            (if (= id :guestbook/add-message_down)
+                  (println "message down")))
+      )
+ ; (when (= id :guestbook/add-message)
+ ;   (let [response (-> ?data
+ ;                      (assoc :timestamp (java.util.Date.))
+ ;                      save-message!)]
+ ;     (if (:errors response)
+ ;       (chsk-send! client-id [:guestbook/error response])
+ ;       (doseq [uid (:any @connected-uids)]
+ ;         (chsk-send! uid [:guestbook/add-message response]))))))
 
 (defn stop-router! [stop-fn]
   (when stop-fn (stop-fn)))

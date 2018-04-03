@@ -20,16 +20,16 @@
 		(def spi (SpiFactory/getInstance (SpiChannel/getByNumber chan) speed (SpiMode/getByNumber mode)))
 		(printSPIsettings :chan chan :speed speed :mode mode))
 
-(def packet (byte-array [(byte 0x01) (byte 0x02) (byte 0x03)]))
+(def packet (byte-array [(byte 0x00) (byte 0x01) (byte 0x02) (byte 0x03)]))
 
-(setSPIsettings)
+(setSPIsettings :mode 1)
 
 (def console (Console.))
 (while (.isRunning console)
 	(println "TX" (seq packet))
 	(def rx (.write spi packet))
 	(println "RX" (seq rx))
-	(Thread/sleep 250))
+	(Thread/sleep 20))
 (.emptyLine console)
 
 (defn -main
