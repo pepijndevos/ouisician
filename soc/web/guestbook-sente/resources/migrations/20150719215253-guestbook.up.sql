@@ -2,6 +2,6 @@
 CREATE TABLE guestbook
 (id INTEGER PRIMARY KEY AUTO_INCREMENT,
  name VARCHAR(30),
- mess VARCHAR(20),
+ message VARCHAR(200),
  timestamp TIMESTAMP);
 -- END:guestbook-table
