@@ -24,23 +24,16 @@ architecture Behavioral of speaker is
   signal win3 : signed(15 downto 0);
   signal wout : signed(63 downto 0);
   
-  signal clk : std_logic;
+  signal sndclk : std_logic;
 begin
 rst <= KEY(0);
 
-process(GPIO_ADCCLK)
-	variable adcounter : signed(31 downto 0);
+process(sndclk)
 begin
-	if rising_edge(GPIO_ADCCLK) then
-		LEDR <= std_logic_vector(win2(15 downto 6));
-	end if;
-end process;
-
-process(GPIO_LRCK)
-begin
-	if rising_edge(GPIO_LRCK) then
+	if rising_edge(sndclk) then
 		counter <= counter+1;
 		
+		LEDR <= std_logic_vector(win2(15 downto 6));
 		win3 <= win2;
 		
 		if KEY(0) = '0' then
@@ -74,7 +67,8 @@ end process;
 		
   adc_inst: entity work.adc(behavioral)
     port map (rst => rst,
-      clk => GPIO_ADCCLK,
+      clk => CLOCK_50,
+		sndclk => sndclk,
       data => GPIO_ADCDAT,
       word => win2);
 
