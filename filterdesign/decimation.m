@@ -25,13 +25,28 @@ SD=2*1e-4;
 
 f1 = [0, 1/D, 2/D1-1/D, 1];
 a1 = [1 1 0 0];
-eq1 = round(firpm(255, f1, a1)*16000); 
-fvtool(eq1,'Fs',Fsi)
+eq1 = firpm(255, f1, a1);
+
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
 a2 = [1 1 0 0];
-eq2 = round(firpm(511, f2, a2)*2^16);
-fvtool(eq2,'Fs',Fsi/D1)
+eq2 = firpm(511, f2, a2);
+
+
+[h1, f1] = freqz(eq1, 1, 1000, Fsi);
+[h2, f2] = freqz(eq2, 1, 1000, Fsi/D1);
+
+subplot(2,1,1);
+plot(f1/1e6, mag2db(abs(h1)))
+ylabel('Magnitude (dB)');
+xlabel('Frequency (MHz)');
+title('Stage 1')
+
+subplot(2,1,2);
+plot(f2/1e3, mag2db(abs(h2)))
+ylabel('Magnitude (dB)');
+xlabel('Frequency (KHz)');
+title('Stage 2')
 
 csvwrite('fir1.csv',reshape(eq1, [], 32));
 csvwrite('fir2.csv',reshape(eq2, [], 32));

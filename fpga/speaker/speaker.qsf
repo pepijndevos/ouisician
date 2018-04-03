@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE 5CSEMA5F31C6
 set_global_assignment -name TOP_LEVEL_ENTITY speaker
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:19:15  MAART 17, 2018"
-set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
+set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name BOARD "DE1-SoC Board"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
@@ -899,9 +899,12 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 
+
+set_global_assignment -name VHDL_FILE ../decimationbench/types.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/fir.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/polyphase.vhd
 set_global_assignment -name VHDL_FILE ../adcbench/adc.vhd
 set_global_assignment -name SDC_FILE DE1_SoC.sdc
 set_global_assignment -name VHDL_FILE ../i2sbench/i2s.vhd
 set_global_assignment -name VHDL_FILE speaker.vhd
-
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
