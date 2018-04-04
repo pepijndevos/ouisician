@@ -58,14 +58,31 @@ component audio_interface is
 	);
 end component;
 
-component Crossovermain is
+component Crossover is
+generic(
+    W_in : integer := 16;
+	 W_coef : integer := 18;   
+    B0_low : integer := 11; 
+    B1_low : integer := 22;
+    B2_low : integer := 11;
+    A0_low : integer := 65536;
+    A1_low : integer := -128646;
+    A2_low : integer := 63154; 
+
+    B0_high : integer 	:= 64334; 
+    B1_high: integer 	:= -128668;
+    B2_high: integer 	:= 64334;
+    A0_high : integer 	:= 65536;
+    A1_high: integer 	:= -128646;
+    A2_high : integer 	:= 63154
+);
     port (
-        main_CLK       : in std_logic;
-        Reset          : in std_logic;
-        new_val       : in std_logic;                         -- indicates a new input value
-        data_in         : in signed (15 downto 0);               
-        data_outlow        : out signed (15 downto 0);   -- Output
-		data_outhigh        : out signed (15 downto 0)   -- Output
+      main_CLK       : in std_logic;
+      Reset          : in std_logic;
+      new_val        : in std_logic;              -- indicates a new input value
+      data_in        : in signed (15 downto 0);               
+      data_outlow    : out signed (15 downto 0);   -- Output
+		data_outhigh   : out signed (15 downto 0)   -- Output
     );
 end component;
 
@@ -83,14 +100,14 @@ data_in <= signed(ADCDATA(31 downto 16));
 LDATA <= std_logic_vector(data_outlow);
 RDATA <= std_logic_vector(data_outhigh);
 
-Crossover : Crossovermain
+Cascade : Crossover
 port map (
         main_CLK => clk,      
         Reset => Reset,          
         new_val => data_over,                
         data_in => data_in,                   
         data_outlow => data_outlow,
-		data_outhigh => data_outhigh        
+		  data_outhigh => data_outhigh        
 );
 
 Audio_chip : audio_interface
