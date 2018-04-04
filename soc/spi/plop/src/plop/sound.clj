@@ -40,7 +40,7 @@
         (recording-start (numbered-file "output%d.wav"))
         (recording-stop)))))
 
-(defn start []
+(defn osc-start []
   (let [server (osc-server 44100 "osc-clj")]
     (zero-conf-on)
     (osc-listen server (fn [msg] (println msg)) :debug)
