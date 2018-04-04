@@ -2,16 +2,27 @@
   (:import 	[java.io IOException]
 			[java.lang Process]
   			[java.lang ProcessBuilder]))
-			
-(def string "ffmpeg -f concat -i list.txt -i roll.mp3 -map 0:v -map 1:a -c:v copy -b:a 96k -ar 44100 -c:a libmp3lame -f flv rtmp://live.twitch.tv/app/live_205865829_ICeYXGi2sw5IntQ2uQZavJ9MqWjxDo")
+		
+(def platform "live.twitch.tv/app/")
+(def streamkey "live_205865829_ICeYXGi2sw5IntQ2uQZavJ9MqWjxDo")		
+(def bitrate "96k")
+(def string (str "ffmpeg -f concat -i list.txt -f alsa -i pulse -map 0:v -map 1:a -c:v copy -b:a" bitrate "-ar 44100 -c:a aac -f flv rtmp://" platform streamkey))
 
 (def pb (ProcessBuilder. (list "/bin/bash" "-c" string)))
-(.start pb)
+
+(defn startstream []
+	(def process (.start pb)))
+	
+(defn stopstream []
+	(.destroy process))
+
+(startstream)
+(Thread/sleep 30000)
+(stopstream)
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!")
   (while true
 	(Thread/sleep 1000)))
 
