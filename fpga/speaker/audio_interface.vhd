@@ -31,20 +31,14 @@ ENTITY audio_interface IS
 		INIT_FINISH 		: OUT std_logic;
 		adc_full 			: OUT std_logic;
 		AUD_MCLK 			: OUT std_logic; -- Codec master clock OUTPUT
-		MCLK_GPIO			: OUT std_logic;
 
 		AUD_ADCLRCK 		: IN std_logic; -- ADC data left/right select
-		AUD_ADCLRCK_GPIO_1 : OUT std_logic;
 		AUD_ADCDAT 			: IN std_logic;
-		AUD_ADCDAT_GPIO_0	: out std_logic;
       AUD_BCLK 			: IN std_logic; -- Digital Audio bit clock
-		AUD_BCLK_GPIO_2	: OUT std_logic; 
 		data_over 			: OUT std_logic; -- sample sync pulse
 
       AUD_DACDAT 			: OUT std_logic; -- DAC data line
-		AUD_DACDAT_GPIO_4	: OUT std_logic;
 		AUD_DACLRCK			: IN std_logic; -- DAC data left/right select
-		AUD_DACLRCK_GPIO_6: OUT std_logic; 
 		
 		I2C_SDAT 			: OUT std_logic; -- serial interface data line
 		I2C_SCLK 			: OUT std_logic;  -- serial interface clock
@@ -108,33 +102,6 @@ constant SCI_DAT_ROM : rom_type := (
 
 
 BEGIN
-
-	AUD_ADCLRCK_GPIO_1<=AUD_ADCLRCK;
-	AUD_ADCDAT_GPIO_0 <= AUD_ADCDAT;
-	AUD_BCLK_GPIO_2 <= AUD_BCLK;
-	
-	AUD_DACLRCK_GPIO_6 <= AUD_DACLRCK;
-	AUD_DACDAT_GPIO_4	<= LRDATA(Bcount);
---	process(AUD_DACLRCK)
---begin
---	if rising_edge(AUD_DACLRCK) then
---		counter <= counter+1;
---		
---		win3 <= win2;
---		
---		if KEY(0) = '0' then
---		  win1 <= counter(5 downto 0) & "0000000000";
---		elsif KEY(1) = '0' then
---		  win1 <= counter(6 downto 0) & "000000000";
---		elsif KEY(2) = '0' then
---		  win1 <= counter(7 downto 0) & "00000000";
---		elsif KEY(3) = '0' then
---		  win1 <= counter(8 downto 0) & "0000000";
---	   else
---		  win1 <= x"0000";
---		end if;
---	end if;
---end process;
 
 	SCI_ADDR <= "00110100"; -- Device address
 	
@@ -548,7 +515,7 @@ BEGIN
 	SCLK_int <= I2C_counter(9) or SCLK_inhibit; -- SCLK = CLK / 512 = 97.65 kHz ~= 100 kHz
 	--SCLK_int <= I2C_counter(3) or SCLK_inhibit; -- For simulation only
 	AUD_MCLK <= I2C_counter(1); -- MCLK = CLK / 4 --used to be 2, changed to 1.
-	MCLK_GPIO <= I2C_counter(2);
+	--MCLK_GPIO <= I2C_counter(2);
 	I2C_SCLK <= SCLK_int;
 	
 
