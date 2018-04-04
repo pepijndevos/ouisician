@@ -31,7 +31,7 @@ if (Reset = '0') then
 	CLK_3HZ <= '0';
 elsif(rising_edge(CLK_50)) then
 	counter := counter + 1;
-	if (counter = 12500 ) then 
+	if (counter = 125000 ) then 
 		CLK_3HZ <= NOT CLK_3HZ;
 		counter := 0;
 	end if;
