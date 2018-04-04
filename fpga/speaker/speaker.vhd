@@ -7,8 +7,8 @@ entity speaker is
 		 LEDR        : out std_logic_vector(9 downto 0);
 		 KEY			 : in std_logic_vector(3 downto 0);
 		 GPIO_DIN    : in std_logic;
-		 GPIO_LRCK   : in std_logic;
-		 GPIO_BCLK   : in std_logic;
+		 GPIO_LRCK   : out std_logic;
+		 GPIO_BCLK   : out std_logic;
 		 GPIO_DOUT   : out std_logic;
 		 GPIO_ADCDAT : in std_logic;
 		 GPIO_ADCCLK : in std_logic
@@ -16,17 +16,30 @@ entity speaker is
 end speaker;
 
 architecture Behavioral of speaker is
+
+	component pll is
+		port (
+			refclk   : in  std_logic := 'X'; -- clk
+			rst      : in  std_logic := 'X'; -- reset
+			outclk_0 : out std_logic;        -- clk
+			outclk_1 : out std_logic         -- clk
+		);
+	end component pll;
+	
   signal counter : signed(31 downto 0);
   signal rst : std_logic;
 	
   signal win1 : signed(15 downto 0);
   signal win2 : signed(15 downto 0);
   signal win3 : signed(15 downto 0);
-  signal wout : signed(63 downto 0);
+  signal wout : signed(31 downto 0);
   
   signal sndclk : std_logic;
+  signal bitclk : std_logic;
+  signal adcclk : std_logic;
 begin
 rst <= KEY(0);
+GPIO_BCLK <= bitclk;
 
 process(sndclk)
 begin
@@ -52,24 +65,28 @@ end process;
 
   i2s_inst: entity work.i2s(behavioral)
     port map (rst => rst,
-      bclk => GPIO_BCLK,
-      rlclk =>GPIO_LRCK,
+      bclk => bitclk,
+      rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
       win1 => win1,
-      win2 => x"00ff",
-      win3 => win3,
-      win4 => x"5555",
-      wout1 => wout(63 downto 48),
-      wout2 => wout(47 downto 32),
-      wout3 => wout(31 downto 16),
-      wout4 => wout(15 downto 0));
+      win2 => win3,
+      wout1 => wout(31 downto 16),
+      wout2 => wout(15 downto 0));
 		
   adc_inst: entity work.adc(behavioral)
     port map (rst => rst,
-      clk => CLOCK_50,
+      clk => adcclk,
 		sndclk => sndclk,
       data => GPIO_ADCDAT,
       word => win2);
+	
+	pll_inst: pll
+		port map (
+			refclk => CLOCK_50,
+			rst => rst,
+			outclk_0 => bitclk,
+			outclk_1 => adcclk);
+			
 
 end Behavioral;
