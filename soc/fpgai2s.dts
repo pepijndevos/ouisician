@@ -15,13 +15,13 @@
 
                 capture_link: simple-audio-card,dai-link@0 {
                     format = "i2s";
+                    bitclock-master = <&r_codec_dai>;
+                    frame-master = <&r_codec_dai>;
 
                     r_cpu_dai: cpu {
                         sound-dai = <&i2s>;
-                        dai-tdm-slot-num = <4>;
+                        dai-tdm-slot-num = <2>;
                         dai-tdm-slot-width = <16>;
-                        dai-tdm-slot-tx-mask = <1 1 0 0>;
-                        dai-tdm-slot-rx-mask = <1 1 0 0>;
                     };
 
                     r_codec_dai: codec {
@@ -31,13 +31,13 @@
 
                 playback_link: simple-audio-card,dai-link@1 {
                     format = "i2s";
+                    bitclock-master = <&p_codec_dai>;
+                    frame-master = <&p_codec_dai>;
 
                     p_cpu_dai: cpu {
                         sound-dai = <&i2s>;
-                        dai-tdm-slot-num = <4>;
+                        dai-tdm-slot-num = <2>;
                         dai-tdm-slot-width = <16>;
-                        dai-tdm-slot-tx-mask = <1 1 0 0>;
-                        dai-tdm-slot-rx-mask = <1 1 0 0>;
                     };
 
                     p_codec_dai: codec {
