@@ -11,7 +11,15 @@ entity speaker is
 		 GPIO_BCLK   : out std_logic;
 		 GPIO_DOUT   : out std_logic;
 		 GPIO_ADCDAT : in std_logic;
-		 GPIO_ADCCLK : in std_logic
+		 GPIO_ADCCLK : in std_logic;
+		 AUD_ADCDAT  : in std_logic;
+		 AUD_ADCLRCK : in std_logic;
+		 AUD_BCLK    : in std_logic;
+		 AUD_DACDAT  : out std_logic;
+		 AUD_DACLRCK : in std_logic;
+		 AUD_XCK     : out std_logic;
+		 FPGA_I2C_SCLK: out std_logic;
+		 FPGA_I2C_SDAT: inout std_logic
 	   );
 end speaker;
 
@@ -69,24 +77,45 @@ end process;
       rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
-      win1 => win1,
-      win2 => win3,
+      win1 => x"5555",
+      win2 => x"8001",
       wout1 => wout(31 downto 16),
       wout2 => wout(15 downto 0));
 		
-  adc_inst: entity work.adc(behavioral)
-    port map (rst => rst,
-      clk => adcclk,
-		sndclk => sndclk,
-      data => GPIO_ADCDAT,
-      word => win2);
+--  adc_inst: entity work.adc(behavioral)
+--    port map (rst => rst,
+--      clk => adcclk,
+--		sndclk => sndclk,
+--      data => GPIO_ADCDAT,
+--      word => win2);
+
+
+	audio_inst : entity work.audio_interface(Behavorial)
+		port map (
+			LDATA => std_logic_vector(wout(31 downto 16)),
+			RDATA => std_logic_vector(wout(15 downto 0)),
+			clk => adcclk,
+			Reset	=> rst,
+			INIT_FINISH	=> open,
+			adc_full	=> open,
+			AUD_MCLK => AUD_XCK,
+			AUD_ADCLRCK => AUD_ADCLRCK,
+			AUD_ADCDAT => AUD_ADCDAT,
+			AUD_BCLK => AUD_BCLK,
+			data_over => open,
+			AUD_DACDAT => AUD_DACDAT,
+			AUD_DACLRCK => AUD_DACLRCK,
+			I2C_SDAT => FPGA_I2C_SDAT,
+			I2C_SCLK => FPGA_I2C_SCLK,
+			ADCDATA => open
+		);
 	
 	pll_inst: pll
 		port map (
 			refclk => CLOCK_50,
-			rst => rst,
-			outclk_0 => bitclk,
-			outclk_1 => adcclk);
+			rst => not rst,
+			outclk_0 => bitclk,  -- 1.536 MHz
+			outclk_1 => adcclk); -- 49.152 MHz
 			
 
 end Behavioral;
