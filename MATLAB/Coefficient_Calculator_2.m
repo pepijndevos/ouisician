@@ -44,8 +44,8 @@ D1 = floor(a0new*range);
 
 D2 = floor(a1new*range);
 D3 = floor(a2new*range);
-num = [N2 N1 N0]
-den = [D1 D2 D3]
+num = [N2 N1 N0];
+den = [D1 D2 D3];
 [hs,ws] = freqz(num,den,512);
 
 %bs1 = round(b1./a1(3).*2^19) %coef for hpf
@@ -61,5 +61,5 @@ plot(w*Fs/pi/2,mag2db(abs(h)), ws*Fs/pi/2,mag2db(abs(hs)))
 %plot(w1*Fs/pi/2,mag2db(abs(h1)), ws1*Fs/pi/2,mag2db(abs(hs1)))
 legend('butter Design', 'scaled')
 xlabel 'Radian Frequency (\omega/\pi)', ylabel 'Magnitude'
-xlim([0 0.1*10^4]);
+xlim([0 0.1*10^5]);
 ylim([-30 10]);
