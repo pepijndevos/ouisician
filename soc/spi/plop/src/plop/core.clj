@@ -26,7 +26,10 @@
 								(startstream))
 							(if (and (== 0 (compare id "streaming")) (== 0 val))
 								(stopstream))
-							(SPItransfer chan numid val)
+							(if (== 0 (compare id "streamkeybutt"))
+								(println "streamkey button pressed" val))
+							(if (> chan 1) ;only send sound controls to FPGA
+								(SPItransfer chan numid val))
 								;(ctl inst param val)
 								;(prn inst param val)
 								)))))
