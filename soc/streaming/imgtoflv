@@ -1,8 +1,0 @@
-#!/bin/bash
-
-ffmpeg -re -loop 1 -i tfw.png -r 25 \
--thread_queue_size 512 -f alsa -ac 2 -i pulse -fflags +genpts \
--vcodec h264_omx \
--preset slow -pix_fmt yuv420p -s 1024x768 \
--c:a aac -b:a 96k -ar 44100 \
--f flv out.flv

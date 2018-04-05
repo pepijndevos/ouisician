@@ -10,14 +10,14 @@ architecture testbench of impulsebench is
 	signal rst : std_logic := '0';
 	signal clk : std_logic := '0';
 	signal sndclk : std_logic := '0';
-	signal word : signed(15 downto 0);
+	signal word : signed(15 downto 0) := x"0000";
+	signal inter : signed(15 downto 0) := x"0000";
   signal resp : signed(15 downto 0);
 
-  component filter
+  component iir
     port (
       rst    : in std_logic;
-      clk    : in std_logic;
-      sndclk : in std_logic;
+      clk : in std_logic;
       word   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
@@ -25,8 +25,8 @@ architecture testbench of impulsebench is
 
     
 begin
-  rst <= '1' AFTER 20 ns; -- reset pin
-  clk <= NOT clk AFTER 10 ns; -- "fast clock"; 50 MHz klok
+  rst <= '1' AFTER 200 ns; -- reset pin
+  --clk <= NOT clk AFTER 10 ns; -- "fast clock"; 50 MHz klok
   sndclk <= NOT sndclk AFTER 20.83 us; -- "audio clock"; 48 kHz klok
 
   process(sndclk)
@@ -34,7 +34,7 @@ begin
   begin
     if rising_edge(sndclk) then
       counter := counter + 1;
-      if counter = 10 then
+      if counter > 10 then
         word <= x"3fff";
       else
         word <= x"0000";
@@ -42,11 +42,16 @@ begin
     end if;
   end process;
 
-  filter_inst : filter port map (
+  filter_inst : iir port map (
     rst => rst,
-    clk => clk,
-    sndclk => sndclk,
+    clk => sndclk,
     word => word,
+    resp => inter
+  );
+  filter_inst2 : iir port map (
+    rst => rst,
+    clk => sndclk,
+    word => inter,
     resp => resp
   );
 end;
