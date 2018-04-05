@@ -13,7 +13,7 @@ $('input.form-check-input').change(function() {
 	else {
 	checked = 0; 
 	}
-  sock.send(JSON.stringify({numid: Number(0), id: this.id, val: Number(checked), chan: Number(0)}));
+  sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0)}));
   console.log(this.value);
 });
 

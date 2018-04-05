@@ -22,26 +22,40 @@ input[type="range"] {
       <h1>Ouisician</h1>
 	  
 <div class="row">
-<div class="col-4">
+
+<div class="col-3">
     <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		  <div class="form-check">
-			  <input class="form-check-input" type="checkbox" value="1" id="streaming">
-			  <label class="form-check-label" for="streaming">
-				Enable streaming
+			  <input class="form-check-input" type="checkbox" id="recording">
+			  <label class="form-check-label" for="recording">
+				Enable recording
 			  </label>
 		</div>
 		</ol>
     </nav>
 </div>
-<div class="col-2"></div>
-<div class="form-inline">
-	<div class="form-group mx-sm-2 mb-2">
-			<input class="form-control" type="text" id="streamkey" data-channel="0" data-id="0">
-	</div>
 
-	<div id="streamkeybutt"><button class="btn btn-primary mb-2">Edit stream key</button></div>
+<div class="col-5">
+    <nav aria-label="breadcrumb">
+	<ol class="breadcrumb list-inline">
+
+			<form class="form-inline">
+				<div class="form-group">
+					<input class="form-check-input" type="checkbox" id="streaming">
+			  		<label class="form-check-label" for="streaming">
+						Enable streaming &nbsp; &nbsp;
+			  		</label>
+				  </div>
+				  <div class="form-group">
+				    <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Stream Key">
+				  </div>
+				  
+			</form>
+		</ol>
+    </nav>
 </div>
+
 </div>
 
 <div class="card">
@@ -100,9 +114,28 @@ input[type="range"] {
         </div>
       </div>
   </div>
+  
+
+  
 </div>
+	<br/>
+  <center><div id="twitch-embed"></div></center>
 
     </div> 
+	
+	
+
+    <!-- Load the Twitch embed script -->
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+    <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
+    <script type="text/javascript">
+      new Twitch.Embed("twitch-embed", {
+        width: 300,
+        height: 300,
+        channel: "ouisician"
+      });
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
