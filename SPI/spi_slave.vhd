@@ -30,7 +30,7 @@ ENTITY spi_slave IS
   GENERIC(
     cpol    : STD_LOGIC := '0';  --spi clock polarity mode
     cpha    : STD_LOGIC := '1';  --spi clock phase mode
-    d_width : INTEGER := 128);     --data width in bits
+    d_width : INTEGER := 24);     --data width in bits
   PORT(
 	reset_n      : IN     STD_LOGIC;  --active low reset
 	tx_load_en   : IN     STD_LOGIC;  --asynchronous transmit buffer load enable
