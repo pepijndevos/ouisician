@@ -5,15 +5,15 @@ use ieee.NUMERIC_STD.ALL;
 entity Crossover is
 generic(
     W_in : integer := 16;
-	 W_coef : integer := 18;   
-    B0_low : integer := 11; 
+	 W_coef : integer := 18;
+    B0_low : integer := 11;
     B1_low : integer := 22;
     B2_low : integer := 11;
     A0_low : integer := 65536;
     A1_low : integer := -128646;
-    A2_low : integer := 63154; 
+    A2_low : integer := 63154;
 
-    B0_high : integer 	:= 64334; 
+    B0_high : integer 	:= 64334;
     B1_high: integer 	:= -128668;
     B2_high: integer 	:= 64334;
     A0_high : integer 	:= 65536;
