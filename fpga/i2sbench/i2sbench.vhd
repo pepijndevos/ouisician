@@ -23,8 +23,6 @@ architecture testbench of i2sbench is
 
   signal wout1 : signed(15 downto 0);
   signal wout2 : signed(15 downto 0);
-  signal wout3 : signed(15 downto 0);
-  signal wout4 : signed(15 downto 0);
 
     
 begin
@@ -49,11 +47,11 @@ begin
 			dout <= '0';
 		end if;
 		read_boolean := csv_file.read_integer_as_boolean;
-		if read_boolean then
-			lrclk <= '1';
-		else
-			lrclk <= '0';
-		end if;
+		--if read_boolean then
+		--	lrclk <= '1';
+		--else
+		--	lrclk <= '0';
+		--end if;
 		read_boolean := csv_file.read_integer_as_boolean;
 		if read_boolean then
 			bclk <= '1';
@@ -74,11 +72,7 @@ begin
       dout => din,
       win1 => x"5555",
       win2 => x"ffff",
-      win3 => x"aaaa",
-      win4 => x"0000",
       wout1 => wout1,
-      wout2 => wout2,
-      wout3 => wout3,
-      wout4 => wout4);
+      wout2 => wout2);
 
 end;

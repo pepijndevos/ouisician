@@ -1,37 +1,34 @@
 (ns synth.core
-  (:use overtone.core)
+  (:use [synth.sound :only [start channels]]
+        [overtone.core :only [ctl]]
+        [compojure.route :only [files resources not-found]]
+        [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
+        [compojure.core :only [defroutes GET POST DELETE ANY context]]
+        [ring.util.response :only [redirect]]
+        org.httpkit.server)
+  (:require [clojure.data.json :as json])
   (:gen-class))
 
-(connect-external-server 4555)
+(defn socket-handler [req]
+  (with-channel req channel
+    (on-close channel (fn [status]
+                        (println "channel closed")))
+    (on-receive channel (fn [data]
+                          (let [{id "id", val "val", chan "chan"} (json/read-str data)
+                                inst (get @channels chan)
+                                param (keyword id)]
+                            (ctl inst param val)
+                            (prn inst param val))))))
 
-(def server (osc-server 44100 "osc-clj"))
+(defroutes all-routes
+  (GET "/" [] (redirect "index.html"))
+  (GET "/ws" [] socket-handler)     ;; websocket
+  (resources "/")
+  (not-found "<p>Page not found.</p>")) ;; all other, return 404
 
-(definst microphone [vol 1 pan 0 chan 0 mix 0.33 room 0.5 damp 0.5]
-  (pan2 (free-verb (sound-in chan) mix room damp) pan vol))
-
-(defn control-param [ins param min max msg]
-  (let [raw (first (:args msg))
-        scaled (scale-range raw 0 1 min max)]
-    (ctl ins param scaled)))
-
-(defn start-mic [ch volpath panpath mixpath roompath damppath]
-  (let [ins (microphone 1 0 ch)]
-    (osc-handle server volpath
-      (partial control-param ins :vol 0 1))
-    (osc-handle server panpath
-      (partial control-param ins :pan -1 1))
-    (osc-handle server mixpath
-      (partial control-param ins :mix 0 1))
-    (osc-handle server roompath
-      (partial control-param ins :room 0 1))
-    (osc-handle server damppath
-      (partial control-param ins :damp 0 1))))
-
+  
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (zero-conf-on)
-  (osc-listen server (fn [msg] (println msg)) :debug)
-  ;(start-mic 0 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
-  (start-mic 1 "/1/fader1" "/1/fader2" "/1/fader3" "/1/fader4" "/1/fader5")
-  (println "Running"))
+  (start)
+  (run-server (site #'all-routes) {:port 8080}))

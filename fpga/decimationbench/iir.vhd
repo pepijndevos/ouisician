@@ -7,12 +7,12 @@ Generic (
     w_in : integer := 16;
     w_coef : integer := 22;
 
-    B0 : integer := 2; 
-    B1 : integer := 3;
-    B2 : integer := 2;
+    B0 : integer := 1029343; 
+    B1 : integer := -2058686;
+    B2 : integer := 1029343;
     A0 : integer := 1048576;
-    A1 : integer := -2093361;
-    A2 : integer := 1044792
+    A1 : integer := -2048333;
+    A2 : integer := 1010463
 );
     port (
       rst    : in std_logic;
@@ -43,12 +43,14 @@ begin
       X2 := to_signed(0, X2'length);
       Y1 := to_signed(0, Y1'length);
       Y2 := to_signed(0, Y2'length);
+      acc := to_signed(0, acc'length);
+      resp <= to_signed(0, resp'length);
     elsif rising_edge(clk) then
       acc := resize(cB2 * X2, acc'length);
       acc := acc + resize(cB1 * X1, acc'length);
       X2 := X1;
       acc := acc + resize(cB0 * word * scale, acc'length);
-      X1 := resize(word, X1'length);
+      X1 := resize(word * scale, X1'length);
       acc := acc - resize(cA2 * Y2, acc'length);
       acc := acc - resize(cA1 * Y1, acc'length);
       Y2 := Y1;

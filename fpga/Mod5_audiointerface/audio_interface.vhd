@@ -32,9 +32,7 @@ ENTITY audio_interface IS
 		adc_full 			: OUT std_logic;
 		AUD_MCLK 			: OUT std_logic; -- Codec master clock OUTPUT
 		MCLK_GPIO			: OUT std_logic;
-		
-		KEY			 : in std_logic_vector(3 downto 0);
-		
+
 		AUD_ADCLRCK 		: IN std_logic; -- ADC data left/right select
 		AUD_ADCLRCK_GPIO_1 : OUT std_logic;
 		AUD_ADCDAT 			: IN std_logic;
@@ -69,6 +67,7 @@ signal Bcount : integer range 0 to 31;
 signal adc_count : integer range 0 to 32;
 signal word_count : integer range 0 to 12;
 signal LRDATA : std_logic_vector(31 downto 0); -- stores L&R data
+--signal ADCsignal : std_logic_vector(31 downto 0); -- convert ADCdata to signal
 signal state, next_state : I2C_state;
 signal SCI_ADDR, SCI_WORD1, SCI_WORD2 : std_logic_vector(7 downto 0);
 
@@ -120,26 +119,26 @@ BEGIN
 	
 	AUD_DACLRCK_GPIO_6 <= AUD_DACLRCK;
 	AUD_DACDAT_GPIO_4	<= LRDATA(Bcount);
-	process(AUD_DACLRCK)
-begin
-	if rising_edge(AUD_DACLRCK) then
-		counter <= counter+1;
-		
-		win3 <= win2;
-		
-		if KEY(0) = '0' then
-		  win1 <= counter(5 downto 0) & "0000000000";
-		elsif KEY(1) = '0' then
-		  win1 <= counter(6 downto 0) & "000000000";
-		elsif KEY(2) = '0' then
-		  win1 <= counter(7 downto 0) & "00000000";
-		elsif KEY(3) = '0' then
-		  win1 <= counter(8 downto 0) & "0000000";
-	   else
-		  win1 <= x"0000";
-		end if;
-	end if;
-end process;
+--	process(AUD_DACLRCK)
+--begin
+--	if rising_edge(AUD_DACLRCK) then
+--		counter <= counter+1;
+--		
+--		win3 <= win2;
+--		
+--		if KEY(0) = '0' then
+--		  win1 <= counter(5 downto 0) & "0000000000";
+--		elsif KEY(1) = '0' then
+--		  win1 <= counter(6 downto 0) & "000000000";
+--		elsif KEY(2) = '0' then
+--		  win1 <= counter(7 downto 0) & "00000000";
+--		elsif KEY(3) = '0' then
+--		  win1 <= counter(8 downto 0) & "0000000";
+--	   else
+--		  win1 <= x"0000";
+--		end if;
+--	end if;
+--end process;
 
 	SCI_ADDR <= "00110100"; -- Device address
 	
@@ -159,7 +158,7 @@ end process;
 			elsif (bck0 = '1' and bck1 = '0' and flag1 = '1') then
 				flag1 <= '0';
 			elsif (bck0 = '0' and bck1 = '1') then -- BCLK falling edge
-					Bcount <= Bcount - 1;
+					Bcount <= Bcount - 1; -- bit transition -> next bit set in counter
 			end if;
 		end if;
 	end process;
@@ -533,7 +532,7 @@ end process;
 			adc_count <= 31;
 			adc_full <= '0';
 		elsif(rising_edge(Clk)) then
-			adc_reg_val(adc_count) <= AUD_ADCDAT;
+			adc_reg_val(adc_count) <= AUD_ADCDAT; -- put the bits in the 32 bits word
 			adc_full <= '0';
 			if (adc_count = 0) then
 				adc_full <= '1';
@@ -555,10 +554,13 @@ end process;
 	AUD_MCLK <= I2C_counter(1); -- MCLK = CLK / 4 --used to be 2, changed to 1.
 	MCLK_GPIO <= I2C_counter(2);
 	I2C_SCLK <= SCLK_int;
+	
 
-	AUD_DACDAT <= LRDATA(Bcount);
+	--AUD_DACDAT <= LRDATA(Bcount);
+	AUD_DACDAT <= adc_reg_val(Bcount);
 	data_over <= flag1;
 	init_finish <= init_over;
-	ADCDATA <= adc_reg_val;
+	ADCDATA <= adc_reg_val; -- put the 32 bit word in the ADCDATA
+	
 			
 end Behavorial;

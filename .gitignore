@@ -27,7 +27,7 @@ timing
 *.done
 *.eqn
 *.hex
-*.html
+#*.html
 *.jdi
 *.jpg
 *.mif
@@ -60,7 +60,7 @@ PLLJ_PLLSPE_INFO.txt # The generated PLL specification file
 *.bak
 *.cmp
 *.jpg
-*.html
+#*.html
 *.bsf
 
 # ignore simulation output of ModelSim
@@ -75,3 +75,7 @@ vsim.dbg
 
 # ignore LTspice 
 *.raw
+
+# ignore media files
+*.mp3
+*.flv
