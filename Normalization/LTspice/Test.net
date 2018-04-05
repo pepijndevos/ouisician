@@ -4,7 +4,7 @@ V2 Vdd 0 10
 V3 0 N002 10
 XU1 Vin N001 Vdd N002 Vout LM4562
 R3 Vout N001 100
-R1 N001 0 100
+R1 N001 0 1k
 ;tran 0 0.1 0 0.01
 .tran 0 0.1 0 0.001
 .lib NewOpamps\LM4562.lib
