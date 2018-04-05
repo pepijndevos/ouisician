@@ -4,7 +4,7 @@ USE ieee.numeric_std.ALL;
 
 ENTITY SPI_control IS
   GENERIC(
-    d_width : INTEGER := 128 --data bus width
+    d_width : INTEGER := 24 --data bus width
 );
   PORT(
 	--pins
@@ -75,7 +75,7 @@ ELSIF rising_edge(clk) THEN
 	dig4 <= hex2display(receiveddata(19 downto 16));
 	dig5 <= hex2display(receiveddata(23 downto 20));
 
-	senddata <= "10101010" & receiveddata;
+	senddata <= "00000000" & receiveddata;
 END IF;
 END PROCESS;
 

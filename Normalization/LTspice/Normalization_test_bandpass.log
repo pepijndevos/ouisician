@@ -1,0 +1,93 @@
+Circuit: * D:\GitHub\ouisician\Normalization\LTspice\Normalization_test_bandpass.asc
+
+WARNING: Node U1:1:U11:VP1 is floating.
+WARNING: Node U1:1:14 is floating.
+WARNING: Node U1:1:U11:VP2 is floating.
+WARNING: Node U1:1:U11:VP3 is floating.
+WARNING: Node U1:1:U11:VP4 is floating.
+WARNING: Node U1:1:U11:VZ1 is floating.
+WARNING: Node U1:1:U11:VZ2 is floating.
+WARNING: Node U1:1:U11:VZ3 is floating.
+WARNING: Node U1:1:U11:VZ4 is floating.
+WARNING: Node U1:1:9 is floating.
+
+Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to skip.)
+Starting Gmin stepping
+Gmin = 10
+Gmin = 1.07374
+Gmin = 0.115292
+Gmin = 0.0123794
+Gmin = 0.00132923
+Gmin = 0.000142725
+Gmin = 1.5325e-005
+Gmin = 1.6455e-006
+Gmin = 1.76685e-007
+vernier = 0.5
+Gmin = 3.6596e-008
+vernier = 0.25
+vernier = 0.125
+vernier = 0.0625
+vernier = 0.03125
+Gmin = 3.78568e-008
+vernier = 0.015625
+vernier = 0.0078125
+vernier = 0.00390625
+Gmin = 3.79298e-008
+vernier = 0.00520833
+vernier = 0.00694444
+Gmin = 3.7403e-008
+vernier = 0.00925925
+vernier = 0.0123457
+Gmin = 3.65833e-008
+vernier = 0.0164609
+Gmin = 3.52918e-008
+vernier = 0.0219478
+vernier = 0.0292638
+Gmin = 3.32762e-008
+vernier = 0.0390184
+vernier = 0.0520245
+Gmin = 3.03201e-008
+vernier = 0.0693659
+Gmin = 2.60817e-008
+vernier = 0.0924879
+vernier = 0.123317
+Gmin = 2.04054e-008
+vernier = 0.164423
+vernier = 0.21923
+Gmin = 1.38689e-008
+vernier = 0.292307
+Gmin = 7.46486e-009
+vernier = 0.389743
+vernier = 0.519657
+Gmin = 2.76045e-009
+vernier = 0.692876
+vernier = 0.923834
+Gmin = 5.96109e-010
+vernier = 1
+Gmin = 6.91128e-011
+Gmin = 7.42093e-012
+Gmin = 7.96817e-013
+Gmin = 0
+Gmin = 0
+Gmin stepping succeeded in finding the operating point.
+
+
+Date: Thu Apr 05 14:15:19 2018
+Total elapsed time: 0.331 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 14045
+traniter = 12490
+tranpoints = 2514
+accept = 1857
+rejected = 657
+matrix size = 79
+fillins = 63
+solver = Normal
+Thread vector: 10.9/8.5[2] 2.7/2.3[2] 3.1/2.4[2] 0.4/1.0[1]  2592/500
+Matrix Compiler1: 5.62 KB object code size  1.5/0.7/[0.4]
+Matrix Compiler2: 7.39 KB object code size  1.0/1.0/[0.6]
+
+

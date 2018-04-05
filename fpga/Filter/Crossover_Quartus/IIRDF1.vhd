@@ -26,7 +26,7 @@ end entity IIRDF1;
 
 architecture behaviour of IIRDF1 is
 constant W_register : integer := W_coef*2;
-constant scale : integer := 2**(W_coef-W_in);
+constant scale : integer := (W_coef-W_in);
 type STATE_TYPE is (idle,mul1,mul2,mul3,truncate,sum,done);
 signal state : STATE_TYPE;
 
@@ -71,7 +71,7 @@ elsif(rising_edge(iCLK)) then
 			nGA2<= resize(nZY2*cA2,nGA2'LENGTH);
 			state<=mul3;
 		when mul3 =>
-         nGB0<= resize(cB0*IIR_in*scale,nGB0'LENGTH);
+         nGB0<= resize(shift_left(cB0*IIR_in,scale),nGB0'LENGTH);
 			state <= sum;
 		when sum =>
 			accum   <= resize(nGB0+nGB1+nGB2-nGA1-nGA2,accum'LENGTH);
@@ -80,7 +80,7 @@ elsif(rising_edge(iCLK)) then
 			nYOUT <= resize(accum/cA0,nZY1'LENGTH);
 			state <= done;
 		when done =>
-			IIR_out_temp <= resize(nYOUT/scale,IIR_out'LENGTH);
+			IIR_out_temp <= resize(shift_right(nYOUT,scale),IIR_out'LENGTH);
 			nZY2 <= nZY1;
 			nZY1 <= nYOUT;
 			state <= idle;

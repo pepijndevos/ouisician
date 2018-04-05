@@ -29,7 +29,7 @@ begin
       lastrl := '0';
     elsif rising_edge(bclk) then
       buf := buf(30 downto 0) & din;
-      if counter = 31 then
+      if counter = 0 then
         wout1 <= signed(buf(31 downto 16));
         wout2 <= signed(buf(15 downto 0));
       end if;
@@ -44,6 +44,8 @@ begin
       buf := (others => '0');
       lastrl := '0';
     elsif falling_edge(bclk) then
+	   dout <= buf(31);
+      buf := buf(30 downto 0) & '0';
 	   if counter = 31 then
         buf(31 downto 16) := std_logic_vector(win1);
         buf(15 downto 0)  := std_logic_vector(win2);
@@ -51,8 +53,6 @@ begin
       else
         counter <= counter + 1;
       end if;
-	   dout <= buf(31);
-      buf := buf(30 downto 0) & '0';
     end if;
   end process;
 end;

@@ -4,7 +4,7 @@ USE ieee.numeric_std.ALL;
 
 ENTITY spi_slave_ui IS
 GENERIC(
-    d_width : INTEGER := 128
+    d_width : INTEGER := 24
     ); --data bus width
   PORT(
 	clk	: IN std_logic; --50Mhz clock	
@@ -17,16 +17,43 @@ GENERIC(
 	sclk	: IN STD_LOGIC;  --spi clk from master	
 	ss	: IN STD_LOGIC;  --active low slave select
 	mosi	: IN STD_LOGIC;  --master out, slave in
-
+	--TO REST
+	receiveddata : out STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);
+	filter_ctrl_cha1  : out std_logic_vector(15 downto 0);
+	filter_ctrl_cha2  : out std_logic_vector(15 downto 0);
+	filter_ctrl_cha3  : out std_logic_vector(15 downto 0);
+	filter_ctrl_cha4  : out std_logic_vector(15 downto 0);
 	--TO MASTER
-	miso	: OUT    STD_LOGIC := 'Z' --master in, slave out
+	output : in std_logic_vector(d_width-1 DOWNTO 0);
+	miso	: out STD_LOGIC := 'Z'  --master in, slave out
 	
 	);
 
 END spi_slave_ui;
 
 ARCHITECTURE logic OF spi_slave_ui IS
-
+FUNCTION hex2display (n:std_logic_vector(3 DOWNTO 0)) RETURN std_logic_vector IS
+    VARIABLE res : std_logic_vector(6 DOWNTO 0);
+  BEGIN
+    CASE n IS          --        gfedcba; low active
+	    WHEN "0000" => RETURN NOT "0111111";
+	    WHEN "0001" => RETURN NOT "0000110";
+	    WHEN "0010" => RETURN NOT "1011011";
+	    WHEN "0011" => RETURN NOT "1001111";
+	    WHEN "0100" => RETURN NOT "1100110";
+	    WHEN "0101" => RETURN NOT "1101101";
+	    WHEN "0110" => RETURN NOT "1111101";
+	    WHEN "0111" => RETURN NOT "0000111";
+	    WHEN "1000" => RETURN NOT "1111111";
+	    WHEN "1001" => RETURN NOT "1101111";
+	    WHEN "1010" => RETURN NOT "1110111";
+	    WHEN "1011" => RETURN NOT "1111100";
+	    WHEN "1100" => RETURN NOT "0111001";
+	    WHEN "1101" => RETURN NOT "1011110";
+	    WHEN "1110" => RETURN NOT "1111001";
+	    WHEN OTHERS => RETURN NOT "1110001";			
+    END CASE;
+  END hex2display;
 	COMPONENT spi_slave
 		
   	PORT(
@@ -50,20 +77,20 @@ ARCHITECTURE logic OF spi_slave_ui IS
 
   	END COMPONENT spi_slave;
 	
-	COMPONENT SPI_control
-		PORT(
+	--COMPONENT SPI_control
+		-- PORT(
 		--pins
-		clk	: IN std_logic; --50Mhz clock	
-		reset_n	: IN STD_LOGIC;
-		ss : IN STD_LOGIC;
-		dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
+		-- clk	: IN std_logic; --50Mhz clock	
+		-- reset_n	: IN STD_LOGIC;
+		-- ss : IN STD_LOGIC;
+		-- dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
 		--spi slave
-		receiveddata : IN STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);
-		senddata : OUT STD_LOGIC_VECTOR(d_width+8-1 DOWNTO 0)
+		-- receiveddata : IN STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);
+		-- senddata : OUT STD_LOGIC_VECTOR(d_width-1 DOWNTO 0)
 
 	   
-	   );
-	END COMPONENT;
+	   -- );
+	-- END COMPONENT;
  
 	signal tx_load_data : STD_LOGIC_VECTOR(d_width+8-1 DOWNTO 0);  --asynchronous tx data to load
 	signal rx_req       : STD_LOGIC;  --'1' while busy = '0' moves data to the rx_data output
@@ -75,7 +102,7 @@ ARCHITECTURE logic OF spi_slave_ui IS
 	SIGNAL rx_data	: STD_LOGIC_VECTOR(d_width-1 DOWNTO 0) := (OTHERS => '0');  --receive register output to logic
 
 
-	SIGNAL senddata : STD_LOGIC_VECTOR(d_width+8-1 DOWNTO 0);
+	--SIGNAL senddata : STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);
 	
 
 	
@@ -95,38 +122,68 @@ BEGIN
 			miso => miso
 		); 
 
-	s2: SPI_control
-	PORT MAP (
-			reset_n => reset_n,
-			clk => clk,
-			ss => ss,
-			dig0=>dig0,
-			dig1=>dig1,
-			dig2=>dig2 ,
-			dig3=>dig3 ,
-			dig4=>dig4 ,
-			dig5=>dig5, 
-			receiveddata => rx_data,
-			senddata => senddata
-		);
+	-- s2: SPI_control
+	-- PORT MAP (
+			-- reset_n => reset_n,
+			-- clk => clk,
+			-- ss => ss,
+			-- dig0=>dig0,
+			-- dig1=>dig1,
+			-- dig2=>dig2 ,
+			-- dig3=>dig3 ,
+			-- dig4=>dig4 ,
+			-- dig5=>dig5, 
+			-- receiveddata => rx_data,
+			-- senddata => senddata
+		-- );
 
 PROCESS(clk, reset_n)
 	VARIABLE i : INTEGER := 0;
+	
 BEGIN
 	IF reset_n = '0' THEN
 		tx_load_en <= '0';
 		tx_load_data <= (OTHERS => '0');
+		dig0 <= "0000000" ;
+		dig1 <= "0000000" ;
+		dig2 <= "0000000" ;
+		dig3 <= "0000000" ;
+		dig4 <= "0000000" ;
+		dig5 <= "0000000" ;
 	ELSIF rising_edge(clk) THEN
 
 		--receiving part
 		IF rrdy = '1' AND ss = '1' THEN
 			rx_req <= '1';
+			receiveddata <= rx_data;
+			IF rx_data(23 DOWNTO 16) = "00000001" THEN
+				filter_ctrl_cha1 <= rx_data(15 DOWNTO 0);
+				dig4 <= hex2display(rx_data(3 downto 0));
+				dig5 <= hex2display(rx_data(7 downto 4));
+			ELSIF rx_data(23 DOWNTO 16) = "00000010" THEN
+				filter_ctrl_cha2 <= rx_data(15 DOWNTO 0);
+			ELSIF rx_data(23 DOWNTO 16) = "00000011" THEN
+				filter_ctrl_cha3 <= rx_data(15 DOWNTO 0);
+			ELSIF rx_data(23 DOWNTO 16) = "00000000" THEN
+				filter_ctrl_cha4 <= rx_data(15 DOWNTO 0);
+				dig0 <= hex2display(rx_data(3 downto 0));
+				dig1 <= hex2display(rx_data(7 downto 4));
+				dig2 <= hex2display(rx_data(11 downto 8));
+				dig3 <= hex2display(rx_data(15 downto 12));
+				
+			END IF;
 		ELSIF rx_req <= '1' AND ss = '0' THEN
 			rx_req <= '0';
 		END IF;
-
+		
+		
+		
+		
+	
+		
 		--transmit part
-		tx_load_data <= senddata;
+
+		tx_load_data <= "00000000111111111111111111111111" ;--& output;
 		IF ss='1' THEN
 			i := i+1;
 			if i=10 then
