@@ -20,6 +20,10 @@
 		(def spi (SpiFactory/getInstance (SpiChannel/getByNumber chan) speed (SpiMode/getByNumber mode)))
 		(printSPIsettings :chan chan :speed speed :mode mode))
 			
-
-
 (setSPIsettings :mode 1)
+
+(defn SPItransfer [chan numid val]
+	(let [packet (byte-array [(byte 0x00) chan numid val])]
+		(println "TX" (seq packet))
+		(def rx (.write spi packet))
+		(println "RX" (seq rx))))

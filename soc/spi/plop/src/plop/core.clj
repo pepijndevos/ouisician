@@ -26,13 +26,10 @@
 								(startstream))
 							(if (and (== 0 (compare id "streaming")) (== 0 val))
 								(stopstream))
-							(let [packet (byte-array [(byte 0x00) chan numid val])]
-								(println "TX" (seq packet))
-								(def rx (.write spi packet))
-								(println "RX" (seq rx))
+							(SPItransfer chan numid val)
 								;(ctl inst param val)
 								;(prn inst param val)
-								))))))
+								)))))
 
 (defroutes all-routes
   (GET "/" [] (redirect "index.html"))
