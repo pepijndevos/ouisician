@@ -11,7 +11,9 @@
 (def pb (ProcessBuilder. (list "/bin/bash" "-c" string)))
 
 (defn startstream []
-	(def process (.start pb)))
+	(def process (.start pb))
+	(println "Starting stream"))
 	
 (defn stopstream []
-	(.destroy process))
+	(.destroy process)
+	(println "Stopping stream"))

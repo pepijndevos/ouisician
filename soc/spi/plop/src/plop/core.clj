@@ -2,6 +2,7 @@
 	(:use 
 		;[plop.sound :only [osc-start channels]]
 		[plop.streaming]
+		[plop.spi]
         ;[overtone.core :only [ctl]]
         [compojure.route :only [files resources not-found]]
         [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
@@ -13,27 +14,6 @@
   			[com.pi4j.io.spi SpiChannel SpiDevice SpiFactory SpiMode]
   			[com.pi4j.util Console]))
 			
-(defn printSPIsettings[& {:keys [chan speed mode]
-							:or {chan (.getChannel SpiChannel/CS0)
-								speed (SpiDevice/DEFAULT_SPI_SPEED)
-								mode (.getMode SpiDevice/DEFAULT_SPI_MODE)}}]
-		(println "Using:")
-		(println "- Channel" chan)
-		(println "- Speed" speed)
-		(println "- Mode" mode))
-
-(defn setSPIsettings[& {:keys [chan speed mode]
-							:or {chan (.getChannel SpiChannel/CS0)
-								speed (SpiDevice/DEFAULT_SPI_SPEED)
-								mode (.getMode SpiDevice/DEFAULT_SPI_MODE)}}]
-		
-		(def spi (SpiFactory/getInstance (SpiChannel/getByNumber chan) speed (SpiMode/getByNumber mode)))
-		(printSPIsettings :chan chan :speed speed :mode mode))
-			
-
-
-(setSPIsettings :mode 1)
-			
 (defn socket-handler [req]
   (with-channel req channel
     (on-close channel (fn [status]
@@ -43,9 +23,9 @@
                                 ;inst (get @channels chan)
                                 param (keyword id)]
 							(if (and (== 0 (compare id "streaming")) (== 1 val))
-								(println "Enabling stream"))
+								(startstream))
 							(if (and (== 0 (compare id "streaming")) (== 0 val))
-								(println "Disabling stream"))
+								(stopstream))
 							(let [packet (byte-array [(byte 0x00) chan numid val])]
 								(println "TX" (seq packet))
 								(def rx (.write spi packet))
