@@ -1,6 +1,9 @@
 
 var sock = new WebSocket("ws://" + location.host + "/ws");
 
+$('#streamkeybutt').on('click', function() {
+  sock.send(JSON.stringify({numid: Number(0), id: this.id, val: $('#streamkey').val(), chan: Number(0)}));
+});
 
 $('input.form-check-input').change(function() {
   var checked;
