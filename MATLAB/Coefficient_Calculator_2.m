@@ -8,8 +8,7 @@ Ts = 1/48000;
 [b,a] = butter(2,150*2/Fs,'high')
 %[b1,a1] = butter(2,150*2/Fs,'high');
 
-bs = b./a(3);
-as = a./a(3);
+
 
 mx = max(abs(([bs(1) bs(2) bs(3)])));
 if mx > 1
