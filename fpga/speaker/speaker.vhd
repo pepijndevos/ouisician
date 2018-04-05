@@ -19,7 +19,9 @@ entity speaker is
 		 AUD_DACLRCK : in std_logic;
 		 AUD_XCK     : out std_logic;
 		 FPGA_I2C_SCLK: out std_logic;
-		 FPGA_I2C_SDAT: inout std_logic
+		 FPGA_I2C_SDAT: inout std_logic;
+		 potic       : out std_logic_vector(7 downto 0);
+		 pot_clk     : out std_logic
 	   );
 end speaker;
 
@@ -30,7 +32,8 @@ architecture Behavioral of speaker is
 			refclk   : in  std_logic := 'X'; -- clk
 			rst      : in  std_logic := 'X'; -- reset
 			outclk_0 : out std_logic;        -- clk
-			outclk_1 : out std_logic         -- clk
+			outclk_1 : out std_logic;         -- clk
+			locked   : out std_logic
 		);
 	end component pll;
 	
@@ -56,7 +59,6 @@ architecture Behavioral of speaker is
   signal bitclk : std_logic;
   signal adcclk : std_logic;
 begin
-rst <= KEY(0);
 GPIO_BCLK <= bitclk;
 
 process(sndclk)
@@ -114,7 +116,19 @@ end process;
 		sndclk => sndclk3,
       data => GPIO_ADCDAT2,
       word => win4);
-
+		
+  normalization_inst : entity work.normalization(bhv)
+	port map (
+		clk50mhz => adcclk,
+		pot_clk => pot_clk,
+		reset => rst,
+		KEY => KEY,
+		ic => potic,
+		amplification1 => 100,
+		amplification2 => 100,
+		amplification3 => 100,
+		amplification4 => 100);  
+  
 	audio_inst : entity work.audio_interface(Behavorial)
 		port map (
 			LDATA => std_logic_vector(wout1),
@@ -138,9 +152,10 @@ end process;
 	pll_inst: pll
 		port map (
 			refclk => CLOCK_50,
-			rst => not rst,
+			rst => '0',
 			outclk_0 => bitclk,  -- 1.536 MHz
-			outclk_1 => adcclk); -- 49.152 MHz
+			outclk_1 => adcclk, -- 49.152 MHz
+			locked => rst);
 			
 
 end Behavioral;

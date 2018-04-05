@@ -3,7 +3,8 @@ USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
 
 ENTITY normalization IS
-	PORT (clk, reset : IN std_logic; 
+	PORT (clk50mhz, reset : IN std_logic; 
+			pot_clk : out std_logic;
 			KEY : IN std_logic_vector(3 DOWNTO 0);
 			ic : OUT std_logic_vector(7 DOWNTO 0);
 			amplification1, amplification2, amplification3, amplification4 : in integer range 0 to 127
@@ -90,10 +91,22 @@ ARCHITECTURE bhv OF normalization IS
 	SIGNAL reset_amp : integer range 0 to 127 := 64; 
 	SIGNAL max_amp : integer range 0 to 127 := 127;
 	SIGNAL cur_amp, old_des_amp, test : int_array;
+	SIGNAL clk : std_logic;
 
-	
 	BEGIN
-		
+
+	pot_clk <= clk;
+	process(clk50mhz, reset)
+		variable counter : unsigned(20 downto 0);
+	begin
+		if reset = '0' then
+			counter := to_unsigned(0, counter'length);
+		elsif rising_edge(clk50mhz) then
+			counter := counter + 1;
+			clk <= counter(counter'high);
+		end if;
+	end process;
+	
 	PROCESS(clk, reset, KEY)
 		VARIABLE temp_data : std_logic_vector(1 DOWNTO 0);
 		VARIABLE des_amp,new_des_amp : int_array;
