@@ -40,7 +40,13 @@ architecture Behavioral of speaker is
   signal win1 : signed(15 downto 0);
   signal win2 : signed(15 downto 0);
   signal win3 : signed(15 downto 0);
-  signal wout : signed(31 downto 0);
+  
+  signal winter1 : signed(15 downto 0);
+  signal winter2 : signed(15 downto 0);
+  
+  signal wout1 : signed(15 downto 0);
+  signal wout2 : signed(15 downto 0);
+
   
   signal sndclk : std_logic;
   signal bitclk : std_logic;
@@ -71,6 +77,17 @@ begin
 	end if;
 end process;
 
+  crossover_inst: entity work.Crossover(behaviour)
+	port map (
+      main_CLK => adcclk,
+      Reset => rst,
+      new_val => sndclk,
+      data_in => winter1,
+      data_outlow => wout1,
+		data_outhigh => wout2
+		);
+		
+		
   i2s_inst: entity work.i2s(behavioral)
     port map (rst => rst,
       bclk => bitclk,
@@ -79,8 +96,8 @@ end process;
       dout => GPIO_DOUT,
       win1 => x"5555",
       win2 => x"8001",
-      wout1 => wout(31 downto 16),
-      wout2 => wout(15 downto 0));
+      wout1 => winter1,
+      wout2 => winter2);
 		
 --  adc_inst: entity work.adc(behavioral)
 --    port map (rst => rst,
@@ -92,8 +109,8 @@ end process;
 
 	audio_inst : entity work.audio_interface(Behavorial)
 		port map (
-			LDATA => std_logic_vector(wout(31 downto 16)),
-			RDATA => std_logic_vector(wout(15 downto 0)),
+			LDATA => std_logic_vector(wout1),
+			RDATA => std_logic_vector(wout2),
 			clk => adcclk,
 			Reset	=> rst,
 			INIT_FINISH	=> open,
@@ -102,7 +119,7 @@ end process;
 			AUD_ADCLRCK => AUD_ADCLRCK,
 			AUD_ADCDAT => AUD_ADCDAT,
 			AUD_BCLK => AUD_BCLK,
-			data_over => open,
+			data_over => sndclk,
 			AUD_DACDAT => AUD_DACDAT,
 			AUD_DACLRCK => AUD_DACLRCK,
 			I2C_SDAT => FPGA_I2C_SDAT,

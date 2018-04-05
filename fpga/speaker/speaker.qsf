@@ -903,17 +903,6 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name ENABLE_LOGIC_ANALYZER_INTERFACE OFF
-set_global_assignment -name VHDL_FILE audio_interface.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/types.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/fir.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/polyphase.vhd
-set_global_assignment -name VHDL_FILE ../adcbench/adc.vhd
-set_global_assignment -name SDC_FILE DE1_SoC.sdc
-set_global_assignment -name VHDL_FILE ../i2sbench/i2s.vhd
-set_global_assignment -name VHDL_FILE speaker.vhd
-set_global_assignment -name QIP_FILE pll.qip
-set_global_assignment -name SIP_FILE pll.sip
-set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to GPIO_BCLK -section_id auto_signaltap_0
@@ -1042,5 +1031,19 @@ set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=16384" -section_id auto_signaltap_0
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/Crossover.vhd
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/Cascade_Biquad.vhd
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/IIRDF1.vhd
+set_global_assignment -name VHDL_FILE audio_interface.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/types.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/fir.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/polyphase.vhd
+set_global_assignment -name VHDL_FILE ../adcbench/adc.vhd
+set_global_assignment -name SDC_FILE DE1_SoC.sdc
+set_global_assignment -name VHDL_FILE ../i2sbench/i2s.vhd
+set_global_assignment -name VHDL_FILE speaker.vhd
+set_global_assignment -name QIP_FILE pll.qip
+set_global_assignment -name SIP_FILE pll.sip
+set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name SLD_FILE db/stp2_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
