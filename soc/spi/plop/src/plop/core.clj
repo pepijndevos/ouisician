@@ -19,11 +19,11 @@
     (on-close channel (fn [status]
                         (println "channel closed")))
     (on-receive channel (fn [data]
-                          (let [{numid "numid", id "id", val "val", chan "chan"} (json/read-str data)
+                          (let [{numid "numid", id "id", val "val", chan "chan", platform "platform"} (json/read-str data)
                                 ;inst (get @channels chan)
                                 param (keyword id)]
 							(if (and (== 0 (compare id "streaming")) (== 1 numid))
-								(startstream))
+								(startstream platform))
 							(if (and (== 0 (compare id "streaming")) (== 0 numid))
 								(stopstream))
               (if (and (== 0 (compare id "recording")) (== 1 numid))

@@ -2,20 +2,30 @@
   (:import 	[java.io IOException]
 			[java.lang Process]
   			[java.lang ProcessBuilder]))
-			
-(def platform "live.twitch.tv/app/")
-(def streamkey "live_205865829_ICeYXGi2sw5IntQ2uQZavJ9MqWjxDo")		
+
+(def platform-twitch "live.twitch.tv/app/")
+(def platform-youtube "a.rtmp.youtube.com/live2/")
+(def streamkey-twitch "live_205865829_ICeYXGi2sw5IntQ2uQZavJ9MqWjxDo")	
+(def streamkey-youtube "17mp-vm1y-kpzd-2998")			
 (def bitrate "96k")
-(def string-stream (str "ffmpeg -f concat -i list.txt -f alsa -i pulse -map 0:v -map 1:a -c:v copy -b:a" bitrate "-ar 44100 -c:a aac -f flv rtmp://" platform streamkey))
+(def string-stream-twitch (str "ffmpeg -f concat -i list.txt -f alsa -i pulse -map 0:v -map 1:a -c:v copy -b:a" bitrate "-ar 44100 -c:a aac -f flv rtmp://" platform-twitch streamkey-twitch))
+(def string-stream-youtube (str "ffmpeg -f concat -i list.txt -f alsa -i pulse -map 0:v -map 1:a -c:v copy -b:a" bitrate "-ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
 
 (def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse oui.wav"))
 
-(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
+
 (def pb-record (ProcessBuilder. (list "/bin/bash" "-c" string-record)))
 
-(defn startstream []
+(defn startstream [platform]
+	(if (== 1 platform)
+		(do
+			(println "Starting twitch stream")
+			(def string-stream string-stream-twitch)))
+	(if (== 2 platform)
+		(def string-stream string-stream-youtube))
+	(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
 	(def process-stream (.start pb-stream))
-	(println "Starting stream"))
+	)
 	
 (defn stopstream []
 	(.destroy process-stream)
