@@ -36,7 +36,7 @@ input[type="range"] {
     </nav>
 </div>
 
-<div class="col-5">
+<div class="col-6">
     <nav aria-label="breadcrumb">
 	<ol class="breadcrumb list-inline">
 
@@ -48,7 +48,13 @@ input[type="range"] {
 			  		</label>
 				  </div>
 				  <div class="form-group">
-				    <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Stream Key">
+				  	<select class="bootstrap-select" id="streamplatform">
+					  <option value="1" selected="selected">Twitch</option>
+					  <option value="2">Youtube</option>
+					</select>
+				  </div>&nbsp; &nbsp;
+				  <div class="form-group">
+				    <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Custom stream key">
 				  </div>
 				  
 			</form>
@@ -118,8 +124,14 @@ input[type="range"] {
 
   
 </div>
+
+
 	<br/>
-  <center><div id="twitch-embed"></div></center>
+  <center>
+ 	<a href="https://www.youtube.com/channel/UCK9vN6Gp65tO3piXyQQV_Tw">Youtube channel</a><br/><br/>
+  <div id="twitch-embed"></div></center>
+
+
 
     </div> 
 	
