@@ -36,7 +36,7 @@
 	(println "Stopping stream"))
 
 (defn startrecording []
-	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse oui_" (now) ".wav"))
+	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse recordings/oui_" (now) ".wav"))
 	(def pb-record (ProcessBuilder. (list "/bin/bash" "-c" string-record)))
 	(def process-record (.start pb-record))
 	(println "Starting recording"))

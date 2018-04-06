@@ -22,8 +22,7 @@
 			
 (setSPIsettings :mode 1)
 
-(defn SPItransfer [chan numid val]
-	(let [packet (byte-array [chan numid (byte 0x00) (byte 0x00) (byte 0x00) val])]
+(defn SPItransfer [packet]
 		(println "TX" (seq packet))
 		(def rx (.write spi packet))
-		(println "RX" (seq rx))))
+		(println "RX" (seq rx)))

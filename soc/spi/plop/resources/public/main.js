@@ -1,6 +1,14 @@
 
 var sock = new WebSocket("ws://" + location.host + "/ws");
 
+sock.onmessage = function(e) {
+  var pre = document.createElement("p");
+  pre.style.wordWrap = "break-word";
+  pre.innerHTML = "test";
+  output.appendChild(pre);
+  console.log("test");
+}
+
 $('input.form-check-input').change(function() {
   var checked;
   if (this.checked) {

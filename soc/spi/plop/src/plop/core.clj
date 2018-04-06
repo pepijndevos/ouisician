@@ -2,7 +2,7 @@
 	(:use 
 		;[plop.sound :only [osc-start channels]]
 		[plop.streaming]
-		[plop.spi]
+		[plop.spi-handler]
         ;[overtone.core :only [ctl]]
         [compojure.route :only [files resources not-found]]
         [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
@@ -31,7 +31,8 @@
               (if (and (== 0 (compare id "recording")) (== 0 numid))
                 (stoprecording))
 							(if (>= chan 1) ;only send sound controls to FPGA
-								(SPItransfer chan numid val))
+                (SPIhandler chan numid val))
+								;(SPItransfer chan numid val))
 								;(ctl inst param val)
 								;(prn inst param val)
 								)))))
