@@ -13,7 +13,7 @@ def send_data(input):
     # tx_msb=input>>8
     # tx_lsb=input & 0xff
     # spi.xfer([tx_msb,tx_lsb])
-    spi.xfer([2,2])
+    spi.xfer([0x0000,0x0002])
     # print(input)
 
 # freq_word=int(round(float(freq_out*Two28)/25000000))
