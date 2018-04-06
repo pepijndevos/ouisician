@@ -61,7 +61,9 @@ MSB |= 0x4000
 phase |= 0xC000
 #0x2100 - Control Register
 # send_data(0x2100)
-spi.xfer([0x2100>>8,0x2100 & 0xff])
+while True:
+    spi.xfer([0x2100>>8,0x2100 & 0xff])
+
 #sending LSB and MSB
 # send_data(LSB)
 # send_data(MSB)
