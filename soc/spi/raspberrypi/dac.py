@@ -36,11 +36,11 @@ Two28 = 268435456 #this value equal to the 2^28
 phase =0
 
 #this method is responsible for sending data through SPI bus
-def send_data(input):
-tx_msb=input>>8
-tx_lsb=input & 0xFF
-spi.xfer([tx_msb,tx_lsb])
-print(input)
+# def send_data(input):
+# # tx_msb=input
+# # tx_lsb=input & 0xFF
+# spi.xfer([input>>8,input & 0xff])
+# print(input)
 
 #calculation for the frequency
 freq_word=int(round(float(freq_out*Two28)/25000000))
@@ -60,11 +60,12 @@ MSB |= 0x4000
 #The remaining 12 bits are the data bits and are all 0s in this case
 phase |= 0xC000
 #0x2100 - Control Register
-send_data(0x2100)
+# send_data(0x2100)
+spi.xfer([0x2100>>8,0x2100 & 0xff])
 #sending LSB and MSB
-send_data(LSB)
-send_data(MSB)
-#sending phase
-send_data(phase)
-#0x2000 - Exit Reset
-send_data(0x2000)
+# send_data(LSB)
+# send_data(MSB)
+# #sending phase
+# send_data(phase)
+# #0x2000 - Exit Reset
+# send_data(0x2000)
