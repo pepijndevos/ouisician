@@ -160,19 +160,29 @@ set_location_assignment PIN_K12 -to FPGA_I2C_SDAT
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_I2C_SCLK -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_I2C_SDAT -entity DE1_SoC
 
-set_location_assignment PIN_AC18 -to GPIO_DIN -comment "GPIO_0[0]"
-set_location_assignment PIN_Y17 -to GPIO_LRCK -comment "GPIO_0[1]"
-set_location_assignment PIN_AD17 -to GPIO_BCLK -comment "GPIO_0[2]"
-set_location_assignment PIN_Y18 -to GPIO_DOUT -comment "GPIO_0[3]"
+set_location_assignment PIN_AC18 -to GPIO_DIN -comment GPIO_0[0]
+set_location_assignment PIN_Y17 -to GPIO_LRCK -comment GPIO_0[1]
+set_location_assignment PIN_AD17 -to GPIO_BCLK -comment GPIO_0[2]
+set_location_assignment PIN_Y18 -to GPIO_DOUT -comment GPIO_0[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_DIN -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_LRCK -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_BCLK -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_DOUT -entity DE1_SoC
 
-set_location_assignment PIN_AK16 -to GPIO_ADCDAT1 -comment "GPIO_0[4]"
-set_location_assignment PIN_AK18 -to GPIO_ADCDAT2 -comment "GPIO_0[5]"
+set_location_assignment PIN_AK16 -to GPIO_ADCDAT1 -comment GPIO_0[4]
+set_location_assignment PIN_AK18 -to GPIO_ADCDAT2 -comment GPIO_0[5]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_ADCDAT1 -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_ADCDAT2 -entity DE1_SoC
+
+set_location_assignment PIN_AH17 -to potic[7]
+set_location_assignment PIN_AE16 -to potic[6]
+set_location_assignment PIN_AG17 -to potic[5]
+set_location_assignment PIN_AA19 -to potic[4]
+set_location_assignment PIN_AC20 -to potic[3]
+set_location_assignment PIN_AJ20 -to potic[2]
+set_location_assignment PIN_AK21 -to potic[1]
+set_location_assignment PIN_AD20 -to potic[0]
+set_location_assignment PIN_AH18 -to pot_clk
 
 #set_location_assignment PIN_AC18 -to GPIO_0[0]
 #set_location_assignment PIN_Y17 -to GPIO_0[1]
@@ -184,22 +194,22 @@ set_location_assignment PIN_AK19 -to GPIO_0[6]
 set_location_assignment PIN_AJ19 -to GPIO_0[7]
 set_location_assignment PIN_AJ17 -to GPIO_0[8]
 set_location_assignment PIN_AJ16 -to GPIO_0[9]
-set_location_assignment PIN_AH18 -to GPIO_0[10]
-set_location_assignment PIN_AH17 -to GPIO_0[11]
+#set_location_assignment PIN_AH18 -to GPIO_0[10]
+#set_location_assignment PIN_AH17 -to GPIO_0[11]
 set_location_assignment PIN_AG16 -to GPIO_0[12]
-set_location_assignment PIN_AE16 -to GPIO_0[13]
+#set_location_assignment PIN_AE16 -to GPIO_0[13]
 set_location_assignment PIN_AF16 -to GPIO_0[14]
-set_location_assignment PIN_AG17 -to GPIO_0[15]
+#set_location_assignment PIN_AG17 -to GPIO_0[15]
 set_location_assignment PIN_AA18 -to GPIO_0[16]
-set_location_assignment PIN_AA19 -to GPIO_0[17]
+#set_location_assignment PIN_AA19 -to GPIO_0[17]
 set_location_assignment PIN_AE17 -to GPIO_0[18]
-set_location_assignment PIN_AC20 -to GPIO_0[19]
+#set_location_assignment PIN_AC20 -to GPIO_0[19]
 set_location_assignment PIN_AH19 -to GPIO_0[20]
-set_location_assignment PIN_AJ20 -to GPIO_0[21]
+#set_location_assignment PIN_AJ20 -to GPIO_0[21]
 set_location_assignment PIN_AH20 -to GPIO_0[22]
-set_location_assignment PIN_AK21 -to GPIO_0[23]
+#set_location_assignment PIN_AK21 -to GPIO_0[23]
 set_location_assignment PIN_AD19 -to GPIO_0[24]
-set_location_assignment PIN_AD20 -to GPIO_0[25]
+#set_location_assignment PIN_AD20 -to GPIO_0[25]
 set_location_assignment PIN_AE18 -to GPIO_0[26]
 set_location_assignment PIN_AE19 -to GPIO_0[27]
 set_location_assignment PIN_AF20 -to GPIO_0[28]
@@ -1026,22 +1036,6 @@ set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
-set_global_assignment -name VHDL_FILE ../decimationbench/iir.vhd
-set_global_assignment -name VHDL_FILE ../Filter/Crossover/Crossover.vhd
-set_global_assignment -name VHDL_FILE ../Filter/Crossover/Cascade_Biquad.vhd
-set_global_assignment -name VHDL_FILE ../Filter/Crossover/IIRDF1.vhd
-set_global_assignment -name VHDL_FILE audio_interface.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/types.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/fir.vhd
-set_global_assignment -name VHDL_FILE ../decimationbench/polyphase.vhd
-set_global_assignment -name VHDL_FILE ../adcbench/adc.vhd
-set_global_assignment -name SDC_FILE DE1_SoC.sdc
-set_global_assignment -name VHDL_FILE ../i2sbench/i2s.vhd
-set_global_assignment -name VHDL_FILE speaker.vhd
-set_global_assignment -name QIP_FILE pll.qip
-set_global_assignment -name SIP_FILE pll.sip
-set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
-set_global_assignment -name VHDL_FILE mixer.vhd
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "adc:adc_inst1|clk" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "adc:adc_inst1|sndclk" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "adc:adc_inst1|sndclk" -section_id auto_signaltap_0
@@ -1080,5 +1074,24 @@ set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -t
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "adc:adc_inst1|word[8]" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "adc:adc_inst1|word[9]" -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_global_assignment -name SLD_FILE db/stp2_auto_stripped.stp
+set_global_assignment -name VHDL_FILE Normalization.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/iir.vhd
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/Crossover.vhd
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/Cascade_Biquad.vhd
+set_global_assignment -name VHDL_FILE ../Filter/Crossover/IIRDF1.vhd
+set_global_assignment -name VHDL_FILE audio_interface.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/types.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/fir.vhd
+set_global_assignment -name VHDL_FILE ../decimationbench/polyphase.vhd
+set_global_assignment -name VHDL_FILE ../adcbench/adc.vhd
+set_global_assignment -name SDC_FILE DE1_SoC.sdc
+set_global_assignment -name VHDL_FILE ../i2sbench/i2s.vhd
+set_global_assignment -name VHDL_FILE speaker.vhd
+set_global_assignment -name QIP_FILE pll.qip
+set_global_assignment -name SIP_FILE pll.sip
+set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
+set_global_assignment -name VHDL_FILE mixer.vhd
+
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SLD_FILE db/stp2_auto_stripped.stp

@@ -6,7 +6,7 @@ ENTITY normalization IS
 	PORT (clk, reset : IN std_logic; 
 			KEY : IN std_logic_vector(3 DOWNTO 0);
 			ic : OUT std_logic_vector(7 DOWNTO 0);
-			led : OUT std_logic_vector(1 DOWNTO 0)
+			amplification1, amplification2, amplification3, amplification4 : in integer range 0 to 127
 			);
 END ENTITY normalization;
 
@@ -85,13 +85,11 @@ ARCHITECTURE bhv OF normalization IS
 		RETURN data;
 	END comp;			
 		
-	SIGNAL counter0_0, counter0_1, counter : integer range 0 to 256;
+	SIGNAL counter0_0, counter0_1 : integer range 0 to 256;
 	SIGNAL start_up, reset_resistance_processing : std_logic := '0';
 	SIGNAL reset_amp : integer range 0 to 127 := 64; 
 	SIGNAL max_amp : integer range 0 to 127 := 127;
 	SIGNAL cur_amp, old_des_amp, test : int_array;
-	SIGNAL clk_slow : std_logic;
-	SIGNAL amplification1, amplification2, amplification3, amplification4 : integer range 0 to 127 :=100;
 
 	
 	BEGIN
@@ -105,20 +103,9 @@ ARCHITECTURE bhv OF normalization IS
 			counter0_0 <= 0;
 			counter0_1 <= 0;
 			start_up <= '0';
-			led <= "11";
-			clk_slow <= '0';
 			ic <= pot_control('0', '0', 0, 0, 0, 0);
 		
 		ELSIF falling_edge(clk) THEN
-			IF counter <= 10 THEN
-				counter <= counter + 1;
-				IF counter = 5 THEN
-					led(1) <= '0';
-					counter <= 0;
-					clk_slow <= NOT clk_slow;
-					led(0) <= clk_slow;
-				END IF;
-			END IF;
 			
 			IF start_up = '0' THEN 
 				start_up <= '1';

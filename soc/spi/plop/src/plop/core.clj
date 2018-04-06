@@ -19,15 +19,17 @@
     (on-close channel (fn [status]
                         (println "channel closed")))
     (on-receive channel (fn [data]
-                          (let [{numid "numid", id "id", val "val", chan "chan"} (json/read-str data)
+                          (let [{numid "numid", id "id", val "val", chan "chan", platform "platform"} (json/read-str data)
                                 ;inst (get @channels chan)
                                 param (keyword id)]
-							(if (and (== 0 (compare id "streaming")) (== 1 val))
-								(startstream))
-							(if (and (== 0 (compare id "streaming")) (== 0 val))
+							(if (and (== 0 (compare id "streaming")) (== 1 numid))
+								(startstream platform))
+							(if (and (== 0 (compare id "streaming")) (== 0 numid))
 								(stopstream))
-							(if (== 0 (compare id "streamkeybutt"))
-								(println "streamkey button pressed" val))
+              (if (and (== 0 (compare id "recording")) (== 1 numid))
+                (startrecording))
+              (if (and (== 0 (compare id "recording")) (== 0 numid))
+                (stoprecording))
 							(if (>= chan 1) ;only send sound controls to FPGA
 								(SPItransfer chan numid val))
 								;(ctl inst param val)
