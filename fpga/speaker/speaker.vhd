@@ -58,9 +58,11 @@ architecture Behavioral of speaker is
 
   signal bitclk : std_logic;
   signal adcclk : std_logic;
+  
+  signal Trem_out : signed(15 downto 0);
 begin
 GPIO_BCLK <= bitclk;
-
+ 
 process(sndclk)
 begin
 	if rising_edge(sndclk) then
@@ -69,6 +71,15 @@ begin
 		LEDR <= std_logic_vector(mixed(15 downto 6));
 	end if;
 end process;
+--	Tremolo_inst : entity work.Tremolo_FX(behaviour)
+--	port map(
+--		data_in => mixed,
+--		data_out => Trem_out,
+--		CLK_50 => adcclk,
+--		newValue => sndclk,
+--		Trem_EN => Trem_EN,
+--		reset => rst
+--	);
 
   crossover_inst: entity work.Crossover(behaviour)
 	port map (
@@ -85,8 +96,8 @@ end process;
       clk => sndclk,
       word1 => win1,
       word2 => win2,
-      word3 => win3,
-      word4 => win4,
+      word3 => x"0000",
+      word4 => x"0000",
       word5 => signed(win56(31 downto 16)),
       word6 => signed(win56(15 downto 0)),
       resp => mixed);
@@ -98,8 +109,8 @@ end process;
       rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
-      win1 => x"5555",
-      win2 => x"8001",
+      win1 => mixed,
+      win2 => mixed,
       wout1 => win1,
       wout2 => win2);
 		
