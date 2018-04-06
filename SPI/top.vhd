@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity top is
 GENERIC(
-    d_width : INTEGER := 24
+    d_width : INTEGER := 48
     ); --data bus width
 PORT(
 	clk	: IN std_logic; --50Mhz clock	
@@ -63,6 +63,17 @@ architecture logic of top is
     );
   end component;
 
+  component filter_ctrl
+	port (
+	clk	: IN std_logic; --50Mhz clock	
+	reset_n	: IN STD_LOGIC; --button
+	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
+	
+	SIGNAL filter_ctrl_cha1  :  std_logic_vector(d_width-9 downto 0);
+	SIGNAL filter_ctrl_cha2  :  std_logic_vector(d_width-9 downto 0);
+	SIGNAL filter_ctrl_cha3  :  std_logic_vector(d_width-9 downto 0);
+	SIGNAL filter_ctrl_cha4  :  std_logic_vector(d_width-9 downto 0);
+	);
     begin
 
   ui : spi_slave_ui port map (
@@ -77,6 +88,20 @@ architecture logic of top is
 	filter_ctrl_cha2=>filter_ctrl_cha2,
 	filter_ctrl_cha3=>filter_ctrl_cha3,
 	filter_ctrl_cha4=>filter_ctrl_cha4,
-	receiveddata=>receiveddata
+  );
+  
+  filter : filter_ctrl port map (
+    reset_n => reset_n,
+    clk => clk,
+	dig0=>dig0,
+	dig1=>dig1,
+	dig2=>dig2 ,
+	dig3=>dig3 ,
+	dig4=>dig4 ,
+	dig5=>dig5, 
+	filter_ctrl_cha1=>filter_ctrl_cha1,
+	filter_ctrl_cha2=>filter_ctrl_cha2,
+	filter_ctrl_cha3=>filter_ctrl_cha3,
+	filter_ctrl_cha4=>filter_ctrl_cha4
   );
 end;
