@@ -10,8 +10,7 @@
 (def scale 12)
 
 (defn normalizeCoeff [coeff]
-	(let [norm (Math/round (* coeff (Math/pow 2 scale)))]
-	(println coeff "Normalized to" norm))
+	(Math/round (* coeff (Math/pow 2 scale)))
 	)
 
 (defn peaking [G fc Q fs]
@@ -117,11 +116,10 @@
 	(let [type "baseshelf"]
 
 	(shelving g fc fsample Q type)
-	(println A0 A1 A2 B0 B1 B2)
+	;(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
-	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
-		(normalizeCoeff coeff))
+	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
 
 	)))))
 
@@ -133,11 +131,10 @@
 	(let [Q (/ 1 (sqrt 0.1))]
 
 	(peaking g fc Q fsample)
-	(println A0 A1 A2 B0 B1 B2)
+	;(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
-	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
-		(normalizeCoeff coeff))
+	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
 
 	))))
 
@@ -150,10 +147,8 @@
 	(let [type "trebleshelf"]
 
 	(shelving g fc fsample Q type)
-	(println A0 A1 A2 B0 B1 B2)
-	;(long-array [A0 A1 A2 B0 B1 B2])
+	;(println A0 A1 A2 B0 B1 B2)
 
-	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
-		(normalizeCoeff coeff))
+	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
 
 	)))))

@@ -31,15 +31,15 @@
 	(println "-- Updating EQ coeffs --")
 	;EQUALIZER base
 	;[A0 A1 A2 B0 B1 B2]
-	(def coeffs (long-array [4096 -7965 3875 4185 -7958 3792]))
+	;(def coeffs (long-array [4096 -7965 3875 4185 -7958 3792]))
 	(if (== numid 1)
-		(base_shelve (/ val 10)))
+		(def coeffs (base_shelve (/ val 10))))
 
 	(if (== numid 2)
-		(mid_peak (/ val 10)))
+		(def coeffs (mid_peak (/ val 10))))
 
 	(if (== numid 3)
-		(treble_shelve (/ val 10)))
+		(def coeffs (treble_shelve (/ val 10))))
 	
 )
 
