@@ -56,8 +56,6 @@
 		(def V0 (/ 1 V00))
 		(def V0 V00))
 
-	(println "V0 -" V0)
-
 	;BASE BOOST
 	(if (and (> G 0) (== 0 (compare type "baseshelf")))
 		(let [denom (+ 1 (* root2 K) (pow2 K)) ]
@@ -70,11 +68,25 @@
 		(def A0 1)
 		))
 
+	;BASE CUT
+	(if (and (< G 0) (== 0 (compare type "baseshelf")))
+		(let [denom (+ 1 (* root2 K (sqrt V0)) (* V0 (pow2 K))) ]
+			(println "denom -" denom)
+		(def B0 (/ (+ 1 (* root2 K) (pow2 K)) denom))
+		(def B1 (/ (- (* 2 (pow2 K)) 2) denom))
+		(def B2 (/ (+ 1 (- (* root2 K)) (pow2 K)) denom))
+		(def A1 (/ (- (* 2 V0 (pow2 K)) 2) denom))
+		(def A2 (/ (+ 1 (* (- root2) (sqrt V0) K) (* V0 (pow2 K))) denom))
+		(def A0 1)
+		))
+
 	))))
 
 (defn base_shelve []
+
+	(println "***BASE SHELVE***")
 	(let [fc 300]
-	(let [G 10]
+	(let [G -10]
 	(let [Q (/ 1 (sqrt 2))]
 	(let [type "baseshelf"]
 
@@ -82,20 +94,23 @@
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
+	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
+		(normalizeCoeff coeff))
+
 	)))))
 
 (defn mid_peak []
+
+	(println "***MID PEAK***")
 	(let [fc 5000]
 	(let [G 10]
 	(let [Q (/ 1 (sqrt 0.1))]
-	(let [type "baseshelf"]
 
 	(peaking G fc Q fsample)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
-	(normalizeCoeff A0)
-	(normalizeCoeff A1)
-	(normalizeCoeff A2)
+	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
+		(normalizeCoeff coeff))
 
-	)))))
+	))))
