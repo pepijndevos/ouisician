@@ -34,6 +34,7 @@
 	(def coeffs (long-array [4096 -7965 3875 4185 -7958 3792]))
 	(base_shelve)
 	(mid_peak)
+	(treble_shelve)
 )
 
 (defn sendEQpayload [chan numid n]

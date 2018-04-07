@@ -80,6 +80,32 @@
 		(def A0 1)
 		))
 
+	;TREBLE BOOST
+	(if (and (> G 0) (== 0 (compare type "trebleshelf")))
+		(let [denom (+ 1 (* root2 K) (pow2 K)) ]
+			(println "denom -" denom)
+		(def B0 (/ (+ V0 (* root2 K (sqrt V0)) (pow2 K)) denom))
+		(def B1 (/ (- (* 2 (pow2 K)) (* 2 V0)) denom))
+		(def B2 (/ (+ V0 (* (- root2) (sqrt V0) K) (pow2 K)) denom))
+		(def A1 (/ (- (* 2 (pow2 K)) 2) denom))
+		(def A2 (/ (+ 1 (- (* root2 K)) (pow2 K)) denom))
+		(def A0 1)
+		))
+
+	;TREBLE CUT
+	(if (and (< G 0) (== 0 (compare type "trebleshelf")))
+		(let [denom1 (+ V0 (* root2 (sqrt V0) K) (pow2 K)) ]
+			(println "denom1 -" denom1)
+		(let [denom2 (+ 1 (* (/ root2 (sqrt V0)) K) (/(pow2 K) V0)) ]
+			(println "denom2 -" denom2)
+		(def B0 (/ (+ 1 (* root2 K) (pow2 K)) denom1))
+		(def B1 (/ (- (* 2 (pow2 K)) 2) denom1))
+		(def B2 (/ (+ 1 (- (* root2 K)) (pow2 K)) denom1))
+		(def A1 (/ (- (* 2 (/ (pow2 K) V0)) 2) denom2))
+		(def A2 (/ (+ 1 (* (/ (- root2) (sqrt V0)) K) (/ (pow2 K) V0)) denom2))
+		(def A0 1)
+		)))
+
 	))))
 
 (defn base_shelve []
@@ -114,3 +140,20 @@
 		(normalizeCoeff coeff))
 
 	))))
+
+(defn treble_shelve []
+
+	(println "***TREBLE SHELVE***")
+	(let [fc 10000]
+	(let [G -10]
+	(let [Q (/ 1 (sqrt 1.3))]
+	(let [type "trebleshelf"]
+
+	(shelving G fc fsample Q type)
+	(println A0 A1 A2 B0 B1 B2)
+	;(long-array [A0 A1 A2 B0 B1 B2])
+
+	(doseq [coeff [A0 A1 A2 B0 B1 B2]]
+		(normalizeCoeff coeff))
+
+	)))))
