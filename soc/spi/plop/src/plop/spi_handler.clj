@@ -11,6 +11,17 @@
 	"create byte array from number"
 	(byte-array [(getByte 3 long) (getByte 2 long) long]))
 
+(defn combineByteArrays 
+	([chan filterid data]
+	(let [byte-arrays [(byte-array [chan filterid]) data]]
+		(def packet (byte-array (for [ar byte-arrays j ar] j))))
+	)
+	([chan filterid coeffid data]
+	(let [byte-arrays [(byte-array [chan filterid coeffid]) data]]
+		(def packet (byte-array (for [ar byte-arrays j ar] j))))
+	)
+	)
+
 ;NUMID
 ; 1 - EQUALIZER base
 ; 2 - EQUALIZER mid
@@ -26,8 +37,7 @@
 (defn sendEQpayload [chan numid n]
 		(println "Coeff" n ":" (get coeffs n))
 		(def filterdata (getByteArray (get coeffs n)))
-		(def byte-arrays [(byte-array [0 numid n]) filterdata])
-		(def packet (byte-array (for [ar byte-arrays j ar] j)))
+		(combineByteArrays chan numid n filterdata)
 		(SPItransfer packet))
 
 (defn createEQpayload [chan numid val]
