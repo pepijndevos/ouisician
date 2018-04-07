@@ -7,12 +7,16 @@
 (defn sqrt [k] (Math/sqrt k))
 
 (def fsample 48000)
+(def scale 12)
+
+(defn normalizeCoeff [coeff]
+	(let [norm (Math/round (* coeff (Math/pow 2 scale)))]
+	(println coeff "Normalized to" norm))
+	)
 
 (defn peaking [G fc Q fs]
 	(let [K (Math/tan (/ (* pi fc) fs))]
-		(println "K -" K)
 	(let [V00 (Math/pow 10 (/ G 20))]
-		(println "V00 -" V00)
 
 	(if (< V00 1)
 		(def V0 (/ 1 V00))
@@ -45,11 +49,8 @@
 (defn shelving [G fc fs Q type]
 
 	(let [K (Math/tan (/ (* pi fc) fs))]
-		(println "K -" K)
 	(let [V00 (Math/pow 10 (/ G 20))]
-		(println "V00 -" V00)
 	(let [root2 (/ 1 Q)]
-		(println "root2 -" root2)
 
 	(if (< V00 1)
 		(def V0 (/ 1 V00))
@@ -92,5 +93,9 @@
 	(peaking G fc Q fsample)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
+
+	(normalizeCoeff A0)
+	(normalizeCoeff A1)
+	(normalizeCoeff A2)
 
 	)))))
