@@ -22,49 +22,67 @@ input[type="range"] {
       <h1>Ouisician</h1>
 	  
 <div class="row">
-
-<div class="col-3">
-    <nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		  <div class="form-check">
-			  <input class="form-check-input" type="checkbox" id="recording">
-			  <label class="form-check-label" for="recording">
-				Enable recording
-			  </label>
-		</div>
-		</ol>
-    </nav>
+<div class="col-12">
+  <ol class="breadcrumb">
+    <div class="col-3">
+    		  <div class="form-check">
+    			  <input class="form-check-input" type="checkbox" id="recording">
+    			  <label class="form-check-label" for="recording">
+    				Enable recording
+    			  </label>
+    		</div>
+    </div>
+    <div class="col-6">
+      <form class="form-inline">
+        <div class="form-group">
+          <input class="form-check-input" type="checkbox" id="streaming">
+            <label class="form-check-label" for="streaming">
+            Enable streaming &nbsp; &nbsp;
+            </label>
+          </div>
+          <div class="form-group">
+            <select class="bootstrap-select" id="streamplatform">
+            <option value="1" selected="selected">Twitch</option>
+            <option value="2">Youtube</option>
+          </select>
+          </div>&nbsp; &nbsp;
+          <div class="form-group">
+            <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Custom stream key">
+          </div>
+      </form>
 </div>
+  </ol>
 
-<div class="col-6">
-    <nav aria-label="breadcrumb">
-	<ol class="breadcrumb list-inline">
 
-			<form class="form-inline">
-				<div class="form-group">
-					<input class="form-check-input" type="checkbox" id="streaming">
-			  		<label class="form-check-label" for="streaming">
-						Enable streaming &nbsp; &nbsp;
-			  		</label>
-				  </div>
-				  <div class="form-group">
-				  	<select class="bootstrap-select" id="streamplatform">
-					  <option value="1" selected="selected">Twitch</option>
-					  <option value="2">Youtube</option>
-					</select>
-				  </div>&nbsp; &nbsp;
-				  <div class="form-group">
-				    <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Custom stream key">
-				  </div>
-				  
-			</form>
-		</ol>
-    </nav>
-</div>
 
-</div>
+</div></div>
 
-<div class="card">
+<div class="row">
+  <div class="col-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Equaliser</h5>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="vol">Bass</label><input type="range" min="-100" max="100" value="0" class="slider" id="eq-bass" data-channel="1" data-id="1">
+            </div>
+          </div>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="vol">Mid</label><input type="range" min="-100" max="100" value="0" class="slider" id="eq-mid" data-channel="1" data-id="2">
+            </div>
+          </div>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="vol">Treble</label><input type="range" min="-100" max="100" value="0" class="slider" id="eq-treble" data-channel="1" data-id="3">
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-9">
+    <div class="card">
   <div class="card-body">
     <h5 class="card-title">Channel 1</h5>
       <div class="card-text row">
@@ -120,6 +138,10 @@ input[type="range"] {
         </div>
       </div>
   </div>
+  </div>
+</div>
+
+
   
 
   

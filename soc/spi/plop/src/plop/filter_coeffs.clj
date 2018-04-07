@@ -108,7 +108,7 @@
 
 	))))
 
-(defn base_shelve []
+(defn base_shelve [g]
 
 	(println "***BASE SHELVE***")
 	(let [fc 300]
@@ -116,7 +116,7 @@
 	(let [Q (/ 1 (sqrt 2))]
 	(let [type "baseshelf"]
 
-	(shelving G fc fsample Q type)
+	(shelving g fc fsample Q type)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
@@ -125,14 +125,14 @@
 
 	)))))
 
-(defn mid_peak []
+(defn mid_peak [g]
 
 	(println "***MID PEAK***")
 	(let [fc 5000]
 	(let [G 10]
 	(let [Q (/ 1 (sqrt 0.1))]
 
-	(peaking G fc Q fsample)
+	(peaking g fc Q fsample)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
@@ -141,7 +141,7 @@
 
 	))))
 
-(defn treble_shelve []
+(defn treble_shelve [g]
 
 	(println "***TREBLE SHELVE***")
 	(let [fc 10000]
@@ -149,7 +149,7 @@
 	(let [Q (/ 1 (sqrt 1.3))]
 	(let [type "trebleshelf"]
 
-	(shelving G fc fsample Q type)
+	(shelving g fc fsample Q type)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
