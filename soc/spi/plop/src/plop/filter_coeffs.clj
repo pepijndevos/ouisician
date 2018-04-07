@@ -8,6 +8,40 @@
 
 (def fsample 48000)
 
+(defn peaking [G fc Q fs]
+	(let [K (Math/tan (/ (* pi fc) fs))]
+		(println "K -" K)
+	(let [V00 (Math/pow 10 (/ G 20))]
+		(println "V00 -" V00)
+
+	(if (< V00 1)
+		(def V0 (/ 1 V00))
+		(def V0 V00))
+
+	(let [denom (+ 1 (* (/ 1 Q) K) (pow2 K))]
+
+	(if (> G 0)
+		(do
+			(def B0 (/ (+ 1 (* K (/ V0 Q)) (pow2 K)) denom))
+			(def B1 (/ (* 2 (+ (pow2 K) (- 1))) denom))
+			(def B2 (/ (+ 1 (- (* K (/ V0 Q))) (pow2 K)) denom))
+			(def A1 B1)
+			(def A2 (/ (+ 1 (- (* K (/ 1 Q))) (pow2 K)) denom))
+			(def A0 1)
+
+			))
+
+	(if (<= G 0)
+		(do
+			(def B0 (/ (+ 1 (* K (/ 1 Q)) (pow2 K)) denom))
+			(def B1 (/ (* 2 (+ (pow2 K) (- 1))) denom))
+			(def B2 (/ (+ 1 (- (* K (/ 1 Q))) (pow2 K)) denom))
+			(def A1 B1)
+			(def A2 (/ (+ 1 (- (* K (/ V0 Q))) (pow2 K)) denom))
+			(def A0 1)
+			))
+	))))
+
 (defn shelving [G fc fs Q type]
 
 	(let [K (Math/tan (/ (* pi fc) fs))]
@@ -44,6 +78,18 @@
 	(let [type "baseshelf"]
 
 	(shelving G fc fsample Q type)
+	(println A0 A1 A2 B0 B1 B2)
+	;(long-array [A0 A1 A2 B0 B1 B2])
+
+	)))))
+
+(defn mid_peak []
+	(let [fc 5000]
+	(let [G 10]
+	(let [Q (/ 1 (sqrt 0.1))]
+	(let [type "baseshelf"]
+
+	(peaking G fc Q fsample)
 	(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
