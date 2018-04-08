@@ -23,19 +23,32 @@ sock.onmessage = function(e) {
 
   if (msg.id == "recording") {
     
-    if(msg.numid == 1) { //done recording
+    if(msg.numid == 1) { //starting recording
+      $('#recording').prop('checked', true);
       $( "#record-log" ).append( '<div class="card-text row"><div class="col-12"><small>Recording to ' + msg.display + "</small></div></div>" );
     }
-    if(msg.numid == 0) { //done recording
+    else if(msg.numid == 0) { //done recording
+      $('#recording').prop('checked', false);
       $( "#record-log" ).append( '<div class="card-text row"><div class="col-12"><small>Done recording to ' + msg.display + "</small></div></div>" );
       addAudioFile(msg.display);
     }
   }
 
-
-
   if (msg.id == "wav") {
     addAudioFile(msg.display);
+  }
+
+  if (msg.id == "streaming") {
+    if(msg.numid == 1) {
+      $('#streaming').prop('checked', true);
+      $("#streamplatform").attr('disabled',true);
+      $("#streamkey").attr('disabled',true);
+    }
+    else if(msg.numid == 0) {
+      $('#streaming').prop('checked', false);
+      $("#streamplatform").attr('disabled',false);
+      $("#streamkey").attr('disabled',false);
+    }
   }
 
 }
@@ -43,11 +56,11 @@ sock.onmessage = function(e) {
 $('input.form-check-input').change(function() {
   var checked;
   if (this.checked) {
-	checked = 1; 
-	}
-	else {
-	checked = 0; 
-	}
+  checked = 1; 
+  }
+  else {
+  checked = 0; 
+  }
   sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
   console.log(this.value);
 });
