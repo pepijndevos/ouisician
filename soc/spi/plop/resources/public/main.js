@@ -10,7 +10,11 @@ sock.onmessage = function(e) {
   console.log(msg.display);
 
   if (msg.id == "recording") {
-    $( "#record-content" ).append( "<p>", msg.display, "</p>" );
+    $( "#record-info" ).append( "<p>", msg.display, "</p>" );
+  }
+
+  if (msg.id == "wav") {
+    $( "#record-filelist" ).append( "<p>", msg.display, "</p>" );
   }
 
 }

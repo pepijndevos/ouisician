@@ -10,12 +10,33 @@
         [ring.util.response :only [redirect]]
         org.httpkit.server)
 	(:require [clojure.data.json :as json])
-	(:import [com.pi4j.util Console]))
+	(:import [com.pi4j.util Console]
+            java.io.File))
 
 (defonce channels (atom #{}))
+
+(defn my-ls [d channel]
+  (println "Files in " (.getName d))
+  (doseq [f (.listFiles d)]
+    (if (.isDirectory f)
+      (print "d ")
+      (print "- "))
+    (println (.getName f))
+    (let [filepath (str d "/" (.getName f))]
+    (let [msg (json/write-str {:id "wav" :display filepath})]
+        (send! channel msg)
+      ))
+))
+
+(defn listrecordings [channel]
+  (my-ls (File. "./recordings") channel)
+  )
+
+
 			
 (defn socket-handler [req]
   (with-channel req channel
+    (listrecordings channel)
     (on-close channel (fn [status]
                         (println "channel closed")))
     (on-receive channel (fn [data]
