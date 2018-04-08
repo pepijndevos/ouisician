@@ -2,7 +2,7 @@
 	(:use 
 		;[plop.sound :only [osc-start channels]]
 		[plop.streaming]
-		;[plop.spi-handler]
+		[plop.spi-handler]
         ;[overtone.core :only [ctl]]
         [compojure.route :only [files resources not-found]]
         [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
@@ -15,7 +15,7 @@
 
 
 (defn my-ls [d channel]
-  (println "Files in " (.getName d))
+  ;(println "Files in " (.getName d))
   (doseq [f (.listFiles d)]
     (if (.isDirectory f)
       (print "d ")
@@ -33,8 +33,8 @@
 
 (defonce channels (atom #{}))
 
-(defn update-clients [id numid display]
-		(def msg (json/write-str {:id id :numid numid :display display}))
+(defn update-clients [id numid chan display]
+		(def msg (json/write-str {:id id :numid numid :chan chan :display display}))
 
 		(doseq [channel @channels]
  			(send! channel msg))
@@ -52,18 +52,17 @@
       (if (and (== 0 (compare id "recording")) (== 0 numid))
         (def display (stoprecording)))
       (if (>= chan 1) ;only send sound controls to FPGA
-      	(def display val))
-  		;(SPIhandler chan numid val))
+      	(do (def display val)
+  		(SPIhandler chan numid val)))
 
-  	(update-clients id numid display)))
+  	(update-clients id numid chan display)))
         
 
 (defn connect! [channel]
  (println "channel open")
  (swap! channels conj channel)
   (if (boolean (bound? #'msg))
- 	(send! channel msg)
- 	(println "msg not defined")))
+ 	(send! channel msg)))
 
 (defn disconnect! [channel status]
  (println "channel closed:" status)

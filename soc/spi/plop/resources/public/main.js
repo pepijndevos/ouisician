@@ -19,7 +19,13 @@ sock.onmessage = function(e) {
 
 
   console.log(msg.id);
+  console.log(msg.chan);
   console.log(msg.display);
+
+
+  if (msg.chan > 0) {
+    $('#' + msg.id).val(msg.display);
+  }
 
   if (msg.id == "recording") {
     
