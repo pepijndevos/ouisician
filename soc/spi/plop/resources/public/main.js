@@ -2,11 +2,17 @@
 var sock = new WebSocket("ws://" + location.host + "/ws");
 
 sock.onmessage = function(e) {
-  var pre = document.createElement("p");
-  pre.style.wordWrap = "break-word";
-  pre.innerHTML = "test";
-  output.appendChild(pre);
-  console.log("test");
+
+  msg = JSON.parse(e.data);
+
+
+  console.log(msg.id);
+  console.log(msg.display);
+
+  if (msg.id == "recording") {
+    $( "#record-content" ).append( "<p>", msg.display, "</p>" );
+  }
+
 }
 
 $('input.form-check-input').change(function() {

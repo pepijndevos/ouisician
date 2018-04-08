@@ -58,7 +58,7 @@
 	;BASE BOOST
 	(if (and (> G 0) (== 0 (compare type "baseshelf")))
 		(let [denom (+ 1 (* root2 K) (pow2 K)) ]
-			(println "denom -" denom)
+			;(println "denom -" denom)
 		(def B0 (/ (+ 1 (* root2 (sqrt V0) K) (* V0 (pow2 K))) denom))
 		(def B1 (/ (- (* 2 V0 (pow2 K)) 2) denom))
 		(def B2 (/ (+ 1 (* (- root2) (sqrt V0) K) (* V0 (pow2 K))) denom))
@@ -70,7 +70,7 @@
 	;BASE CUT
 	(if (and (< G 0) (== 0 (compare type "baseshelf")))
 		(let [denom (+ 1 (* root2 K (sqrt V0)) (* V0 (pow2 K))) ]
-			(println "denom -" denom)
+			;(println "denom -" denom)
 		(def B0 (/ (+ 1 (* root2 K) (pow2 K)) denom))
 		(def B1 (/ (- (* 2 (pow2 K)) 2) denom))
 		(def B2 (/ (+ 1 (- (* root2 K)) (pow2 K)) denom))
@@ -82,7 +82,7 @@
 	;TREBLE BOOST
 	(if (and (> G 0) (== 0 (compare type "trebleshelf")))
 		(let [denom (+ 1 (* root2 K) (pow2 K)) ]
-			(println "denom -" denom)
+			;(println "denom -" denom)
 		(def B0 (/ (+ V0 (* root2 K (sqrt V0)) (pow2 K)) denom))
 		(def B1 (/ (- (* 2 (pow2 K)) (* 2 V0)) denom))
 		(def B2 (/ (+ V0 (* (- root2) (sqrt V0) K) (pow2 K)) denom))
@@ -94,9 +94,9 @@
 	;TREBLE CUT
 	(if (and (< G 0) (== 0 (compare type "trebleshelf")))
 		(let [denom1 (+ V0 (* root2 (sqrt V0) K) (pow2 K)) ]
-			(println "denom1 -" denom1)
+			;(println "denom1 -" denom1)
 		(let [denom2 (+ 1 (* (/ root2 (sqrt V0)) K) (/(pow2 K) V0)) ]
-			(println "denom2 -" denom2)
+			;(println "denom2 -" denom2)
 		(def B0 (/ (+ 1 (* root2 K) (pow2 K)) denom1))
 		(def B1 (/ (- (* 2 (pow2 K)) 2) denom1))
 		(def B2 (/ (+ 1 (- (* root2 K)) (pow2 K)) denom1))
