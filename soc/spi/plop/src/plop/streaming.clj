@@ -38,7 +38,8 @@
 	
 (defn stopstream []
 	(.destroy process-stream)
-	(println "Stopping stream"))
+	(println "Stopping stream")
+	(str "Stopping live-stream"))
 
 (defn startrecording []
 	(def output-dest (str "resources/public/"))

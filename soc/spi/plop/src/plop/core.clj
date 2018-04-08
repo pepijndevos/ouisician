@@ -2,7 +2,7 @@
 	(:use 
 		;[plop.sound :only [osc-start channels]]
 		[plop.streaming]
-		[plop.spi-handler]
+		;[plop.spi-handler]
         ;[overtone.core :only [ctl]]
         [compojure.route :only [files resources not-found]]
         [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
@@ -33,31 +33,41 @@
 
 (defonce channels (atom #{}))
 
-(defn connect! [channel]
- (println "channel open")
- (swap! channels conj channel))
+(defn update-clients [id numid display]
+		(def msg (json/write-str {:id id :numid numid :display display}))
 
-(defn disconnect! [channel status]
- (println "channel closed:" status)
- (swap! channels #(remove #{channel} %)))
+		(doseq [channel @channels]
+ 			(send! channel msg))
+	)
 
-(defn notify-clients [data]
+(defn handle-msg [data]
+	(def lastdata data)
   (let [{numid "numid", id "id", val "val", chan "chan", platform "platform"} (json/read-str data)]
       (if (and (== 0 (compare id "streaming")) (== 1 numid))
         (def display (startstream platform)))
       (if (and (== 0 (compare id "streaming")) (== 0 numid))
-        (stopstream))
+        (def display (stopstream)))
       (if (and (== 0 (compare id "recording")) (== 1 numid))
         (def display (startrecording)))
       (if (and (== 0 (compare id "recording")) (== 0 numid))
         (def display (stoprecording)))
       (if (>= chan 1) ;only send sound controls to FPGA
-        (SPIhandler chan numid val))
+      	(def display val))
+  		;(SPIhandler chan numid val))
 
-      (def msg (json/write-str {:id id :numid numid :display display})))
+  	(update-clients id numid display)))
+        
 
- (doseq [channel @channels]
-     (send! channel msg)))
+(defn connect! [channel]
+ (println "channel open")
+ (swap! channels conj channel)
+  (if (boolean (bound? #'msg))
+ 	(send! channel msg)
+ 	(println "msg not defined")))
+
+(defn disconnect! [channel status]
+ (println "channel closed:" status)
+ (swap! channels #(remove #{channel} %)))
 
 			
 (defn socket-handler [req]
@@ -65,7 +75,7 @@
     (connect! channel)
     (listrecordings channel)
     (on-close channel (partial disconnect! channel))
-    (on-receive channel #(notify-clients %))))
+    (on-receive channel #(handle-msg %))))
 
 (defroutes all-routes
   (GET "/" [] (redirect "index.html"))
