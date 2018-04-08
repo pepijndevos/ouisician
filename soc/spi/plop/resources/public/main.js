@@ -1,6 +1,18 @@
 
 var sock = new WebSocket("ws://" + location.host + "/ws");
 
+function addAudioFile(file) {
+    var audioplayer =
+    '<div class="card-text row">' +
+        '<div class="col-12">' +
+          '<label><small>' + file +'</small></label>' +
+
+    '<audio controls="controls" style="width:100%">' +
+      '<source src="' + file + '" type="audio/wav" />' +
+      '</div></div>';
+    $( "#record-filelist" ).append( audioplayer );
+}
+
 sock.onmessage = function(e) {
 
   msg = JSON.parse(e.data);
@@ -10,21 +22,20 @@ sock.onmessage = function(e) {
   console.log(msg.display);
 
   if (msg.id == "recording") {
-    $( "#record-info" ).append( "<p>", msg.display, "</p>" );
+    
+    if(msg.numid == 1) { //done recording
+      $( "#record-log" ).append( '<div class="card-text row"><div class="col-12"><small>Recording to ' + msg.display + "</small></div></div>" );
+    }
+    if(msg.numid == 0) { //done recording
+      $( "#record-log" ).append( '<div class="card-text row"><div class="col-12"><small>Done recording to ' + msg.display + "</small></div></div>" );
+      addAudioFile(msg.display);
+    }
   }
 
 
 
   if (msg.id == "wav") {
-    var audioplayer =
-    '<div class="card-text row">' +
-        '<div class="col-12">' +
-          '<label for="vol">' + msg.display +'</label>' +
-
-    '<p><audio controls="controls">' +
-      '<source src="' + msg.display + '" type="audio/wav" /></p>' +
-      '</div></div>';
-    $( "#record-filelist" ).append( audioplayer );
+    addAudioFile(msg.display);
   }
 
 }

@@ -41,17 +41,18 @@
 	(println "Stopping stream"))
 
 (defn startrecording []
-	(def output-file (str "resources/public/recordings/oui_" (now) ".wav"))
-	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse " output-file))
+	(def output-dest (str "resources/public/"))
+	(def output-file (str "recordings/oui_" (now) ".wav"))
+	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse " output-dest output-file))
 	(def pb-record (ProcessBuilder. (list "/bin/bash" "-c" string-record)))
 	(def process-record (.start pb-record))
 	(println "Starting recording")
-	(str "Recording to " output-file)
+	(str output-file)
 	)
 
 (defn stoprecording []
 	(.destroy process-record)
 	(println "Stopping recording")
-	(str "Done recording to " output-file)
+	(str output-file)
 	)
 

@@ -59,7 +59,7 @@
 								;(SPItransfer chan numid val))
 								;(ctl inst param val)
 								;(prn inst param val)
-              (def msg (json/write-str {:id id :display display}))
+              (def msg (json/write-str {:id id :numid numid :display display}))
               (send! channel msg)
 								)))))
 
