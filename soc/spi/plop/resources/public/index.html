@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -16,49 +16,30 @@ input[type="range"] {
     </style>
     <title>Ouisician</title>
   </head>
-  <body>
+<body>
 
-    <div class="container">
-      <h1>Ouisician</h1>
-	  
-<div class="row">
-<div class="col-12">
-  <ol class="breadcrumb">
-    <div class="col-3">
-    		  <div class="form-check">
-    			  <input class="form-check-input" type="checkbox" id="recording">
-    			  <label class="form-check-label" for="recording">
-    				Enable recording
-    			  </label>
-    		</div>
-    </div>
-    <div class="col-6">
-      <form class="form-inline">
-        <div class="form-group">
-          <input class="form-check-input" type="checkbox" id="streaming">
-            <label class="form-check-label" for="streaming">
-            Enable streaming &nbsp; &nbsp;
-            </label>
-          </div>
-          <div class="form-group">
-            <select class="bootstrap-select" id="streamplatform">
-            <option value="1" selected="selected">Twitch</option>
-            <option value="2">Youtube</option>
-          </select>
-          </div>&nbsp; &nbsp;
-          <div class="form-group">
-            <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Custom stream key">
-          </div>
-      </form>
-</div>
-  </ol>
+<div class="container">
 
+  <h1>Ouisician</h1>
+  
+  <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">SFX</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Streaming</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Recording</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
 
+<!-- SOUND EFFECTS TAB -->
 
-</div></div>
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+  <p>
+    
 
 <div class="row">
-  <div class="col-3">
+  <div class="col-xs-12 col-md-3">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Equaliser</h5>
@@ -79,32 +60,33 @@ input[type="range"] {
           </div>
       </div>
     </div>
+    <br/>
   </div>
 
-  <div class="col-9">
+  <div class="col-xs-12 col-md-9">
     <div class="card">
   <div class="card-body">
     <h5 class="card-title">Channel 1</h5>
       <div class="card-text row">
         <div class="col-4">
-          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol" data-channel="1" data-id="1">
+          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol" data-channel="1" data-id="4">
         </div>
         <div class="col-4">
-          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan" data-channel="1" data-id="2">
+          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan" data-channel="1" data-id="5">
         </div>
         <div class="col-4">
-          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay" data-channel="1" data-id="3">
+          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay" data-channel="1" data-id="6">
         </div>
       </div>
       <div class="card-text row">
         <div class="col-4">
-          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix" data-channel="1" data-id="4">
+          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix" data-channel="1" data-id="7">
         </div>
         <div class="col-4">
-          <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room" data-channel="1" data-id="5">
+          <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room" data-channel="1" data-id="8">
         </div>
         <div class="col-4">
-          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp" data-channel="1" data-id="6">
+          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp" data-channel="1" data-id="9">
         </div>
       </div>
   </div>
@@ -117,57 +99,112 @@ input[type="range"] {
     <h5 class="card-title">Channel 2</h5>
       <div class="card-text row">
         <div class="col-4">
-          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol" data-channel="2" data-id="1">
+          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol" data-channel="2" data-id="4">
         </div>
         <div class="col-4">
-          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan" data-channel="2" data-id="2">
+          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan" data-channel="2" data-id="5">
         </div>
         <div class="col-4">
-          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay" data-channel="2" data-id="3">
+          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay" data-channel="2" data-id="6">
         </div>
       </div>
       <div class="card-text row">
         <div class="col-4">
-          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix" data-channel="2" data-id="4">
+          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix" data-channel="2" data-id="7">
         </div>
         <div class="col-4">
-          <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room" data-channel="2" data-id="5">
+          <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room" data-channel="2" data-id="8">
         </div>
         <div class="col-4">
-          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp" data-channel="2" data-id="6">
+          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp" data-channel="2" data-id="9">
         </div>
       </div>
   </div>
   </div>
 </div>
 
+</div></p>
 
-  
 
-  
+  </div>
+
+
+<!-- STREAMING TAB -->
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    
+<p>
+    <div class="row">
+    <div class="breadcrumb col-12">
+        <form class="form-inline">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="streaming">
+            <label class="form-check-label" for="streaming">Enable streaming</label>
+          </div>&nbsp; &nbsp;
+          <div class="form-check">
+            <select class="bootstrap-select" id="streamplatform">
+              <option value="1" selected="selected">Twitch</option>
+              <option value="2">Youtube</option>
+            </select>
+          </div>&nbsp; &nbsp;
+          <div class="form-check">
+            <input type="password" class="input-sm" id="streamkey" data-channel="0" data-id="0" placeholder="Custom stream key">
+          </div>
+          </form>
+        </div></div>
+
+
+
+    <div class="row">
+    <div class="col-md-6">
+      <div id="twitch-embed"></div>
+      </div>
+
+    <div class="col-md-6">
+      <iframe style="max-width: 480px" width="100%" height="360" src="http://www.youtube.com/embed/videoseries?list=UUK9vN6Gp65tO3piXyQQV_Tw&index=1" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+
+
+</p>
+
+
+  </div>
+
+
+<!-- RECORDING TAB -->
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    
+<p>
+    <div class="row">
+    <div class="breadcrumb col-12">
+        <form class="form-inline">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="recording">
+            <label class="form-check-label" for="recording">Enable recording</label>
+            </div></form>
+    </div></div>
+    </p>
+
+  </div>
+</div>
+
 </div>
 
 
-	<br/>
-  <center>
- 	<a href="https://www.youtube.com/channel/UCK9vN6Gp65tO3piXyQQV_Tw">Youtube channel</a><br/><br/>
-  <div id="twitch-embed"></div></center>
-
-
-
-    </div> 
-	
-	
 
     <!-- Load the Twitch embed script -->
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
+
+
     <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
-    <script type="text/javascript">
+<script type="text/javascript">
       new Twitch.Embed("twitch-embed", {
         width: 300,
         height: 300,
-        channel: "ouisician"
+        channel: "ouisician",
+        layout: "video"
       });
     </script>
 
@@ -177,5 +214,5 @@ input[type="range"] {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="main.js"></script>
-  </body>
-</html>
+
+</body>
