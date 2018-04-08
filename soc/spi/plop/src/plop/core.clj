@@ -22,14 +22,14 @@
       (print "d ")
       (print "- "))
     (println (.getName f))
-    (let [filepath (str d "/" (.getName f))]
+    (let [filepath (str "recordings/" (.getName f))]
     (let [msg (json/write-str {:id "wav" :display filepath})]
         (send! channel msg)
       ))
 ))
 
 (defn listrecordings [channel]
-  (my-ls (File. "./recordings") channel)
+  (my-ls (File. "./resources/public/recordings") channel)
   )
 
 

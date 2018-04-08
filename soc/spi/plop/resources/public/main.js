@@ -13,8 +13,18 @@ sock.onmessage = function(e) {
     $( "#record-info" ).append( "<p>", msg.display, "</p>" );
   }
 
+
+
   if (msg.id == "wav") {
-    $( "#record-filelist" ).append( "<p>", msg.display, "</p>" );
+    var audioplayer =
+    '<div class="card-text row">' +
+        '<div class="col-12">' +
+          '<label for="vol">' + msg.display +'</label>' +
+
+    '<p><audio controls="controls">' +
+      '<source src="' + msg.display + '" type="audio/wav" /></p>' +
+      '</div></div>';
+    $( "#record-filelist" ).append( audioplayer );
   }
 
 }
