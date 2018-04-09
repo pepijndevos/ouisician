@@ -12,6 +12,7 @@ architecture testbench of impulsebench is
 	signal sndclk : std_logic := '0';
 	signal word : signed(15 downto 0) := x"0000";
   signal resp : signed(15 downto 0);
+  signal offset : unsigned(9 downto 0);
 
   component comb
     generic (
@@ -29,6 +30,17 @@ architecture testbench of impulsebench is
     );
   end component;
 
+  component triangle is
+    generic(
+      width : integer := 10;
+      speed : integer := 2**5
+    );
+    port(
+      rst : in std_logic;
+      clk : in std_logic;
+      data : out unsigned(width-1 downto 0)
+    );
+  end component;
     
 begin
   rst <= '1' AFTER 200 ns; -- reset pin
@@ -52,8 +64,14 @@ begin
     rst => rst,
     clk => clk,
     sndclk => sndclk,
-    offset => x"010",
+    offset => resize(offset, 12),
     word => word,
     resp => resp
+  );
+
+  triangle_inst : triangle port map (
+    rst => rst,
+    clk => clk,
+    data => offset
   );
 end;

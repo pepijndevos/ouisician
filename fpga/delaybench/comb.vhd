@@ -59,12 +59,12 @@ begin
           state := WRITE;
         when WRITE =>
           data <= std_logic_vector(resize(mixed_input/256, resp'length));
-          address <= std_logic_vector(counter+offset);
+          address <= std_logic_vector(counter);
           wren <= '1';
           state := IDLE;
         when IDLE =>
           wren <= '0';
-          address <= std_logic_vector(counter);
+          address <= std_logic_vector(counter-offset);
       end case;
       if oldsnd = '0' and sndclk = '1' then --rising edge
         counter := counter + 1;
