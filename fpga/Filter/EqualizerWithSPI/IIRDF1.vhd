@@ -24,12 +24,12 @@ port (
 	chanFIL : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filteridFIL : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdataFIL : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-	A0port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
-	A1port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
-	A2port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
-	B0port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
-	B1port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
-	B2port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
+	A0port : in STD_LOGIC_VECTOR(23 DOWNTO 0) := (others=>'0'); 
+	A1port : in STD_LOGIC_VECTOR(23 DOWNTO 0):= (others=>'0');
+	A2port : in STD_LOGIC_VECTOR(23 DOWNTO 0):= (others=>'0');
+	B0port : in STD_LOGIC_VECTOR(23 DOWNTO 0):= (others=>'0');
+	B1port : in STD_LOGIC_VECTOR(23 DOWNTO 0):= (others=>'0');
+	B2port : in STD_LOGIC_VECTOR(23 DOWNTO 0):= (others=>'0');
 	coefficientFLAG : in STD_LOGIC
 );
 end entity IIRDF1;
@@ -61,6 +61,12 @@ signal nYOUT : signed(W_register-1 downto 0) := (others => '0');
 signal IIR_out_temp : signed(W_in-1 downto 0):=(others =>'0');
 signal coefficientFLAG_temp, coefficientFLAG_temp_old : std_logic;
 begin
+					cA0 <= resize(signed(A0port),W_coef); 
+					cA1 <= resize(signed(A1port),W_coef); 
+					cA2 <= resize(signed(A2port),W_coef); 
+					cB0 <= resize(signed(B0port),W_coef); 
+					cB1 <= resize(signed(B1port),W_coef); 
+					cB2 <= resize(signed(B2port),W_coef);
 
 process(iCLK,iRESET_N)
 begin
@@ -76,16 +82,11 @@ elsif(rising_edge(iCLK)) then
 		when idle =>
 			if(new_val ='1') then -- RECALCULATE COEFFICIENTS
 				-- FIXME: only do this when new coefficient values have been send
-				coefficientFLAG_temp <= coefficientFLAG;
-				if(coefficientFLAG_temp /= coefficientFLAG_temp_old) then
-					cA0 <= resize(signed(A0port),W_coef); 
-					cA1 <= resize(signed(A1port),W_coef); 
-					cA2 <= resize(signed(A2port),W_coef); 
-					cB0 <= resize(signed(B0port),W_coef); 
-					cB1 <= resize(signed(B1port),W_coef); 
-					cB2 <= resize(signed(B2port),W_coef);
-					coefficientFLAG_temp_old <= coefficientFLAG_temp;  
-				end if;
+				--coefficientFLAG_temp <= coefficientFLAG;
+				--if(coefficientFLAG_temp /= coefficientFLAG_temp_old) then
+
+--					coefficientFLAG_temp_old <= coefficientFLAG_temp;  
+				--end if;
 				state<= mul1;
 			end if;
 		when mul1 =>

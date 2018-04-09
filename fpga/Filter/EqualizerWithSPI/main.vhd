@@ -84,6 +84,7 @@ component Equalizermain is
         data_outbaseshelve        : out signed (15 downto 0);   -- Output
 	data_outmidpeak       : out signed (15 downto 0);   -- Output
 	data_outtrebleshelve       : out signed (15 downto 0);   -- Output
+	
 	chanEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filteridEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdataEQ : in STD_LOGIC_VECTOR(31 DOWNTO 0)
