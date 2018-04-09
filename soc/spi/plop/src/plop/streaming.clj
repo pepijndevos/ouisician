@@ -14,10 +14,6 @@
 (def string-stream-youtube (str "ffmpeg -f concat -i list.txt -f alsa -i pulse -map 0:v -map 1:a -c:v copy -b:a" bitrate "-ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
 
 
-
-
-
-
 (defn startstream [platform]
 	(if (== 1 platform)
 		(do
@@ -44,7 +40,7 @@
 (defn startrecording []
 	(def output-dest (str "resources/public/"))
 	(def output-file (str "recordings/oui_" (now) ".wav"))
-	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse " output-dest output-file))
+	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D default " output-dest output-file))
 	(def pb-record (ProcessBuilder. (list "/bin/bash" "-c" string-record)))
 	(def process-record (.start pb-record))
 	(println "Starting recording")
