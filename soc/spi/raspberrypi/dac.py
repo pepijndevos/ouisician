@@ -9,17 +9,6 @@ freq_out=400
 Two28=268435456
 phase=0
 
-def send_data(input):
-     tx_msb=input>>8
-     tx_lsb=input & 0xff
-     spi.xfer([tx_msb,tx_lsb])
-    #spi.xfer([0x0000,0x0002])
-    # print(input)
 
-# freq_word=int(round(float(freq_out*Two28)/25000000))
-# MSB=(freq_word & 0xfffc000)>>14
-# LSB=(freq_word & 0x3fff)
 while True:
-    send_data(0x3fff)
-    # send_data(LSB)
-    # send_data(MSB)
+    spi.writebytes(0x0002)
