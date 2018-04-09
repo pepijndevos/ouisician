@@ -7,7 +7,7 @@ use ieee.NUMERIC_STD.ALL;
 entity IIRDF1 is
 generic (
     W_in : integer ;
-	 W_coef : integer;   
+	 W_coef : integer  
 --    B0 : integer ; 
 --    B1 : integer ;
 --    B2 : integer ;
