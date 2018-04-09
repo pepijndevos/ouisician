@@ -1,25 +1,21 @@
 import spidev
+import RPi.GPIO as GPIO
+
 spi=spidev.SpiDev()
 #open spi bus 0 and device 0
 spi.open(0,0)
-spi.max_speed_hz=976000
+# spi.mode=0b10
+refFreq = 50*10**6
 
-freq_out=400
-#2^28=268435456
-Two28=268435456
-phase=0
+# def writeFrequency(freq):
+#     freWord=int (freq*2**28/refFreq)
+#
+#     MSB=int((freWord & 0xfffc000) >> 14)
+#     LSB=int(freWord & 0x3fff)
+#     LSB|=0x4000
+#     MSB|=0x4000
+#     spi.writebytes([LSB,MSB])
 
-def send_data(input):
-    # tx_msb=input>>8
-    # tx_lsb=input & 0xff
-    # spi.xfer([tx_msb,tx_lsb])
-    spi.xfer([0xfff,0xfff0])
-    # print(input)
-
-# freq_word=int(round(float(freq_out*Two28)/25000000))
-# MSB=(freq_word & 0xfffc000)>>14
-# LSB=(freq_word & 0x3fff)
 while True:
-    send_data(0x3fff)
-    # send_data(LSB)
-    # send_data(MSB)
+    # send_data(1000)
+    spi.xfer([0b0010000101101000])

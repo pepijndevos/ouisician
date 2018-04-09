@@ -12,6 +12,8 @@ entity speaker is
 		 GPIO_DOUT   : out std_logic;
 		 GPIO_ADCDAT1: in std_logic;
 		 GPIO_ADCDAT2: in std_logic;
+		 GPIO_ADCCLK1: out std_logic;
+		 GPIO_ADCCLK2: out std_logic;
 		 AUD_ADCDAT  : in std_logic;
 		 AUD_ADCLRCK : in std_logic;
 		 AUD_BCLK    : in std_logic;
@@ -33,6 +35,7 @@ architecture Behavioral of speaker is
 			rst      : in  std_logic := 'X'; -- reset
 			outclk_0 : out std_logic;        -- clk
 			outclk_1 : out std_logic;         -- clk
+			outclk_2 : out std_logic;         -- clk
 			locked   : out std_logic
 		);
 	end component pll;
@@ -58,8 +61,15 @@ architecture Behavioral of speaker is
 
   signal bitclk : std_logic;
   signal adcclk : std_logic;
+  signal clk : std_logic;
+
+  signal Trem_out : signed(15 downto 0);
+  signal flanger_fx : signed(15 downto 0);
+  signal offset : unsigned(6 downto 0);
 begin
 GPIO_BCLK <= bitclk;
+GPIO_ADCCLK1 <= adcclk;
+GPIO_ADCCLK2 <= adcclk;
 
 process(sndclk)
 begin
@@ -69,16 +79,50 @@ begin
 		LEDR <= std_logic_vector(mixed(15 downto 6));
 	end if;
 end process;
+--	Tremolo_inst : entity work.Tremolo_FX(behaviour)
+--	port map(
+--		data_in => mixed,
+--		data_out => Trem_out,
+--		CLK_50 => adcclk,
+--		newValue => sndclk,
+--		Trem_EN => Trem_EN,
+--		reset => rst
+--	);
 
   crossover_inst: entity work.Crossover(behaviour)
 	port map (
-      main_CLK => adcclk,
+      main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => mixed,
+      data_in => flanger_fx,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
+		
+  comb_inst : entity work.comb(behavioral)
+  generic map (
+      bl_gain => 256,
+      ff_gain => 0,
+      fb_gain => 128
+  ) port map (
+    rst => rst,
+    clk => clk,
+    sndclk => sndclk,
+    offset => x"fff",
+    word => mixed,
+    resp => flanger_fx
+  );
+
+  triangle_inst : entity work.triangle
+  generic map (
+    width => 7,
+	 speed => 2**16
+) port map (
+    rst => rst,
+    clk => clk,
+    data => offset
+  );
+
 
   mixer_inst: entity work.mixer(behavioral)
     port map (rst => rst,
@@ -98,28 +142,28 @@ end process;
       rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
-      win1 => x"5555",
-      win2 => x"8001",
+      win1 => mixed,
+      win2 => mixed,
       wout1 => win1,
       wout2 => win2);
 		
-  adc_inst1: entity work.adc(behavioral)
-    port map (rst => rst,
-      clk => adcclk,
-		sndclk => sndclk2,
-      data => GPIO_ADCDAT1,
-      word => win3);
-		
-  adc_inst2: entity work.adc(behavioral)
-    port map (rst => rst,
-      clk => adcclk,
-		sndclk => sndclk3,
-      data => GPIO_ADCDAT2,
-      word => win4);
+--  adc_inst1: entity work.adc(behavioral)
+--    port map (rst => rst,
+--      clk => adcclk,
+--		sndclk => sndclk2,
+--      data => GPIO_ADCDAT1,
+--      word => win3);
+--		
+--  adc_inst2: entity work.adc(behavioral)
+--    port map (rst => rst,
+--      clk => adcclk,
+--		sndclk => sndclk3,
+--      data => GPIO_ADCDAT2,
+--      word => win4);
 		
   normalization_inst : entity work.normalization(bhv)
 	port map (
-		clk50mhz => adcclk,
+		clk50mhz => clk,
 		pot_clk => pot_clk,
 		reset => rst,
 		KEY => KEY,
@@ -133,7 +177,7 @@ end process;
 		port map (
 			LDATA => std_logic_vector(wout1),
 			RDATA => std_logic_vector(wout2),
-			clk => adcclk,
+			clk => clk,
 			Reset	=> rst,
 			INIT_FINISH	=> open,
 			adc_full	=> open,
@@ -154,7 +198,8 @@ end process;
 			refclk => CLOCK_50,
 			rst => '0',
 			outclk_0 => bitclk,  -- 1.536 MHz
-			outclk_1 => adcclk, -- 49.152 MHz
+			outclk_1 => clk, -- 49.152 MHz
+			outclk_2 => adcclk, -- 49.152 MHz, was 24.576 MHz
 			locked => rst);
 			
 

@@ -3,9 +3,10 @@ close all
 
 %% parameters
 
-OSF = 2^10; % ADC oversample factor
-Fsi = 50e6; % ADC sample rate
-Fso = Fsi/OSF; % audio sample rate
+OSF = 2^9; % ADC oversample factor
+Fso = 48e3; % audio sample rate
+Fsi = Fso*OSF; % ADC sample rate
+
 Fc = 20e3; % audio cutoff frequency
 
 %% direct firceqrip attempt
@@ -18,19 +19,21 @@ eqnum = firceqrip(N,Fc/(Fsi/2),[Rp Rst],'passedge'); % eqnum = vec of coeffs
 fvtool(eqnum,'Fs',Fsi) % Visualize filter
 
 %% multistage firpm attempt
-D1=64;
-D2=16;
+D1=128;
+D2=8;
 D=D1*D2;
 SD=2*1e-4;
 
 f1 = [0, 1/D, 2/D1-1/D, 1];
 a1 = [1 1 0 0];
-eq1 = firpm(255, f1, a1);
+eq1 = round(firpm(D1*3-1, f1, a1)*16000);
+%eq1 = firpm(D1*3-1, f1, a1);
 
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
 a2 = [1 1 0 0];
-eq2 = firpm(511, f2, a2);
+eq2 = round(firpm(D2*32-1, f2, a2)*2^11);
+%eq2 = firpm(D2*32-1, f2, a2);
 
 
 [h1, f1] = freqz(eq1, 1, 1000, Fsi);

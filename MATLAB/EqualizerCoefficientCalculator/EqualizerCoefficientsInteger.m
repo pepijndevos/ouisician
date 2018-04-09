@@ -55,4 +55,4 @@ plot(w2*fs/pi/2,mag2db(abs(h2)), w1*fs/pi/2,mag2db(abs(h1)), w3*fs/pi/2,mag2db(a
 legend('BaseCoeff', 'TrebleCoeff', 'MidCoeff', 'Base', 'Treble', 'Mid')
 xlabel 'Radian Frequency (\omega/\pi)', ylabel 'Magnitude'
 xlim([0 25^3]);
-ylim([-5 10]);
+ylim([-5 11]);

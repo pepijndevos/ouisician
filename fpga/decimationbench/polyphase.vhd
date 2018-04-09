@@ -58,14 +58,17 @@ begin
   outclk <= genclk;
 
   process(inclk, rst)
-    variable counter : integer range 0 to D+1;
+    variable counter : integer range 0 to D-1;
     variable acc : signed(w_acc-1 downto 0);
   begin
     if rst = '0' then
       counter := 0;
     elsif rising_edge(inclk) then
       inbuf <= word & inbuf(0 to D-2);
-      if counter = D then
+      if counter < D-1 then
+        genclk <= '0';
+        counter := counter + 1;
+      else
         -- sum output
         acc := to_signed(0, acc'length);
         for i in outbuf'range loop
@@ -75,9 +78,6 @@ begin
 
         genclk <= '1';
         counter := 0;
-      else
-        genclk <= '0';
-        counter := counter + 1;
       end if;
     end if;
   end process;

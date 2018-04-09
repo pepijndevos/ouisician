@@ -20,9 +20,21 @@
 		(def spi (SpiFactory/getInstance (SpiChannel/getByNumber chan) speed (SpiMode/getByNumber mode)))
 		(printSPIsettings :chan chan :speed speed :mode mode))
 
-(def packet (byte-array [(byte 0x00) (byte 0x01) (byte 0x02) (byte 0x03)]))
+(defn getByte [n long]
+	(bit-shift-right long (* (- n 1) 8)))
+
+(defn getByteArray[long]
+		(byte-array [(getByte 4 long) (getByte 3 long) (getByte 2 long) long]))
+
+
 
 (setSPIsettings :mode 1)
+
+(def filterdata (getByteArray 4294967295))
+
+(def byte-arrays [(byte-array [0 1]) filterdata])
+
+(def packet (byte-array (for [ar byte-arrays i ar] i)))
 
 (def console (Console.))
 (while (.isRunning console)
