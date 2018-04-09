@@ -64,6 +64,8 @@ architecture Behavioral of speaker is
   signal clk : std_logic;
 
   signal Trem_out : signed(15 downto 0);
+  signal flanger_fx : signed(15 downto 0);
+  signal offset : unsigned(6 downto 0);
 begin
 GPIO_BCLK <= bitclk;
 GPIO_ADCCLK1 <= adcclk;
@@ -92,18 +94,43 @@ end process;
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => mixed,
+      data_in => flanger_fx,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
+		
+  comb_inst : entity work.comb(behavioral)
+  generic map (
+      bl_gain => 256,
+      ff_gain => 0,
+      fb_gain => 128
+  ) port map (
+    rst => rst,
+    clk => clk,
+    sndclk => sndclk,
+    offset => x"fff",
+    word => mixed,
+    resp => flanger_fx
+  );
+
+  triangle_inst : entity work.triangle
+  generic map (
+    width => 7,
+	 speed => 2**16
+) port map (
+    rst => rst,
+    clk => clk,
+    data => offset
+  );
+
 
   mixer_inst: entity work.mixer(behavioral)
     port map (rst => rst,
       clk => sndclk,
       word1 => win1,
       word2 => win2,
-      word3 => x"0000",
-      word4 => x"0000",
+      word3 => win3,
+      word4 => win4,
       word5 => signed(win56(31 downto 16)),
       word6 => signed(win56(15 downto 0)),
       resp => mixed);
@@ -120,19 +147,19 @@ end process;
       wout1 => win1,
       wout2 => win2);
 		
-  adc_inst1: entity work.adc(behavioral)
-    port map (rst => rst,
-      clk => adcclk,
-		sndclk => sndclk2,
-      data => GPIO_ADCDAT1,
-      word => win3);
-		
-  adc_inst2: entity work.adc(behavioral)
-    port map (rst => rst,
-      clk => adcclk,
-		sndclk => sndclk3,
-      data => GPIO_ADCDAT2,
-      word => win4);
+--  adc_inst1: entity work.adc(behavioral)
+--    port map (rst => rst,
+--      clk => adcclk,
+--		sndclk => sndclk2,
+--      data => GPIO_ADCDAT1,
+--      word => win3);
+--		
+--  adc_inst2: entity work.adc(behavioral)
+--    port map (rst => rst,
+--      clk => adcclk,
+--		sndclk => sndclk3,
+--      data => GPIO_ADCDAT2,
+--      word => win4);
 		
   normalization_inst : entity work.normalization(bhv)
 	port map (
