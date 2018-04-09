@@ -48,7 +48,7 @@ signal A0LOW_temp, A1LOW_temp, A2LOW_temp, B0LOW_temp, B1LOW_temp, B2LOW_temp : 
 signal flagLOWtemp, flagMIDtemp, flagHightemp : STD_LOGIC := '0';
 begin
 
-SPImessageDecoder : process(iCLK,iRESET_N, filterdataHandler)
+SPImessageDecoder : process(iCLK,iRESET_N)
 begin
 if(iRESET_N = '0') then
 	null;
@@ -57,7 +57,7 @@ elsif(rising_edge(iCLK)) then
 case chanHandler(2 DOWNTO 0) is 
 	when "001" | "010" | "011" | "100" =>-- we don't do channel distuingishing for now
 		case filteridHandler(1 DOWNTO 0) is-- CHOOSE EQ TYPE (LOW,MID,HIGH)
-			when "01" => -- HIGH
+			when "11" => -- HIGH
 				case filterdataHandler(26 DOWNTO 24) is-- CHECK WHICH COEFFICIENT IT IS
 					when "000" =>-- A0
 						A0HIGH_temp <= filterdataHandler(23 DOWNTO 0);
@@ -107,7 +107,7 @@ case chanHandler(2 DOWNTO 0) is
 					when others => 
 						null;
 				end case;
-			when "11" => -- LOW
+			when "01" => -- LOW
 				case filterdataHandler(26 DOWNTO 24) is
 					when "000" =>-- A0
 						A0LOW_temp <= filterdataHandler(23 DOWNTO 0);

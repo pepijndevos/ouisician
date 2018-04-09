@@ -130,9 +130,10 @@ component SPImessageHandler is
     );
 end component;
 
-signal A0HIGH_temp, A1HIGH_temp, A2HIGH_temp, B0HIGH_temp, B1HIGH_temp, B2HIGH_temp : STD_LOGIC_VECTOR(23 DOWNTO 0);
-signal A0MID_temp, A1MID_temp, A2MID_temp, B0MID_temp, B1MID_temp, B2MID_temp : STD_LOGIC_VECTOR(23 DOWNTO 0);
-signal A0LOW_temp, A1LOW_temp, A2LOW_temp, B0LOW_temp, B1LOW_temp, B2LOW_temp : STD_LOGIC_VECTOR(23 DOWNTO 0);
+signal A1HIGH_temp, A2HIGH_temp, B1HIGH_temp, B2HIGH_temp,  A1LOW_temp, A2LOW_temp, B1LOW_temp, B2LOW_temp   : STD_LOGIC_VECTOR(23 DOWNTO 0) := (others=>'0');--0
+signal A0LOW_temp, B0LOW_temp, A0MID_temp, B0MID_temp, A0HIGH_temp, B0HIGH_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000001000000000000"; -- 4096
+signal  A1MID_temp, B1MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "111111111110100011010111";--'-5929';
+signal  A2MID_temp, B2MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000000110100110001"; --'3377'
 signal chanHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal filteridHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal filterdataHandler_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
