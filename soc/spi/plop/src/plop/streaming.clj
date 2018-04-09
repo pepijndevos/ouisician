@@ -22,13 +22,18 @@
 	(if (== 1 platform)
 		(do
 			(println "Starting twitch stream")
-			(def string-stream string-stream-twitch)))
+			(def string-stream string-stream-twitch)
+			(def platform-str "Twitch.tv"))
+		)
 	(if (== 2 platform)
 		(do
 			(println "Starting youtube stream")
-			(def string-stream string-stream-youtube)))
+			(def string-stream string-stream-youtube)
+			(def platform-str "Youtube"))
+			)
 	(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
 	(def process-stream (.start pb-stream))
+	(str "Currently live on " platform-str)
 	)
 	
 (defn stopstream []
@@ -36,11 +41,18 @@
 	(println "Stopping stream"))
 
 (defn startrecording []
-	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse oui_" (now) ".wav"))
+	(def output-dest (str "resources/public/"))
+	(def output-file (str "recordings/oui_" (now) ".wav"))
+	(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D pulse " output-dest output-file))
 	(def pb-record (ProcessBuilder. (list "/bin/bash" "-c" string-record)))
 	(def process-record (.start pb-record))
-	(println "Starting recording"))
+	(println "Starting recording")
+	(str output-file)
+	)
 
 (defn stoprecording []
 	(.destroy process-record)
-	(println "Stopping recording"))
+	(println "Stopping recording")
+	(str output-file)
+	)
+
