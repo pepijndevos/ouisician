@@ -4,11 +4,18 @@ spi=spidev.SpiDev()
 spi.open(0,0)
 spi.max_speed_hz=976000
 
-freq_out=400
+refFreq=50*10**6
 #2^28=268435456
 Two28=268435456
 phase=0
 
+def send_data(fre):
+    freWord=fre*Two28/refFreq
+    MSB=int((freWord & 0xfffc000) >> 14)
+    LSB=int(freWord & 0x3fff)
+    LSB|=0x4000
+    MSB|=0x4000
+    spi.xfer([LSB,MSB])
 
 while True:
-    spi.writebytes(0x0002)
+    send_data(1000)
