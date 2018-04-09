@@ -19,9 +19,9 @@ GENERIC(
 	mosi	: IN STD_LOGIC;  --master out, slave in
 	--TO REST
 	--receiveddata : out STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);
-	chan : out STD_LOGIC_VECTOR(7 DOWNTO 0);
-	filterid : out STD_LOGIC_VECTOR(7 DOWNTO 0);
-	filterdata : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+	chan : inout STD_LOGIC_VECTOR(7 DOWNTO 0);
+	filterid : inout STD_LOGIC_VECTOR(7 DOWNTO 0);
+	filterdata : inout STD_LOGIC_VECTOR(31 DOWNTO 0);
 	--TO MASTER
 	output : in std_logic_vector(d_width-1 DOWNTO 0);
 	miso	: out STD_LOGIC := 'Z'  --master in, slave out
@@ -161,14 +161,15 @@ BEGIN
 			filterid <= rx_data(39 DOWNTO 32);
 			filterdata <= rx_data(31 DOWNTO 0);
 
-			IF rx_data(47 DOWNTO 40) = "00000001" THEN
+			IF chan = "00000001" THEN
 				
 				dig0 <= hex2display(rx_data(3 downto 0));
 				dig1 <= hex2display(rx_data(7 downto 4));
 				dig2 <= hex2display(rx_data(11 downto 8));
 				dig3 <= hex2display(rx_data(15 downto 12));
-				dig4 <= hex2display(rx_data(19 downto 16));
-				dig5 <= hex2display(rx_data(23 downto 20));
+				--dig4 <= hex2display(rx_data(19 downto 16));
+				dig5 <= hex2display(filterid(7 downto 4));
+				dig4 <= hex2display(filterid(3 downto 0));
 			ELSIF rx_data(47 DOWNTO 40) = "00000010" THEN
 				
 			ELSIF rx_data(47 DOWNTO 40) = "00000011" THEN
