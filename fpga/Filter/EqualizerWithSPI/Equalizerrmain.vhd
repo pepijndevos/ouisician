@@ -5,7 +5,7 @@ use ieee.NUMERIC_STD.ALL;
 entity Equalizermain is
 generic(
     W_in : integer := 16;
-	 W_coef : integer := 17; --14; -- max matlab coefficient number must fit in this size
+	 W_coef : integer := 17 --14; -- max matlab coefficient number must fit in this size
 
 -- ** 10 dB gain for all filters **
 --    B0_base : integer := 4185;
@@ -96,7 +96,7 @@ FUNCTION hex2display (n:std_logic_vector(3 DOWNTO 0)) RETURN std_logic_vector IS
 component IIRDF1 is
 Generic(
     W_in : integer ;
-    W_coef : integer;   
+    W_coef : integer   
 --    B0 : integer ; 
 --    B1 : integer ;
 --    B2 : integer ;
@@ -215,7 +215,7 @@ port map (
 Treblecontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
+    W_coef => W_coef  
 --    B0  => B0_treble,
 --    B1  => B1_treble,
 --    B2  => B2_treble,
@@ -248,7 +248,7 @@ port map (
 Basecontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
+    W_coef => W_coef  
 --    B0  => B0_base,
 --    B1  => B1_base,
 --    B2  => B2_base,
@@ -274,7 +274,7 @@ port map (
 Midcontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
+    W_coef => W_coef  
 --    B0  => B0_mid,
 --    B1  => B1_mid,
 --    B2  => B2_mid,
