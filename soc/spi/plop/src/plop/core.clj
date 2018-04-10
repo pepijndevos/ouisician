@@ -3,6 +3,7 @@
 		;[plop.sound :only [osc-start channels]]
 		[plop.streaming]
 		[plop.spi-handler]
+		[plop.midimagic]
         ;[overtone.core :only [ctl]]
         [compojure.route :only [files resources not-found]]
         [compojure.handler :only [site]] ; form, query params decode; cookie; session, etc
@@ -83,6 +84,7 @@
   (not-found "<p>Page not found.</p>")) ;; all other, return 404
 
 ;(osc-start)
+(startmidi)
 (run-server (site #'all-routes) {:port 8080})
 
 (def console (Console.))
