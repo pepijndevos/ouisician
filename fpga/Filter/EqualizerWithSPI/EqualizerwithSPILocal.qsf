@@ -58,4 +58,85 @@ set_global_assignment -name VHDL_FILE Equalizerrmain.vhd
 set_global_assignment -name VHDL_FILE audio_interface.vhd
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+set_location_assignment PIN_H7 -to AUD_BCLK
+set_location_assignment PIN_J7 -to AUD_DACDAT
+set_location_assignment PIN_H8 -to AUD_DACLRCK
+set_location_assignment PIN_G7 -to AUD_MCLK
+set_location_assignment PIN_K7 -to AUD_ADCDAT
+set_location_assignment PIN_K8 -to AUD_ADCLRCK
+
+set_location_assignment PIN_AF14 -to clk
+
+set_location_assignment PIN_J12 -to I2C_SCLK
+set_location_assignment PIN_K12 -to I2C_SDAT
+
+set_location_assignment PIN_AE26 -to dig0[0]
+set_location_assignment PIN_AE27 -to dig0[1]
+set_location_assignment PIN_AE28 -to dig0[2]
+set_location_assignment PIN_AG27 -to dig0[3]
+set_location_assignment PIN_AF28 -to dig0[4]
+set_location_assignment PIN_AG28 -to dig0[5]
+set_location_assignment PIN_AH28 -to dig0[6]
+set_location_assignment PIN_AJ29 -to dig1[0]
+set_location_assignment PIN_AH29 -to dig1[1]
+set_location_assignment PIN_AH30 -to dig1[2]
+set_location_assignment PIN_AG30 -to dig1[3]
+set_location_assignment PIN_AF29 -to dig1[4]
+set_location_assignment PIN_AF30 -to dig1[5]
+set_location_assignment PIN_AD27 -to dig1[6]
+set_location_assignment PIN_AB23 -to dig2[0]
+set_location_assignment PIN_AE29 -to dig2[1]
+set_location_assignment PIN_AD29 -to dig2[2]
+set_location_assignment PIN_AC28 -to dig2[3]
+set_location_assignment PIN_AD30 -to dig2[4]
+set_location_assignment PIN_AC29 -to dig2[5]
+set_location_assignment PIN_AC30 -to dig2[6]
+set_location_assignment PIN_AD26 -to dig3[0]
+set_location_assignment PIN_AC27 -to dig3[1]
+set_location_assignment PIN_AD25 -to dig3[2]
+set_location_assignment PIN_AC25 -to dig3[3]
+set_location_assignment PIN_AB28 -to dig3[4]
+set_location_assignment PIN_AB25 -to dig3[5]
+set_location_assignment PIN_AB22 -to dig3[6]
+set_location_assignment PIN_AA24 -to dig4[0]
+set_location_assignment PIN_Y23 -to dig4[1]
+set_location_assignment PIN_Y24 -to dig4[2]
+set_location_assignment PIN_W22 -to dig4[3]
+set_location_assignment PIN_W24 -to dig4[4]
+set_location_assignment PIN_V23 -to dig4[5]
+set_location_assignment PIN_W25 -to dig4[6]
+set_location_assignment PIN_V25 -to dig5[0]
+set_location_assignment PIN_AA28 -to dig5[1]
+set_location_assignment PIN_Y27 -to dig5[2]
+set_location_assignment PIN_AB27 -to dig5[3]
+set_location_assignment PIN_AB26 -to dig5[4]
+set_location_assignment PIN_AA26 -to dig5[5]
+set_location_assignment PIN_AA25 -to dig5[6]
+
+#set_location_assignment PIN_AA14 -to KEY[0]
+set_location_assignment PIN_AA15 -to KEY[1]
+set_location_assignment PIN_W15 -to KEY[2]
+set_location_assignment PIN_Y16 -to KEY[3]
+
+set_location_assignment PIN_AC18 -to AUD_ADCDAT_GPIO_0
+set_location_assignment PIN_Y17 -to AUD_ADCLRCK_GPIO_1
+set_location_assignment PIN_AD17 -to AUD_BCLK_GPIO_2
+set_location_assignment PIN_Y18 -to data_over
+set_location_assignment PIN_AK18 -to MCLK_GPIO
+set_location_assignment PIN_AK16 -to AUD_DACDAT_GPIO_4
+set_location_assignment PIN_AK19 -to AUD_DACLRCK_GPIO_6
+
+set_location_assignment PIN_AF20 -to sclk
+set_location_assignment PIN_AH18 -to mosi
+set_location_assignment PIN_AH17 -to ss
+set_location_assignment PIN_AF21 -to miso
+
+set_location_assignment PIN_AA14 -to reset
+set_location_assignment PIN_V16 -to init_finish
+
+set_location_assignment PIN_AD7 -to kbclock
+set_location_assignment PIN_AE7 -to kbdata
+set_location_assignment PIN_AD17 -to "AUD_ADCDAT_GPIO_0(n)"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

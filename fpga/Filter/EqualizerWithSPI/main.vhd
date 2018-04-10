@@ -79,11 +79,13 @@ component Equalizermain is
     port (
         main_CLK       : in std_logic;
         Reset          : in std_logic;
+	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
         data_outbaseshelve        : out signed (15 downto 0);   -- Output
 	data_outmidpeak       : out signed (15 downto 0);   -- Output
 	data_outtrebleshelve       : out signed (15 downto 0);   -- Output
+	
 	chanEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filteridEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdataEQ : in STD_LOGIC_VECTOR(31 DOWNTO 0)
@@ -139,7 +141,13 @@ RDATA <= std_logic_vector(data_outtrebleshelve_temp); --example
 Equalizer : Equalizermain -- equalizer Port/signal => main port/ignal
 	port map (
         	main_CLK => clk,      
-        	Reset => Reset,          
+        	Reset => Reset,
+			dig0=>dig0,
+			dig1=>dig1,
+			dig2=>dig2 ,
+			dig3=>dig3 ,
+			dig4=>dig4 ,
+			dig5=>dig5,           
         	new_val => data_over_temp,                
         	data_in => data_in_temp,                   
 		data_outbaseshelve => data_outbaseshelve_temp,
@@ -154,12 +162,6 @@ SPIhandlerEqualizer : spi_slave_ui
 	port map (
         	clk => clk,	
 		reset_n	 => Reset,
-		dig0 => dig0,
-		dig1 => dig1,
-		dig2 => dig2,
-		dig3 => dig3,
-		dig4 => dig4,
-		dig5 => dig5,
 		sclk => sclk,
 		ss => ss,	
 		mosi => mosi,	

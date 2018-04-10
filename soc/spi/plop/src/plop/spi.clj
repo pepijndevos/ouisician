@@ -25,4 +25,5 @@
 (defn SPItransfer [packet]
 		(println "TX" (seq packet))
 		(def rx (.write spi packet))
-		(println "RX" (seq rx)))
+		(println "RX" (seq rx))
+		)
