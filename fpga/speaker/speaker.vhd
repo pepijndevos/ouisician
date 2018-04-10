@@ -98,10 +98,10 @@ end process;
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
-		
+ 
   comb_inst : entity work.comb(behavioral)
   generic map (
-      bl_gain => 256,
+      bl_gain => 32,
       ff_gain => 0,
       fb_gain => 128
   ) port map (
@@ -142,8 +142,8 @@ end process;
       rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
-      win1 => mixed,
-      win2 => mixed,
+      win1 => flanger_fx,
+      win2 => flanger_fx,
       wout1 => win1,
       wout2 => win2);
 		
