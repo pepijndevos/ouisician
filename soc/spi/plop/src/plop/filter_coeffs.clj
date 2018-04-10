@@ -7,9 +7,8 @@
 (defn sqrt [k] (Math/sqrt k))
 
 (def fsample 48000)
-(def scale 12)
 
-(defn normalizeCoeff [coeff]
+(defn normalizeCoeff [scale coeff]
 	(Math/round (* coeff (Math/pow 2 scale)))
 	)
 
@@ -43,6 +42,8 @@
 			(def A2 (/ (+ 1 (- (* K (/ V0 Q))) (pow2 K)) denom))
 			(def A0 1)
 			))
+		
+	
 	))))
 
 (defn shelving [G fc fs Q type]
@@ -104,6 +105,27 @@
 		(def A2 (/ (+ 1 (* (/ (- root2) (sqrt V0)) K) (/ (pow2 K) V0)) denom2))
 		(def A0 1)
 		)))
+		
+	(if (and (== G 0) (== 0 (compare type "baseshelf")))
+		(do
+			(def B0 V0)
+			(def B1 0)
+			(def B2 0)
+			(def A0 1)
+			(def A1 0)
+			(def A2 0)
+		))
+		
+	(if (and (== G 0) (== 0 (compare type "trebleshelf")))
+		(do
+			(def B0 V0)
+			(def B1 0)
+			(def B2 0)
+			(def A0 1)
+			(def A1 0)
+			(def A2 0)
+		))
+		
 
 	))))
 
@@ -114,14 +136,15 @@
 	(let [G -10]
 	(let [Q (/ 1 (sqrt 2))]
 	(let [type "baseshelf"]
+	(let [scale 14]
 
 	(shelving g fc fsample Q type)
 	;(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
-	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
+	(long-array (map normalizeCoeff [scale scale scale scale scale scale] [A0 A1 A2 B0 B1 B2]))
 
-	)))))
+	))))))
 
 (defn mid_peak [g]
 
@@ -129,26 +152,28 @@
 	(let [fc 5000]
 	(let [G 10]
 	(let [Q (/ 1 (sqrt 0.1))]
+	(let [scale 14]
 
 	(peaking g fc Q fsample)
 	;(println A0 A1 A2 B0 B1 B2)
 	;(long-array [A0 A1 A2 B0 B1 B2])
 
-	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
+	(long-array (map normalizeCoeff [scale scale scale scale scale scale] [A0 A1 A2 B0 B1 B2]))
 
-	))))
+	)))))
 
 (defn treble_shelve [g]
 
 	(println "***TREBLE SHELVE***")
-	(let [fc 10000]
+	(let [fc 5000]
 	(let [G -10]
 	(let [Q (/ 1 (sqrt 1.3))]
 	(let [type "trebleshelf"]
+	(let [scale 14]
 
 	(shelving g fc fsample Q type)
 	;(println A0 A1 A2 B0 B1 B2)
 
-	(long-array (map normalizeCoeff [A0 A1 A2 B0 B1 B2]))
+	(long-array (map normalizeCoeff [scale scale scale scale scale scale] [A0 A1 A2 B0 B1 B2]))
 
-	)))))
+	))))))

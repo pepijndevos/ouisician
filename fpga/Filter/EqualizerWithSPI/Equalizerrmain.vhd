@@ -5,7 +5,7 @@ use ieee.NUMERIC_STD.ALL;
 entity Equalizermain is
 generic(
     W_in : integer := 16;
-	 W_coef : integer := 17; --14; -- max matlab coefficient number must fit in this size
+	 W_coef : integer := 17 --14; -- max matlab coefficient number must fit in this size
 
 -- ** 10 dB gain for all filters **
 --    B0_base : integer := 4185;
@@ -30,30 +30,31 @@ generic(
 --    A2_treble : integer := 1187
 
 -- ** initialize: all-pass for all filters **
-    B0_base : integer := 4096;
-    B1_base : integer := 0;
-    B2_base : integer := 0;
-    A0_base : integer := 4096;
-    A1_base : integer := 0;
-    A2_base : integer := 0;
-
-    B0_mid : integer 	:= 4096;
-    B1_mid: integer 	:= -5929;
-    B2_mid: integer 	:= 3377;
-    A0_mid : integer 	:= 4096;
-    A1_mid: integer 	:= -5929;
-    A2_mid : integer 	:= 3377;
-
-    B0_treble: integer 	:= 4096;
-    B1_treble: integer 	:= 0;
-    B2_treble: integer 	:= 0;
-    A0_treble: integer 	:= 4096;
-    A1_treble: integer 	:= 0;
-    A2_treble : integer := 0
+--    B0_base : integer := 4096;
+--    B1_base : integer := 0;
+--    B2_base : integer := 0;
+--    A0_base : integer := 4096;
+--    A1_base : integer := 0;
+--    A2_base : integer := 0;
+--
+--    B0_mid : integer 	:= 4096;
+--    B1_mid: integer 	:= -5929;
+--    B2_mid: integer 	:= 3377;
+--    A0_mid : integer 	:= 4096;
+--    A1_mid: integer 	:= -5929;
+--    A2_mid : integer 	:= 3377;
+--
+--    B0_treble: integer 	:= 4096;
+--    B1_treble: integer 	:= 0;
+--    B2_treble: integer 	:= 0;
+--    A0_treble: integer 	:= 4096;
+--    A1_treble: integer 	:= 0;
+--    A2_treble : integer := 0
 );
     port (
         main_CLK       : in std_logic;
         Reset          : in std_logic;
+	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
         data_outbaseshelve        : out signed (15 downto 0);   -- Output
@@ -68,20 +69,45 @@ end entity Equalizermain;
 
 architecture behaviour of Equalizermain is
 
+
+FUNCTION hex2display (n:std_logic_vector(3 DOWNTO 0)) RETURN std_logic_vector IS
+    VARIABLE res : std_logic_vector(6 DOWNTO 0);
+  BEGIN
+    CASE n IS          --        gfedcba; low active
+	    WHEN "0000" => RETURN NOT "0111111";
+	    WHEN "0001" => RETURN NOT "0000110";
+	    WHEN "0010" => RETURN NOT "1011011";
+	    WHEN "0011" => RETURN NOT "1001111";
+	    WHEN "0100" => RETURN NOT "1100110";
+	    WHEN "0101" => RETURN NOT "1101101";
+	    WHEN "0110" => RETURN NOT "1111101";
+	    WHEN "0111" => RETURN NOT "0000111";
+	    WHEN "1000" => RETURN NOT "1111111";
+	    WHEN "1001" => RETURN NOT "1101111";
+	    WHEN "1010" => RETURN NOT "1110111";
+	    WHEN "1011" => RETURN NOT "1111100";
+	    WHEN "1100" => RETURN NOT "0111001";
+	    WHEN "1101" => RETURN NOT "1011110";
+	    WHEN "1110" => RETURN NOT "1111001";
+	    WHEN OTHERS => RETURN NOT "1110001";			
+    END CASE;
+  END hex2display;
+
 component IIRDF1 is
 Generic(
     W_in : integer ;
-    W_coef : integer;   
-    B0 : integer ; 
-    B1 : integer ;
-    B2 : integer ;
-    A0 : integer ;
-    A1 : integer ;
-    A2 : integer 
+    W_coef : integer   
+--    B0 : integer ; 
+--    B1 : integer ;
+--    B2 : integer ;
+--    A0 : integer ;
+--    A1 : integer ;
+--    A2 : integer 
 );
     port (
         iCLK            : in std_logic;
         iRESET_N        : in std_logic;
+	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0);
         new_val         : in std_logic;       -- indicates a new input value, input from data_over
         IIR_in          : in signed (15 downto 0);   -- singed is expected             
         IIR_out         : out signed (15 downto 0);   -- Output
@@ -134,24 +160,33 @@ signal A1HIGH_temp, A2HIGH_temp, B1HIGH_temp, B2HIGH_temp,  A1LOW_temp, A2LOW_te
 signal A0LOW_temp, B0LOW_temp, A0MID_temp, B0MID_temp, A0HIGH_temp, B0HIGH_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000001000000000000"; -- 4096
 signal  A1MID_temp, B1MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "111111111110100011010111";--'-5929';
 signal  A2MID_temp, B2MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000000110100110001"; --'3377'
-signal chanHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal filteridHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal filterdataHandler_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal chanHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal filteridHandler_temp : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal filterdataHandler_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal flagLOW_temp, flagMID_temp, flagHIGH_temp : STD_LOGIC;
+
+
 
 begin
 
-chanHandler_temp <= chanEQ;
-filteridHandler_temp <= filteridEQ;
-filterdataHandler_temp <= filterdataEQ;
+--chanHandler_temp <= chanEQ;
+--filteridHandler_temp <= filteridEQ;
+--filterdataHandler_temp <= filterdataEQ;
+
+--				dig0 <= hex2display(B0LOW_temp(3 downto 0));
+--				dig1 <= hex2display(B0LOW_temp(7 downto 4));
+--				dig2 <= hex2display(B0LOW_temp(11 downto 8));
+--				dig3 <= hex2display(B0LOW_temp(15 downto 12));
+--				dig5 <= hex2display(B0LOW_temp(19 downto 16));
+--				dig4 <= hex2display(B0LOW_temp(23 downto 20));
 
 SPImessageDecoder : SPImessageHandler
 port map (
         iCLK => main_CLK,
         iRESET_N => Reset,
-	chanHandler => chanHandler_temp, 
-	filteridHandler => filteridHandler_temp,
-	filterdataHandler => filterdataHandler_temp,      
+	chanHandler => chanEQ,--chanHandler_temp, 
+	filteridHandler => filteridEQ,
+	filterdataHandler => filterdataEQ,      
 	A0LOW => A0LOW_temp,
 	A1LOW => A1LOW_temp,
 	A2LOW => A2LOW_temp,
@@ -180,13 +215,13 @@ port map (
 Treblecontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
-    B0  => B0_treble,
-    B1  => B1_treble,
-    B2  => B2_treble,
-    A0  => A0_treble,
-    A1  => A1_treble,
-    A2  => A2_treble
+    W_coef => W_coef  
+--    B0  => B0_treble,
+--    B1  => B1_treble,
+--    B2  => B2_treble,
+--    A0  => A0_treble,
+--    A1  => A1_treble,
+--    A2  => A2_treble
 )
 port map (
         iCLK => main_CLK,
@@ -200,6 +235,12 @@ port map (
 	B0port => B0HIGH_temp,
 	B1port => B1HIGH_temp,
 	B2port => B2HIGH_temp,
+			dig0=>dig0,
+			dig1=>dig1,
+			dig2=>dig2 ,
+			dig3=>dig3 ,
+			dig4=>dig4 ,
+			dig5=>dig5,  
 	coefficientFLAG => flagHIGH_temp
 );
 			
@@ -207,17 +248,17 @@ port map (
 Basecontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
-    B0  => B0_base,
-    B1  => B1_base,
-    B2  => B2_base,
-    A0 => A0_base,
-    A1  => A1_base,
-    A2  => A2_base
+    W_coef => W_coef  
+--    B0  => B0_base,
+--    B1  => B1_base,
+--    B2  => B2_base,
+--    A0 => A0_base,
+--    A1  => A1_base,
+--    A2  => A2_base
 )
 port map (
         iCLK => main_CLK,
-        iRESET_N => Reset,        
+        iRESET_N => Reset,       
         new_val => new_val,        
         IIR_in => data_in,       
         IIR_out => data_outbaseshelve,
@@ -233,13 +274,13 @@ port map (
 Midcontrol : IIRDF1
 generic map(
     W_in  => W_in,
-    W_coef => W_coef,  
-    B0  => B0_mid,
-    B1  => B1_mid,
-    B2  => B2_mid,
-    A0  => A0_mid,
-    A1  => A1_mid,
-    A2  => A2_mid
+    W_coef => W_coef  
+--    B0  => B0_mid,
+--    B1  => B1_mid,
+--    B2  => B2_mid,
+--    A0  => A0_mid,
+--    A1  => A1_mid,
+--    A2  => A2_mid
 )
 port map (
         iCLK => main_CLK,

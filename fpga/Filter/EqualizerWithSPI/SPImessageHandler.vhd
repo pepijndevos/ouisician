@@ -96,11 +96,11 @@ case chanHandler(2 DOWNTO 0) is
 						B1MID_temp <= filterdataHandler(23 DOWNTO 0);
 					when "101" =>-- B2
 						-- Send coefficients in one burst
-						A0MID <= A0HIGH_temp;
-						A1MID <= A1HIGH_temp;
-						A2MID <= A2HIGH_temp;
-						B0MID <= B0HIGH_temp;
-						B1MID <= B1HIGH_temp;						
+						A0MID <= A0MID_temp;
+						A1MID <= A1MID_temp;
+						A2MID <= A2MID_temp;
+						B0MID <= B0MID_temp;
+						B1MID <= B1MID_temp;						
 						B2MID <= filterdataHandler(23 DOWNTO 0);
 						flagMIDtemp <= not flagMIDtemp;
 						flagMID <= flagMIDtemp;
@@ -121,11 +121,11 @@ case chanHandler(2 DOWNTO 0) is
 						B1LOW_temp <= filterdataHandler(23 DOWNTO 0);
 					when "101" =>-- B2
 						-- Send coefficients in one burst
-						A0LOW <= A0HIGH_temp;
-						A1LOW <= A1HIGH_temp;
-						A2LOW <= A2HIGH_temp;
-						B0LOW <= B0HIGH_temp;
-						B1LOW <= B1HIGH_temp;		
+						A0LOW <= A0LOW_temp;
+						A1LOW <= A1LOW_temp;
+						A2LOW <= A2LOW_temp;
+						B0LOW <= B0LOW_temp;
+						B1LOW <= B1LOW_temp;		
 						B2LOW <= filterdataHandler(23 DOWNTO 0);
 						flagLOWtemp <= not flagLOWtemp;
 						flagLOW <= flagLOWtemp;

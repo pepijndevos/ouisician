@@ -32,20 +32,23 @@
 	;EQUALIZER base
 	;[A0 A1 A2 B0 B1 B2]
 	;(def coeffs (long-array [4096 -7965 3875 4185 -7958 3792]))
+	(let [gain (/ val 2)]
+		(println "Gain: " gain)
 	(if (== numid 1)
-		(def coeffs (base_shelve (/ val 10))))
+		(def coeffs (base_shelve gain)))
 
 	(if (== numid 2)
-		(def coeffs (mid_peak (/ val 10))))
+		(def coeffs (mid_peak gain)))
 
 	(if (== numid 3)
-		(def coeffs (treble_shelve (/ val 10))))
+		(def coeffs (treble_shelve gain))))
 	
 )
 
 (defn sendEQpayload [chan numid n]
 		(println "Coeff" n ":" (get coeffs n))
 		(def filterdata (getByteArray (get coeffs n)))
+		
 		(combineByteArrays chan numid n filterdata)
 		(SPItransfer packet))
 
