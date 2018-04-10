@@ -33,10 +33,10 @@ signal sine : memory := (0,1,2,2,3,4,5,6,7,7,8,9,10,11,12,12,13,14,15,16,17,17,1
 );
 
 signal WahWah_EN : std_logic := '0';
-
+signal new_CLK : std_logic := '0';
 begin
-nclk                <= not nclk after cp/2;
-nreset              <= '0', '1' after 100*cp;
+nclk  <= not nclk after cp/2;
+nreset <= '0', '1' after 100*cp;
 sndclk <= NOT sndclk AFTER 20.83 us;
 WahWah_EN <= '1' after 100 ms;
 
@@ -52,6 +52,7 @@ if(rising_edge(nclk)) then
 end if;
 end process;
 
+
 --process(sndCLK)
 --variable counter : integer := 0;
 --begin
@@ -66,9 +67,25 @@ end process;
 --end process;
 
 --sine wave generation
-process (sndclk) --either this or impulse
+
+process(nclk,nreset) -- 4.91 Hz, 1000 count : 49.1 Hz
+variable counter : integer := 0;
 begin
-if rising_edge(sndclk) then
+if (nreset= '0') then
+	counter := 0;
+	new_CLK <= '0';
+elsif(rising_edge(nclk)) then
+	counter := counter + 1;
+	if (counter = 80 ) then 
+		new_CLK <= NOT new_CLK;
+		counter := 0;
+	end if;
+end if;
+end process;
+
+process (new_CLK) 
+begin
+if rising_edge(new_CLK) then
 	nValue <= to_signed(sine(i),nValue'Length);
 	i <= i+1;
 	if(i=959) then

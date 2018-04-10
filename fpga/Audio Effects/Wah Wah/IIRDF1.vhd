@@ -26,7 +26,7 @@ end entity IIRDF1;
 
 architecture behaviour of IIRDF1 is
 constant W_register : integer := W_coef*2;
-constant scale : integer := 2**(16);
+constant scale : integer := 2**(W_coef-W_in);
 type STATE_TYPE is (idle,mul1,mul2,mul3,truncate,sum,done);
 signal state : STATE_TYPE;
 
