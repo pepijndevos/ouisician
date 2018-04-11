@@ -80,7 +80,7 @@ architecture Behavioral of speaker is
 
   signal Trem_out : signed(15 downto 0);
   signal flanger_fx : signed(15 downto 0);
-  signal offset : unsigned(9 downto 0);
+  signal offset : unsigned(15 downto 0);
   
   	signal EQ_out : signed(15 downto 0):= (others=>'0');
 	signal chan_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0); 
@@ -189,6 +189,9 @@ end process;
       wout2 => win2);
 
   adc_inst1: entity work.adc(behavioral)
+    generic map (
+      use_fir => false
+    )
     port map (rst => rst,
       clk => adcclk,
 		sndclk => sndclk2,
@@ -196,6 +199,9 @@ end process;
       word => win3);
 		
   adc_inst2: entity work.adc(behavioral)
+    generic map (
+      use_fir => false
+    )
     port map (rst => rst,
       clk => adcclk,
 		sndclk => sndclk3,
