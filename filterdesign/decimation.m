@@ -32,7 +32,7 @@ eq1 = round(firpm(D1*3-1, f1, a1)*16000);
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
 a2 = [1 1 0 0];
-eq2 = round(firpm(D2*32-1, f2, a2)*2^11);
+eq2 = round(firpm(D2*32-1, f2, a2)*2^16);
 %eq2 = firpm(D2*32-1, f2, a2);
 
 

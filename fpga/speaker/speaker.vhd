@@ -98,7 +98,7 @@ end process;
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
- 
+		
   comb_inst : entity work.comb(behavioral)
 	port map (
 	  rst => rst,
@@ -152,19 +152,19 @@ end process;
       wout1 => win1,
       wout2 => win2);
 		
---  adc_inst1: entity work.adc(behavioral)
---    port map (rst => rst,
---      clk => adcclk,
---		sndclk => sndclk2,
---      data => GPIO_ADCDAT1,
---      word => win3);
---		
---  adc_inst2: entity work.adc(behavioral)
---    port map (rst => rst,
---      clk => adcclk,
---		sndclk => sndclk3,
---      data => GPIO_ADCDAT2,
---      word => win4);
+  adc_inst1: entity work.adc(behavioral)
+    port map (rst => rst,
+      clk => adcclk,
+		sndclk => sndclk2,
+      data => GPIO_ADCDAT1,
+      word => win3);
+		
+  adc_inst2: entity work.adc(behavioral)
+    port map (rst => rst,
+      clk => adcclk,
+		sndclk => sndclk3,
+      data => GPIO_ADCDAT2,
+      word => win4);
 		
   normalization_inst : entity work.normalization(bhv)
 	port map (

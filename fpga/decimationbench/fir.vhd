@@ -48,7 +48,8 @@ begin
             acc := acc - coef(counter);
           end if;
         else
-          acc := acc + buf(counter) * coef(counter);
+          --acc := acc + buf(counter) * coef(counter);
+          acc := acc + resize(buf(counter) * coef(coef'high-counter), acc'length);
         end if;
         counter := counter + 1;
       else

@@ -16,9 +16,12 @@ architecture testbench of adcbench is
 begin
   rst <= '1' after 20 ns;
   clk <= not clk after 10 ns;
-  data <= not data after 20 ns;
+  data <= not data after 1 ms;
 
   adc_inst: entity work.adc(behavioral)
+    generic map (
+      use_fir => true
+    )
     port map (rst => rst,
       clk => clk,
       data => data,
