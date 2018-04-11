@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE 5CSEMA5F31C6
 set_global_assignment -name TOP_LEVEL_ENTITY speaker
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:19:15  MAART 17, 2018"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name BOARD "DE1-SoC Board"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
@@ -185,6 +185,12 @@ set_location_assignment PIN_AJ20 -to potic[2]
 set_location_assignment PIN_AK21 -to potic[1]
 set_location_assignment PIN_AD20 -to potic[0]
 set_location_assignment PIN_AH18 -to pot_clk
+
+
+set_location_assignment PIN_AH22 -to sclk
+set_location_assignment PIN_AG26 -to mosi
+set_location_assignment PIN_AH24 -to ss
+set_location_assignment PIN_AG22 -to miso
 
 #set_location_assignment PIN_AC18 -to GPIO_0[0]
 #set_location_assignment PIN_Y17 -to GPIO_0[1]
@@ -913,12 +919,18 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 
 
 set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name USE_SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name ENABLE_LOGIC_ANALYZER_INTERFACE OFF
 
 
 
 
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/SPImessageHandler.vhd
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/spi_slave_ui.vhd
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/spi_slave.vhd
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/IIRDF1EQ.vhd
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/Equalizerrmain.vhd
+set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/EqualizerOutput.vhd
 set_global_assignment -name VHDL_FILE ../delaybench/triangle.vhd
 set_global_assignment -name VHDL_FILE ../delaybench/comb.vhd
 set_global_assignment -name VHDL_FILE Normalization.vhd
@@ -939,5 +951,6 @@ set_global_assignment -name SIP_FILE pll.sip
 set_global_assignment -name SIGNALTAP_FILE output_files/stp2.stp
 set_global_assignment -name VHDL_FILE mixer.vhd
 set_global_assignment -name QIP_FILE delay.qip
-set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf
+set_global_assignment -name CDF_FILE output_files/Chain4.cdf
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

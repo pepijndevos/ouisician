@@ -23,7 +23,22 @@ entity speaker is
 		 FPGA_I2C_SCLK: out std_logic;
 		 FPGA_I2C_SDAT: inout std_logic;
 		 potic       : out std_logic_vector(7 downto 0);
-		 pot_clk     : out std_logic
+		 pot_clk     : out std_logic;
+		 
+		 
+		dig0	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig1	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig2	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig3	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig4	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig5 	: OUT std_logic_vector(6 DOWNTO 0); 
+		--FROM MASTER
+		sclk	: IN STD_LOGIC;  --spi clk from master	
+		ss	: IN STD_LOGIC;  --active low slave select
+		mosi	: IN STD_LOGIC;  --master out, slave in
+		--TO MASTER
+		miso	: out STD_LOGIC := 'Z'  --master in, slave out
+		
 	   );
 end speaker;
 
@@ -65,11 +80,31 @@ architecture Behavioral of speaker is
 
   signal Trem_out : signed(15 downto 0);
   signal flanger_fx : signed(15 downto 0);
-  signal offset : unsigned(15 downto 0);
+  signal offset : unsigned(9 downto 0);
+  
+  	signal EQ_out : signed(15 downto 0):= (others=>'0');
+	signal chan_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0); 
+	signal filterid_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0);
+	signal filterdata_temp :  STD_LOGIC_VECTOR(31 DOWNTO 0); 
+	
+	signal data_in_temp : signed(15 downto 0):= (others=>'0');
+	signal ADCDATA : std_logic_vector(31 downto 0) := (others=>'0');
+		signal LDATA : std_logic_vector(15 downto 0);
+	signal RDATA : std_logic_vector(15 downto 0);
+	signal data_over_temp : std_logic := '0';
+	
+	
+  
+  
+  
+  
+  
+  
 begin
 GPIO_BCLK <= bitclk;
 GPIO_ADCCLK1 <= adcclk;
 GPIO_ADCCLK2 <= adcclk;
+
 
 process(sndclk)
 begin
@@ -89,39 +124,39 @@ end process;
 --		reset => rst
 --	);
 
-  crossover_inst: entity work.Crossover(behaviour)
+  crossover_inst: entity work.Crossover
 	port map (
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => flanger_fx,
+      data_in => EQ_out,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
  
-  comb_inst : entity work.comb(behavioral)
-	port map (
-	  rst => rst,
-    clk => clk,
-    sndclk => sndclk,
-    bl_gain => 0,
-    ff_gain1 => 255,
-    fb_gain1 => 0,
-    ff_gain2 => 0,
-    fb_gain2 => 0,
-    ff_gain3 => 0,
-    fb_gain3 => 0,
-    offset1 => resize(offset+256, 20),
-    offset2 => x"00000",
-    offset3 => x"00000",
-    word => mixed,
-    resp => flanger_fx
-  );
+--  comb_inst : entity work.comb
+--	port map (
+--	  rst => rst,
+--    clk => clk,
+--    sndclk => sndclk,
+--    bl_gain => 0,
+--    ff_gain1 => 255,
+--    fb_gain1 => 0,
+--    ff_gain2 => 0,
+--    fb_gain2 => 0,
+--    ff_gain3 => 0,
+--    fb_gain3 => 0,
+--    offset1 => resize(offset, 20),
+--    offset2 => x"00000",
+--    offset3 => x"00000",
+--    word => mixed,
+--    resp => flanger_fx
+--  );
 
   triangle_inst : entity work.triangle
   generic map (
     width => 10,
-	 speed => 2**12
+	 speed => 2**10
 ) port map (
     rst => rst,
     clk => clk,
@@ -129,7 +164,7 @@ end process;
   );
 
 
-  mixer_inst: entity work.mixer(behavioral)
+  mixer_inst: entity work.mixer
     port map (rst => rst,
       clk => sndclk,
       word1 => win1,
@@ -141,7 +176,7 @@ end process;
       resp => mixed);
 		
 		
-  i2s_inst: entity work.i2s(behavioral)
+  i2s_inst: entity work.i2s
     port map (rst => rst,
       bclk => bitclk,
       rlclk => GPIO_LRCK,
@@ -152,33 +187,33 @@ end process;
       wout1 => win1,
       wout2 => win2);
 		
---  adc_inst1: entity work.adc(behavioral)
+--  adc_inst1: entity work.adc
 --    port map (rst => rst,
 --      clk => adcclk,
 --		sndclk => sndclk2,
 --      data => GPIO_ADCDAT1,
 --      word => win3);
 --		
---  adc_inst2: entity work.adc(behavioral)
+--  adc_inst2: entity work.adc
 --    port map (rst => rst,
 --      clk => adcclk,
 --		sndclk => sndclk3,
 --      data => GPIO_ADCDAT2,
 --      word => win4);
 		
-  normalization_inst : entity work.normalization(bhv)
+  normalization_inst : entity work.normalization
 	port map (
 		clk50mhz => clk,
 		pot_clk => pot_clk,
 		reset => rst,
 		KEY => KEY,
 		ic => potic,
-		amplification1 => 100,
-		amplification2 => 100,
-		amplification3 => 100,
-		amplification4 => 100);  
+		chan => chan_temp, 
+		filterid => filterid_temp,
+		fil_data => filterdata_temp
+		);  
   
-	audio_inst : entity work.audio_interface(Behavorial)
+	audio_inst : entity work.audio_interface
 		port map (
 			LDATA => std_logic_vector(wout1),
 			RDATA => std_logic_vector(wout2),
@@ -207,5 +242,44 @@ end process;
 			outclk_2 => adcclk, -- 49.152 MHz, was 24.576 MHz
 			locked => rst);
 			
+			
+			
+	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
+	port map (
+        	main_CLK => clk,      
+        	Reset => rst,
+			dig0=>dig0,
+			dig1=>dig1,
+			dig2=>dig2 ,
+			dig3=>dig3 ,
+			dig4=>dig4 ,
+			dig5=>dig5,           
+        	new_val => sndclk,                
+        	data_in => mixed,                   
+--		data_outbaseshelve => data_outbaseshelve_temp,
+--		data_outmidpeak => data_outmidpeak_temp,
+--		data_outtrebleshelve => data_outtrebleshelve_temp,
+		EQmain_out => EQ_out,
+		chanEQ => chan_temp,  
+		filteridEQ => filterid_temp,
+		filterdataEQ => filterdata_temp
+	);
+
+SPIhandlerEqualizer : entity work.spi_slave_ui
+	port map (
+      clk => clk,	
+		reset_n	 => rst,
+		sclk => sclk,
+		ss => ss,	
+		mosi => mosi,	
+		chan => chan_temp, 
+		filterid => filterid_temp,
+		filterdata => filterdata_temp, 
+		--output => open,
+		miso =>	miso
+	);
+			
+	
+				
 
 end Behavioral;

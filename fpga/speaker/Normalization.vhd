@@ -7,7 +7,10 @@ ENTITY normalization IS
 			pot_clk : out std_logic;
 			KEY : IN std_logic_vector(3 DOWNTO 0);
 			ic : OUT std_logic_vector(7 DOWNTO 0);
-			amplification1, amplification2, amplification3, amplification4 : in integer range 0 to 127
+						filterid: IN std_logic_vector(7 DOWNTO 0);
+			chan: IN std_logic_vector(7 DOWNTO 0);
+	      fil_data: IN std_logic_vector(31 DOWNTO 0)
+			
 			);
 END ENTITY normalization;
 
@@ -91,6 +94,8 @@ ARCHITECTURE bhv OF normalization IS
 	SIGNAL reset_amp : integer range 0 to 127 := 64; 
 	SIGNAL max_amp : integer range 0 to 127 := 127;
 	SIGNAL cur_amp, old_des_amp, test : int_array;
+	
+	SIGNAL amplification1, amplification2, amplification3, amplification4 : integer range 0 to 127;
 	SIGNAL clk : std_logic;
 
 	BEGIN
@@ -119,7 +124,12 @@ ARCHITECTURE bhv OF normalization IS
 			ic <= pot_control('0', '0', 0, 0, 0, 0);
 		
 		ELSIF falling_edge(clk) THEN
-			
+				IF filterid(3 DOWNTO 0) = "0100" AND chan(2 DOWNTO 0) = "001" THEN
+					amplification1 <= to_integer(signed(fil_data));
+				ELSIF filterid(3 DOWNTO 0) = "0100" AND  chan(2 DOWNTO 0) = "010" THEN
+					amplification2 <= to_integer(signed(fil_data));
+				END IF;
+		
 			IF start_up = '0' THEN 
 				start_up <= '1';
 				reset_resistance_processing <= '1';
