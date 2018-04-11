@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.ALL;
 use ieee.NUMERIC_STD.ALL;   
 --use ieee.std_logic_signed.all;
 
-entity IIRDF1 is
+entity IIRDF1_BW is
 generic (
     W_in : integer ;
 	 W_coef : integer   
@@ -22,9 +22,9 @@ port (
    A1 : in signed(W_coef-1 downto 0);
    A2 : in signed(W_coef-1 downto 0)
 );
-end entity IIRDF1;
+end entity IIRDF1_BW;
 
-architecture behaviour of IIRDF1 is
+architecture behaviour of IIRDF1_BW is
 constant W_register : integer := W_coef*2;
 constant scale : integer := 2**(W_coef-W_in);
 type STATE_TYPE is (idle,mul1,mul2,mul3,truncate,sum,done);

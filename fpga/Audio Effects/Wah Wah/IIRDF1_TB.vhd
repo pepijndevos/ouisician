@@ -38,7 +38,7 @@ begin
 nclk  <= not nclk after cp/2;
 nreset <= '0', '1' after 100*cp;
 sndclk <= NOT sndclk AFTER 20.83 us;
-WahWah_EN <= '1' after 100 ms;
+WahWah_EN <= '1' after 50 ms;
 
 
 process(nclk,sndclk)
@@ -76,7 +76,7 @@ if (nreset= '0') then
 	new_CLK <= '0';
 elsif(rising_edge(nclk)) then
 	counter := counter + 1;
-	if (counter = 80 ) then 
+	if (counter = 30 ) then 
 		new_CLK <= NOT new_CLK;
 		counter := 0;
 	end if;
@@ -101,7 +101,7 @@ port map(
 	new_val =>	strobe,	
 	data_in =>	nValue,	    
 	data_out =>	open,	
-	WahWah_EN => '1'    
+	WahWah_EN =>WahWah_EN    
 );
 end architecture;
 
