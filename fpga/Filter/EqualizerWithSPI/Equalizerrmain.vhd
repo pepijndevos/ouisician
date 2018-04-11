@@ -183,7 +183,7 @@ signal flagLOW_temp, flagMID_temp, flagHIGH_temp : STD_LOGIC;
 signal data_outbaseshelve_temp     : signed (15 downto 0);
 signal	data_outmidpeak_temp       : signed (15 downto 0);   
 signal	data_outtrebleshelve_temp  : signed (15 downto 0);   
-
+signal data_in_scale : signed (15 downto 0);
 
 begin
 --chanHandler_temp <= chanEQ;
@@ -196,6 +196,7 @@ begin
 --				dig3 <= hex2display(B0LOW_temp(15 downto 12));
 --				dig5 <= hex2display(B0LOW_temp(19 downto 16));
 --				dig4 <= hex2display(B0LOW_temp(23 downto 20));
+data_in_scale <= shift_right(data_in,1);
 
 SPImessageDecoder : SPImessageHandler
 port map (
@@ -244,7 +245,7 @@ port map (
         iCLK => main_CLK,
         iRESET_N => Reset,        
         new_val => new_val,        
-        IIR_in => data_in,                
+        IIR_in => data_in_scale,                
         IIR_out => data_outtrebleshelve_temp,
 	A0port => A0HIGH_temp,
 	A1port => A1HIGH_temp,
@@ -277,7 +278,7 @@ port map (
         iCLK => main_CLK,
         iRESET_N => Reset,       
         new_val => new_val,        
-        IIR_in => data_in,       
+        IIR_in => data_in_scale,       
         IIR_out => data_outbaseshelve_temp,
 	A0port => A0LOW_temp,
 	A1port => A1LOW_temp,
@@ -303,7 +304,7 @@ port map (
         iCLK => main_CLK,
         iRESET_N => Reset,        
         new_val => new_val,        
-        IIR_in => data_in,                     
+        IIR_in => data_in_scale,                     
         IIR_out => data_outmidpeak_temp,
 	A0port => A0MID_temp,
 	A1port => A1MID_temp,
