@@ -14,15 +14,27 @@ entity comb is
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
-      offset1  : in unsigned(15 downto 0);
-      offset2  : in unsigned(15 downto 0);
-      offset3  : in unsigned(15 downto 0);
+      offset1  : in unsigned(19 downto 0);
+      offset2  : in unsigned(19 downto 0);
+      offset3  : in unsigned(19 downto 0);
       word   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
 end;
 
 architecture behavioral of comb is
+
+  function interpolate(
+  x1 : signed(15 downto 0);
+  x2 : signed(15 downto 0);
+  p : unsigned(3 downto 0))
+  return signed is
+    variable sum : signed(19 downto 0);
+  begin
+    sum := resize(x2*to_integer(p) + x1*(16-to_integer(p)), sum'length);
+    return resize(sum/16, 16);
+  end interpolate;
+  
   component delay
     PORT
     (
@@ -47,6 +59,8 @@ begin
     variable counter : unsigned(15 downto 0) := x"0000";
     variable mixed_input : signed(23 downto 0);
     variable mixed_output : signed(31 downto 0);
+    variable temp : signed(15 downto 0);
+    variable temp2 :signed(15 downto 0);
   begin
     if rst = '0' then
       state := x"0";
@@ -56,27 +70,49 @@ begin
     elsif rising_edge(clk) then
       case state is
         when x"0" =>
-          address <= std_logic_vector(counter-offset1);
+          address <= std_logic_vector(counter-offset1(19 downto 4));
           state := state + 1;
         when x"1" =>
-          address <= std_logic_vector(counter-offset2);
+          address <= std_logic_vector(counter-offset1(19 downto 4)-1);
           state := state + 1;
         when x"2" =>
-          address <= std_logic_vector(counter-offset3);
+          address <= std_logic_vector(counter-offset2(19 downto 4));
           state := state + 1;
         when x"3" =>
-          mixed_input := resize(signed(q)*fb_gain1, mixed_input'length);
-          mixed_output := resize(signed(q)*ff_gain1, mixed_output'length);
+          address <= std_logic_vector(counter-offset2(19 downto 4)-1);
+          -- read offset1
+          temp := signed(q);
           state := state + 1;
         when x"4" =>
-          mixed_input := mixed_input + resize(signed(q)*fb_gain2, mixed_input'length);
-          mixed_output := mixed_output + resize(signed(q)*ff_gain2, mixed_output'length);
+          address <= std_logic_vector(counter-offset3(19 downto 4));
+          -- read offset1+1
+          temp2 := interpolate(temp, signed(q), unsigned(offset1(3 downto 0)));
+          mixed_input := resize(temp2*fb_gain1, mixed_input'length);
+          mixed_output := resize(temp2*ff_gain1, mixed_output'length);
           state := state + 1;
         when x"5" =>
-          mixed_input := mixed_input + resize(signed(q)*fb_gain3, mixed_input'length);
-          mixed_output := mixed_output + resize(signed(q)*ff_gain3, mixed_output'length);
+          address <= std_logic_vector(counter-offset3(19 downto 4)-1);
+          -- read offset2
+          temp := signed(q);
           state := state + 1;
         when x"6" =>
+          -- read offset2+1
+          temp2 := interpolate(temp, signed(q), unsigned(offset2(3 downto 0)));
+          mixed_input := mixed_input + resize(temp2*fb_gain2, mixed_input'length);
+          mixed_output := mixed_output + resize(temp2*ff_gain2, mixed_output'length);
+          state := state + 1;
+        when x"7" =>
+          address <= std_logic_vector(counter-offset3(19 downto 4)-1);
+          -- read offset3
+          temp := signed(q);
+          state := state + 1;
+        when x"8" =>
+          -- read offset3+1
+          temp2 := interpolate(temp, signed(q), unsigned(offset3(3 downto 0)));
+          mixed_input := mixed_input + resize(temp2*fb_gain3, mixed_input'length);
+          mixed_output := mixed_output + resize(temp2*ff_gain3, mixed_output'length);
+          state := state + 1;
+        when x"9" =>
           mixed_input := mixed_input + resize(signed(word)*256, mixed_input'length);
           mixed_output := resize(mixed_output*256 + mixed_input*bl_gain, mixed_output'length);
           resp <= resize(mixed_output/65536, resp'length);

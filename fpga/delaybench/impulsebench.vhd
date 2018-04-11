@@ -26,9 +26,9 @@ architecture testbench of impulsebench is
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
-      offset1  : in unsigned(15 downto 0);
-      offset2  : in unsigned(15 downto 0);
-      offset3  : in unsigned(15 downto 0);
+      offset1  : in unsigned(19 downto 0);
+      offset2  : in unsigned(19 downto 0);
+      offset3  : in unsigned(19 downto 0);
       word   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
@@ -75,9 +75,9 @@ begin
     fb_gain2 => 0,
     ff_gain3 => 255,
     fb_gain3 => 0,
-    offset1 => x"0002",
-    offset2 => x"0004",
-    offset3 => x"0006",
+    offset1 => x"00020",
+    offset2 => x"00040",
+    offset3 => x"00068",
     word => word,
     resp => resp
   );
