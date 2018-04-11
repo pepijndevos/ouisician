@@ -10,7 +10,7 @@ generic(
 port(
 	rst : in std_logic;
 	clk : in std_logic;
-	data : out unsigned(width-1 downto 0)
+	data : out unsigned(15 downto 0)
 );
 end triangle;
 
