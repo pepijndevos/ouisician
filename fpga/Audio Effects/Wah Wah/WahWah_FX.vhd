@@ -71,14 +71,15 @@ signal constB2 : signed(w_coef-1 downto 0):= to_signed(B2(0),w_coef);
 
 signal BP_out : signed(W_in-1 downto 0) := (others =>'0');
 signal data_out_temp:  signed(W_in-1 downto 0) := (others =>'0');
-signal counter : integer := 0;
+
 begin
 
 process(CLK_50,nReset)
 variable direction: std_logic := '0';
+variable counter : integer := 0;
 begin
 if(nReset ='0') then
-	counter <= 0;
+	counter := 0;
 elsif(rising_edge(CLK_50)) then
 	if(new_val = '1') then
 		data_out_temp <= BP_out+data_in; -- output 
@@ -89,7 +90,7 @@ elsif(rising_edge(CLK_50)) then
 			constB0 <= to_signed(B0(counter),w_coef);
 			constB1 <= to_signed(B1(counter),w_coef);
 			constB2 <= to_signed(B2(counter),w_coef);
-			counter <= counter + 1;
+			counter := counter + 1;
 			if(counter = 625) then
 				direction := '1';
 			end if;
@@ -100,7 +101,7 @@ elsif(rising_edge(CLK_50)) then
 			constB0 <= to_signed(B0(counter),w_coef);
 			constB1 <= to_signed(B1(counter),w_coef);
 			constB2 <= to_signed(B2(counter),w_coef);
-			counter <= counter - 1;
+			counter := counter - 1;
 			if (counter = 0) then
 				direction := '0';
 			end if;
