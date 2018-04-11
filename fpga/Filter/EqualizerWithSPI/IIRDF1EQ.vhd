@@ -4,7 +4,7 @@ use ieee.NUMERIC_STD.ALL;
 --use ieee.std_logic_signed.all;
 
 
-entity IIRDF1 is
+entity IIRDF1EQ is
 generic (
     W_in : integer ;
 	 W_coef : integer  
@@ -33,9 +33,9 @@ port (
 	B2port : in STD_LOGIC_VECTOR(23 DOWNTO 0);
 	coefficientFLAG : in STD_LOGIC
 );
-end entity IIRDF1;
+end entity IIRDF1EQ;
 
-architecture behaviour of IIRDF1 is
+architecture behaviour of IIRDF1EQ is
 
 FUNCTION hex2display (n:std_logic_vector(3 DOWNTO 0)) RETURN std_logic_vector IS
     VARIABLE res : std_logic_vector(6 DOWNTO 0);

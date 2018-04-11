@@ -6,7 +6,8 @@ ENTITY normalization IS
 	PORT (clk, reset : IN std_logic; 
 			KEY : IN std_logic_vector(3 DOWNTO 0);
 			ic : OUT std_logic_vector(7 DOWNTO 0);
-			amplification1, amplification2, amplification3, amplification4 : in integer range 0 to 127
+			chan: IN std_logic_vector(7 DOWNTO 0);
+	      		data: IN std_logic_vector(31 DOWNTO 0)
 			);
 END ENTITY normalization;
 
@@ -16,8 +17,18 @@ END ENTITY normalization;
 -- dacsel, '0' = rdac 1, '1' = rdac 2
 
 --ic = (up_down1, chip_select1, mode_select1, dacsel1, up_down2, chip_select2, mode_select2, dacsel2)
+	
+
+
 
 ARCHITECTURE bhv OF normalization IS
+	
+	SIGNAL amplification1, amplification2, amplification3, amplification4 : in integer range 0 to 127 := 0;
+	
+	IF chan(3 DOWNTO 0) == "001" THEN
+		amplification1 <= data;
+	ELSIF chan(3 DOWNTO 0) == "010" THEN
+		amplification2 <= data;
 
 	TYPE int_array IS ARRAY (0 to 3) of integer range 0 to 128;
 
@@ -90,6 +101,8 @@ ARCHITECTURE bhv OF normalization IS
 	SIGNAL reset_amp : integer range 0 to 127 := 64; 
 	SIGNAL max_amp : integer range 0 to 127 := 127;
 	SIGNAL cur_amp, old_des_amp, test : int_array;
+
+	
 
 	
 	BEGIN
