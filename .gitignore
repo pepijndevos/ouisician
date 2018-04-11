@@ -51,6 +51,7 @@ PLLJ_PLLSPE_INFO.txt # The generated PLL specification file
 
 # ignore ModelSim generated files and directories (temp files and so on)
 [_@]*
+*.mpf
 
 # ignore compilation output of ModelSim
 *.mti

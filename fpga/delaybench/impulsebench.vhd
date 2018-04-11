@@ -15,16 +15,20 @@ architecture testbench of impulsebench is
   signal offset : unsigned(9 downto 0);
 
   component comb
-    generic (
-      bl_gain : integer := 256;
-      ff_gain : integer := 0;
-      fb_gain : integer := 128
-    );
     port (
+      bl_gain : integer range 0 to 255;
+      ff_gain1 : integer range 0 to 255;
+      fb_gain1 : integer range 0 to 255;
+      ff_gain2 : integer range 0 to 255;
+      fb_gain2 : integer range 0 to 255;
+      ff_gain3 : integer range 0 to 255;
+      fb_gain3 : integer range 0 to 255;
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
-      offset  : in unsigned(11 downto 0);
+      offset1  : in unsigned(19 downto 0);
+      offset2  : in unsigned(19 downto 0);
+      offset3  : in unsigned(19 downto 0);
       word   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
@@ -64,7 +68,16 @@ begin
     rst => rst,
     clk => clk,
     sndclk => sndclk,
-    offset => resize(offset, 12),
+    bl_gain => 255,
+    ff_gain1 => 255,
+    fb_gain1 => 0,
+    ff_gain2 => 255,
+    fb_gain2 => 0,
+    ff_gain3 => 255,
+    fb_gain3 => 0,
+    offset1 => x"00020",
+    offset2 => x"00040",
+    offset3 => x"00068",
     word => word,
     resp => resp
   );
