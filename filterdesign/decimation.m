@@ -51,8 +51,8 @@ ylabel('Magnitude (dB)');
 xlabel('Frequency (KHz)');
 title('Stage 2')
 
-csvwrite('fir1.csv',reshape(eq1, [], 32));
-csvwrite('fir2.csv',reshape(eq2, [], 32));
+csvwrite('fir1.csv',reshape(eq1, [], 16)');
+csvwrite('fir2.csv',reshape(eq2, [], 16)');
 
 %% dsp toolbox attempt
 
