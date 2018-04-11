@@ -41,19 +41,18 @@ architecture behaviour of EqualizerOutput is
 	    -- WHEN OTHERS => RETURN NOT "1110001";			
     -- END CASE;
   -- END hex2display;
-signal EQout_temp : signed (19 downto 0) := (others => '0');
-signal EQout_temp_resize : signed (15 downto 0) := (others => '0');
+--signal EQout_temp : signed (15 downto 0) := (others => '0');
+--signal EQout_temp_resize : signed (15 downto 0) := (others => '0');
 begin
-
+--EQout_temp <= data_baseshelve;
 	process(main_CLK,Reset)
 		begin
 			if(Reset = '0') then
 				EQout <= x"0000"; -- no output
-				EQout_temp <= x"00000";
+				--EQout_temp <= x"0000";
 			elsif(rising_edge(main_CLK)) then
-				EQout_temp <= (data_baseshelve+data_midpeak+data_trebleshelve)/3; -- use larger size to store addition?
-				EQout_temp_resize <= resize(EQout_temp, EQout_temp_resize'length);  -- resize back
-				EQout <= EQout_temp(15 downto 0); -- Final equalized output
+				--EQout_temp <= (data_baseshelve+data_midpeak+data_trebleshelve)/3; -- use larger size to store addition?
+				EQout <= shift_right(data_baseshelve+data_trebleshelve,1); -- Final equalized output
 			end if;
 		end process;
 end architecture;

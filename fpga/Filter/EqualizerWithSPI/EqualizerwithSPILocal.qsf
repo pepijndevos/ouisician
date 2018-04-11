@@ -132,12 +132,12 @@ set_location_assignment PIN_AD7 -to kbclock
 set_location_assignment PIN_AE7 -to kbdata
 set_location_assignment PIN_AD17 -to "AUD_ADCDAT_GPIO_0(n)"
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name VHDL_FILE IIRDF1EQ.vhd
 set_global_assignment -name VHDL_FILE EqualizerOutput.vhd
 set_global_assignment -name VHDL_FILE SPImessageHandler.vhd
 set_global_assignment -name VHDL_FILE spi_slave_ui.vhd
 set_global_assignment -name VHDL_FILE spi_slave.vhd
 set_global_assignment -name VHDL_FILE main.vhd
-set_global_assignment -name VHDL_FILE IIRDF1.vhd
 set_global_assignment -name VHDL_FILE Equalizerrmain.vhd
 set_global_assignment -name VHDL_FILE audio_interface.vhd
 set_global_assignment -name SOURCE_FILE db/EqualizerwithSPILocal.cmp.rdb
