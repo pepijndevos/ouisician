@@ -108,7 +108,7 @@ end process;
     rst => rst,
     clk => clk,
     sndclk => sndclk,
-    offset => x"fff",
+    offset => x"3fff",
     word => mixed,
     resp => flanger_fx
   );
