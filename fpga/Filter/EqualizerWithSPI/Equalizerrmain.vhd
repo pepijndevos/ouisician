@@ -57,9 +57,10 @@ generic(
 	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
-        data_outbaseshelve        : out signed (15 downto 0);   -- Output
-	data_outmidpeak       : out signed (15 downto 0);   -- Output
-	data_outtrebleshelve       : out signed (15 downto 0);   -- Output
+        --data_outbaseshelve        : out signed (15 downto 0);   -- Output
+	--data_outmidpeak       : out signed (15 downto 0);   -- Output
+	--data_outtrebleshelve       : out signed (15 downto 0);   -- Output
+	EQmain_out      : out signed (15 downto 0);   -- Output
 	chanEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filteridEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdataEQ : in STD_LOGIC_VECTOR(31 DOWNTO 0)
@@ -93,7 +94,7 @@ FUNCTION hex2display (n:std_logic_vector(3 DOWNTO 0)) RETURN std_logic_vector IS
     END CASE;
   END hex2display;
 
-component IIRDF1 is
+component IIRDF1EQ is
 Generic(
     W_in : integer ;
     W_coef : integer   
@@ -156,6 +157,20 @@ component SPImessageHandler is
     );
 end component;
 
+component EqualizerOutput is
+
+    port (
+        main_CLK       		: in std_logic;
+        Reset          		: in std_logic;
+		--dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
+                      
+        data_baseshelve     : in signed (15 downto 0);
+		data_midpeak       	: in signed (15 downto 0);   
+		data_trebleshelve   : in signed (15 downto 0);   
+		EQout  				: out signed (15 downto 0)
+    );
+end component;
+
 signal A1HIGH_temp, A2HIGH_temp, B1HIGH_temp, B2HIGH_temp,  A1LOW_temp, A2LOW_temp, B1LOW_temp, B2LOW_temp   : STD_LOGIC_VECTOR(23 DOWNTO 0) := (others=>'0');--0
 signal A0LOW_temp, B0LOW_temp, A0MID_temp, B0MID_temp, A0HIGH_temp, B0HIGH_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000001000000000000"; -- 4096
 signal  A1MID_temp, B1MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "111111111110100011010111";--'-5929';
@@ -165,10 +180,12 @@ signal  A2MID_temp, B2MID_temp  : STD_LOGIC_VECTOR(23 DOWNTO 0) := "000000000000
 --signal filterdataHandler_temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal flagLOW_temp, flagMID_temp, flagHIGH_temp : STD_LOGIC;
 
+signal data_outbaseshelve_temp     : signed (15 downto 0);
+signal	data_outmidpeak_temp       : signed (15 downto 0);   
+signal	data_outtrebleshelve_temp  : signed (15 downto 0);   
 
 
 begin
-
 --chanHandler_temp <= chanEQ;
 --filteridHandler_temp <= filteridEQ;
 --filterdataHandler_temp <= filterdataEQ;
@@ -212,7 +229,7 @@ port map (
 	flagHIGH => flagHIGH_temp
 );
 
-Treblecontrol : IIRDF1
+Treblecontrol : IIRDF1EQ
 generic map(
     W_in  => W_in,
     W_coef => W_coef  
@@ -228,7 +245,7 @@ port map (
         iRESET_N => Reset,        
         new_val => new_val,        
         IIR_in => data_in,                
-        IIR_out => data_outtrebleshelve,
+        IIR_out => data_outtrebleshelve_temp,
 	A0port => A0HIGH_temp,
 	A1port => A1HIGH_temp,
 	A2port => A2HIGH_temp,
@@ -245,7 +262,7 @@ port map (
 );
 			
 
-Basecontrol : IIRDF1
+Basecontrol : IIRDF1EQ
 generic map(
     W_in  => W_in,
     W_coef => W_coef  
@@ -261,7 +278,7 @@ port map (
         iRESET_N => Reset,       
         new_val => new_val,        
         IIR_in => data_in,       
-        IIR_out => data_outbaseshelve,
+        IIR_out => data_outbaseshelve_temp,
 	A0port => A0LOW_temp,
 	A1port => A1LOW_temp,
 	A2port => A2LOW_temp,
@@ -271,7 +288,7 @@ port map (
 	coefficientFLAG => flagLOW_temp
 );
 
-Midcontrol : IIRDF1
+Midcontrol : IIRDF1EQ
 generic map(
     W_in  => W_in,
     W_coef => W_coef  
@@ -287,7 +304,7 @@ port map (
         iRESET_N => Reset,        
         new_val => new_val,        
         IIR_in => data_in,                     
-        IIR_out => data_outmidpeak,
+        IIR_out => data_outmidpeak_temp,
 	A0port => A0MID_temp,
 	A1port => A1MID_temp,
 	A2port => A2MID_temp,
@@ -295,6 +312,19 @@ port map (
 	B1port => B1MID_temp,
 	B2port => B2MID_temp,
 	coefficientFLAG => flagMID_temp
+);
+
+EqualizerSum : EqualizerOutput
+
+port map (
+        main_CLK => main_CLK,
+        Reset => Reset,        
+              
+                data_baseshelve  => data_outbaseshelve_temp, 
+		data_midpeak   => data_outmidpeak_temp,     	
+		data_trebleshelve => data_outtrebleshelve_temp, 
+		EQout => EQmain_out   				
+	
 );
 
 end architecture;

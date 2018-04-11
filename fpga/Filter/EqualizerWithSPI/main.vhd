@@ -82,10 +82,10 @@ component Equalizermain is
 	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
-        data_outbaseshelve        : out signed (15 downto 0);   -- Output
-	data_outmidpeak       : out signed (15 downto 0);   -- Output
-	data_outtrebleshelve       : out signed (15 downto 0);   -- Output
-	
+        --data_outbaseshelve        : out signed (15 downto 0);   -- Output
+	--data_outmidpeak       : out signed (15 downto 0);   -- Output
+	--data_outtrebleshelve       : out signed (15 downto 0);   -- Output
+	EQmain_out      : out signed (15 downto 0);   -- Output
 	chanEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filteridEQ : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdataEQ : in STD_LOGIC_VECTOR(31 DOWNTO 0)
@@ -116,9 +116,10 @@ end component;
 	--Connecting wires
 	signal ADCDATA : std_logic_vector(31 downto 0) := (others=>'0');
 	--signal data_in : signed(15 downto 0):= (others=>'0');
-	signal data_outbaseshelve_temp : signed(15 downto 0):= (others=>'0');
-	signal data_outmidpeak_temp : signed(15 downto 0):= (others=>'0');
-	signal data_outtrebleshelve_temp : signed(15 downto 0):= (others=>'0');
+--	signal data_outbaseshelve_temp : signed(15 downto 0):= (others=>'0');
+--	signal data_outmidpeak_temp : signed(15 downto 0):= (others=>'0');
+--	signal data_outtrebleshelve_temp : signed(15 downto 0):= (others=>'0');
+	signal EQmain_out_temp : signed(15 downto 0):= (others=>'0');
 	signal data_over_temp : std_logic := '0';
 	signal data_in_temp : signed(15 downto 0):= (others=>'0');
 	signal LDATA : std_logic_vector(15 downto 0);
@@ -134,9 +135,10 @@ begin
 --data_outtrebleshelve <= data_outtrebleshelve_temp;
 
 data_in_temp <= signed(ADCDATA(31 downto 16));
-LDATA <= std_logic_vector(data_outbaseshelve_temp); -- example
-RDATA <= std_logic_vector(data_outtrebleshelve_temp); --example
-
+--LDATA <= std_logic_vector(data_outbaseshelve_temp); -- example
+--RDATA <= std_logic_vector(data_outtrebleshelve_temp); --example
+LDATA <= std_logic_vector(EQmain_out_temp);
+RDATA <= std_logic_vector(EQmain_out_temp);
 --data_outmidpeak <= data_outmidpeak;
 Equalizer : Equalizermain -- equalizer Port/signal => main port/ignal
 	port map (
@@ -150,9 +152,10 @@ Equalizer : Equalizermain -- equalizer Port/signal => main port/ignal
 			dig5=>dig5,           
         	new_val => data_over_temp,                
         	data_in => data_in_temp,                   
-		data_outbaseshelve => data_outbaseshelve_temp,
-		data_outmidpeak => data_outmidpeak_temp,
-		data_outtrebleshelve => data_outtrebleshelve_temp,
+--		data_outbaseshelve => data_outbaseshelve_temp,
+--		data_outmidpeak => data_outmidpeak_temp,
+--		data_outtrebleshelve => data_outtrebleshelve_temp,
+		EQmain_out => EQmain_out_temp,
 		chanEQ => chan_temp,  
 		filteridEQ => filterid_temp,
 		filterdataEQ => filterdata_temp
