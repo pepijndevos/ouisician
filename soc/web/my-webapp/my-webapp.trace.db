@@ -1,9 +1,0 @@
-2018-03-26 14:29:37 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Data conversion error converting "'haichuan' (LOCATIONS: X INTEGER)"; SQL statement:
-INSERT INTO locations ( x, y ) VALUES ( ?, ? ) -- (?1, ?2) [22018-193]
-2018-03-26 14:45:24 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (LOCATIONS: X INTEGER)"; SQL statement:
-INSERT INTO locations ( x, y ) VALUES ( ?, ? ) -- (?1, ?2) [22018-193]
-2018-03-26 14:45:24 jdbc[4]: exception
-org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (LOCATIONS: X INTEGER)"; SQL statement:
-INSERT INTO locations ( x, y ) VALUES ( ?, ? ) -- (?1, ?2) [22018-193]
