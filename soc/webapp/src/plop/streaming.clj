@@ -23,10 +23,7 @@
 		(println (.readLine reader))))
 
 
-(defn startstream [platform]
-
-	(if (not (boolean (bound? #'process-stream)))
-	(do 
+(defn startstream [platform] 
 	(if (== 1 platform)
 		(do
 			(println "Starting twitch stream")
@@ -47,7 +44,6 @@
 	
 	(str "Currently live on " platform-str)
 	)
-	(println "Already streaming")))
 	
 (defn stopstream []
 	(if (boolean (bound? #'process-stream))
@@ -59,8 +55,7 @@
 	)
 
 (defn startrecording []
-	(if (not (boolean (bound? #'process-record)))
-	(do 
+
 		(def output-dest (str "resources/public/"))
 		(def output-file (str "recordings/oui_" (now) ".wav"))
 		(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D hw:CARD=FPGA,DEV=1 " output-dest output-file))
@@ -69,8 +64,6 @@
 		;(debugProcess process-record)
 		(println "Starting recording")
 		(str output-file))
-	(println "Already recording"))
-	)
 
 (defn stoprecording []
 	(if (boolean (bound? #'process-record))
