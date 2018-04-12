@@ -68,8 +68,9 @@
 
 		(do 
 			(println "-- Other filter --")
-			(let [packet (byte-array [chan numid (byte 0x00) (byte 0x00) (byte 0x00) val])]
-			(SPItransfer packet)))
+			(def filterdata (getByteArray val))
+			(combineByteArrays chan numid 0 filterdata)
+			(SPItransfer packet))
 	)
 )
 

@@ -69,24 +69,27 @@ input[type="range"] {
     <h5 class="card-title">Channel 1</h5>
       <div class="card-text row">
         <div class="col-4">
-          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-1" data-channel="1" data-id="4">
+          <label for="vol-1">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-1" data-channel="1" data-id="4">
         </div>
         <div class="col-4">
-          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan-1" data-channel="1" data-id="5">
+          <label for="tremolo-1"><div class="form-check">
+            <input class="form-check-input" type="checkbox" id="tremolo" data-channel="1" data-id="19">
+            <label class="form-check-label" for="tremolo">Tremolo</label>
+          </div></label><input type="range" min="10000" max="15000" value="10000" class="slider" id="tremolo-1" data-channel="1" data-id="20">
         </div>
         <div class="col-4">
-          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay-1" data-channel="1" data-id="6">
+          <label for="delay-1">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay-1" data-channel="1" data-id="6">
         </div>
       </div>
       <div class="card-text row">
         <div class="col-4">
-          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix-1" data-channel="1" data-id="7">
+          <label for="mix-1">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix-1" data-channel="1" data-id="7">
         </div>
         <div class="col-4">
           <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room-1" data-channel="1" data-id="8">
         </div>
         <div class="col-4">
-          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp-1" data-channel="1" data-id="9">
+          <label for="damp-1">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp-1" data-channel="1" data-id="9">
         </div>
       </div>
   </div>
@@ -99,24 +102,24 @@ input[type="range"] {
     <h5 class="card-title">Channel 2</h5>
       <div class="card-text row">
         <div class="col-4">
-          <label for="vol">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-2" data-channel="2" data-id="4">
+          <label for="vol-2">Volume</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-2" data-channel="2" data-id="4">
         </div>
         <div class="col-4">
-          <label for="pan">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan-2" data-channel="2" data-id="5">
+          <label for="pan-2">Pan</label><input type="range" min="0" max="100" value="0" class="slider" id="pan-2" data-channel="2" data-id="5">
         </div>
         <div class="col-4">
-          <label for="delay">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay-2" data-channel="2" data-id="6">
+          <label for="delay-2">Delay</label><input type="range" min="0" max="100" value="50" class="slider" id="delay-2" data-channel="2" data-id="6">
         </div>
       </div>
       <div class="card-text row">
         <div class="col-4">
-          <label for="mix">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix-2" data-channel="2" data-id="7">
+          <label for="mix-2">Mix</label><input type="range" min="0" max="100" value="50" class="slider" id="mix-2" data-channel="2" data-id="7">
         </div>
         <div class="col-4">
-          <label for="room">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room-2" data-channel="2" data-id="8">
+          <label for="room-2">Room</label><input type="range" min="0" max="100" value="50" class="slider" id="room-2" data-channel="2" data-id="8">
         </div>
         <div class="col-4">
-          <label for="damp">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp-2" data-channel="2" data-id="9">
+          <label for="damp-2">Damp</label><input type="range" min="0" max="100" value="50" class="slider" id="damp-2" data-channel="2" data-id="9">
         </div>
       </div>
   </div>
@@ -124,6 +127,94 @@ input[type="range"] {
 </div>
 
 </div></p>
+
+<div class="row">
+ <div class="col-xs-12 col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Triangle wave</h5>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="tw-width">Width</label><input type="range" min="-10" max="10" value="0" class="slider" id="tw-width" data-channel="1" data-id="6">
+            </div>
+          </div>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="tw-width">Speed</label><input type="range" min="-10" max="10" value="0" class="slider" id="tw-width" data-channel="1" data-id="7">
+            </div>
+          </div>
+      </div>
+    </div>
+    <br/>
+  </div>
+  
+   <div class="col-xs-12 col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Offset</h5>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="offset1-1">Offset 1</label><input type="range" min="0" max="65535" value="0" class="slider" id="offset1-1" data-channel="1" data-id="15">
+            </div>
+          </div>
+          <div class="card-text row">
+            <div class="col-12">
+            <label for="offset2-1">Offset 2</label><input type="range" min="0" max="65535" value="0" class="slider" id="offset2-1" data-channel="1" data-id="16">
+            </div>
+          </div>
+		  <div class="card-text row">
+            <div class="col-12">
+            <label for="offset3-1">Offset 3</label><input type="range" min="0" max="65535" value="0" class="slider" id="offset3-1" data-channel="1" data-id="17">
+            </div>
+          </div>
+      </div>
+    </div>
+    <br/>
+  </div>
+  
+  
+     <div class="col-xs-12 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Gain</h5>
+          <div class="card-text row">
+            <div class="col-6">
+            <label for="blgain-1">Blend gain</label><input type="range" min="0" max="255" value="0" class="slider" id="blgain-1" data-channel="1" data-id="8">
+            </div>
+          </div>
+          <div class="card-text row">
+            <div class="col-6">
+            <label for="ffgain1-1">Feed-forward gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain1-1" data-channel="1" data-id="9">
+            </div>
+			<div class="col-6">
+            <label for="fbgain1-1">Feed-back gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain1-1" data-channel="1" data-id="10">
+            </div>
+          </div>
+		  <div class="card-text row">
+            <div class="col-6">
+            <label for="ffgain2-1">Feed-forward gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain2-1" data-channel="1" data-id="11">
+            </div>
+			 <div class="col-6">
+            <label for="fbgain2-1">Feed-back gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain2-1" data-channel="1" data-id="12">
+            </div>
+          </div>
+		  <div class="card-text row">
+            <div class="col-6">
+            <label for="ffgain3-1">Feed-forward gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain3-1" data-channel="1" data-id="13">
+            </div>
+			<div class="col-6">
+            <label for="fbgain3-1">Feed-back gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain3-1" data-channel="1" data-id="14">
+            </div>
+          </div>
+      </div>
+    </div>
+    <br/>
+  </div>
+  
+  
+</div>
+
+</div>
 
 
   </div>

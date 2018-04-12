@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE 5CSEMA5F31C6
 set_global_assignment -name TOP_LEVEL_ENTITY speaker
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:19:15  MAART 17, 2018"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name BOARD "DE1-SoC Board"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
@@ -459,7 +459,7 @@ set_location_assignment PIN_AD9 -to PS2_CLK2
 set_location_assignment PIN_AE9 -to PS2_DAT2
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_CLK2 -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_DAT2 -entity DE1_SoC
-set_location_assignment PIN_AB12 -to SW[0]
+
 set_location_assignment PIN_AC12 -to SW[1]
 set_location_assignment PIN_AF9 -to SW[2]
 set_location_assignment PIN_AF10 -to SW[3]
@@ -925,6 +925,8 @@ set_global_assignment -name ENABLE_LOGIC_ANALYZER_INTERFACE OFF
 
 
 
+set_global_assignment -name VHDL_FILE "../Audio Effects/Tremolo/Tremolo_FX.vhd"
+set_global_assignment -name VHDL_FILE "../Audio Effects/HardClip/Distortion.vhd"
 set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/SPImessageHandler.vhd
 set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/spi_slave_ui.vhd
 set_global_assignment -name VHDL_FILE ../Filter/EqualizerWithSPI/spi_slave.vhd
