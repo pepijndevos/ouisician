@@ -67,7 +67,12 @@ $('input.form-check-input').change(function() {
   else {
   checked = 0; 
   }
-  sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
+  if ((this.id == "streaming") || (this.id == "recording")) {
+	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
+  }
+  if (this.id == "tremolo") {
+	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
+  }
   console.log(this.value);
 });
 
