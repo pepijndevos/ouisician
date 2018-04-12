@@ -24,26 +24,29 @@
 
 
 (defn startstream [platform] 
-	(if (== 1 platform)
-		(do
-			(println "Starting twitch stream")
-			(def string-stream string-stream-twitch)
-			(def platform-str "Twitch.tv"))
-		)
-	(if (== 2 platform)
-		(do
-			(println "Starting youtube stream")
-			(def string-stream string-stream-youtube)
-			(def platform-str "Youtube"))
+	(if (not (boolean (resolve 'process-stream)))
+	(do
+		(if (== 1 platform)
+			(do
+				(println "Starting twitch stream")
+				(def string-stream string-stream-twitch)
+				(def platform-str "Twitch.tv"))
 			)
-	(println string-stream)
-	(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
-	(def process-stream (.start pb-stream))
+		(if (== 2 platform)
+			(do
+				(println "Starting youtube stream")
+				(def string-stream string-stream-youtube)
+				(def platform-str "Youtube"))
+				)
+		(println string-stream)
+		(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
+		(def process-stream (.start pb-stream))
+		
+		;(debugProcess process-stream)
+		
+		(str "Currently live on " platform-str))
 	
-	;(debugProcess process-stream)
-	
-	(str "Currently live on " platform-str)
-	)
+	(println "Already streaming")))
 	
 (defn stopstream []
 	(if (boolean (bound? #'process-stream))
@@ -55,7 +58,8 @@
 	)
 
 (defn startrecording []
-
+	(if (not (boolean (resolve 'process-record)))
+	(do 
 		(def output-dest (str "resources/public/"))
 		(def output-file (str "recordings/oui_" (now) ".wav"))
 		(def string-record (str "arecord -c 2 -f S16_LE -r 44100 -t wav -D hw:CARD=FPGA,DEV=1 " output-dest output-file))
@@ -64,6 +68,8 @@
 		;(debugProcess process-record)
 		(println "Starting recording")
 		(str output-file))
+	(println "Already recording"))
+	)
 
 (defn stoprecording []
 	(if (boolean (bound? #'process-record))
