@@ -101,7 +101,7 @@ port map(
 	new_val =>	strobe,	
 	data_in =>	nValue,	    
 	data_out =>	open,	
-	WahWah_EN =>WahWah_EN    
+	WahWah_EN =>'1'    
 );
 end architecture;
 
