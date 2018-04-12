@@ -3,13 +3,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity triangle is
-generic(
-	width : integer := 8;
-	speed : integer := 2**14
-);
-port(
+port (
 	rst : in std_logic;
 	clk : in std_logic;
+	max_ampl : in unsigned(15 downto 0);
+	speed : in unsigned(15 downto 0);
 	data : out unsigned(15 downto 0)
 );
 end triangle;
@@ -18,16 +16,17 @@ architecture behavioural of triangle is
 begin
 
 process(clk,rst)
-  constant max_ampl : integer := 2**width-1;
-  variable clock_counter : integer range 0 to speed:= 0;
-  variable triangle_counter : integer range 0 to max_ampl := 0;
+  variable clock_counter : integer:= 0;
+  variable triangle_counter : integer := 0;
   variable direction: std_logic := '0';
 begin
   if (rst = '0') then
     clock_counter := 0;
     triangle_counter := 0;
   elsif(rising_edge(clk)) then
-    if (clock_counter = speed ) then 
+    if max_ampl = x"0000" then
+		data <= to_unsigned(0, data'LENGTH);
+	 elsif (clock_counter = speed ) then 
       clock_counter := 0;
       if (direction = '0') then
         triangle_counter := triangle_counter + 1;

@@ -31,7 +31,10 @@ entity speaker is
 		dig2	: OUT std_logic_vector(6 DOWNTO 0); 
 		dig3	: OUT std_logic_vector(6 DOWNTO 0); 
 		dig4	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig5 	: OUT std_logic_vector(6 DOWNTO 0); 
+		dig5 	: OUT std_logic_vector(6 DOWNTO 0);
+		
+		SW : in std_logic_vector(9 downto 0);
+		
 		--FROM MASTER
 		sclk	: IN STD_LOGIC;  --spi clk from master	
 		ss	: IN STD_LOGIC;  --active low slave select
@@ -60,15 +63,16 @@ architecture Behavioral of speaker is
 	
   signal win1 : signed(15 downto 0);
   signal win2 : signed(15 downto 0);
-  signal win3 : signed(15 downto 0);
-  signal win4 : signed(15 downto 0);
-  signal win56 : std_logic_vector(31 downto 0);
+  signal pi1 : signed(15 downto 0);
+  signal pi2 : signed(15 downto 0);
+  signal myadc1 : signed(15 downto 0);
+  signal myadc2 : signed(15 downto 0);
+  signal socadc : std_logic_vector(31 downto 0);
   
   signal mixed : signed(15 downto 0);
   
   signal wout1 : signed(15 downto 0);
   signal wout2 : signed(15 downto 0);
-
   
   signal sndclk : std_logic;
   signal sndclk2 : std_logic;
@@ -89,21 +93,17 @@ architecture Behavioral of speaker is
 	
 	signal data_in_temp : signed(15 downto 0):= (others=>'0');
 	signal ADCDATA : std_logic_vector(31 downto 0) := (others=>'0');
-		signal LDATA : std_logic_vector(15 downto 0);
+	signal LDATA : std_logic_vector(15 downto 0);
 	signal RDATA : std_logic_vector(15 downto 0);
 	signal data_over_temp : std_logic := '0';
 	
-	
-  
-  
-  
-  
-  
-  
 begin
 GPIO_BCLK <= bitclk;
 GPIO_ADCCLK1 <= adcclk;
 GPIO_ADCCLK2 <= adcclk;
+
+win1 <= myadc1 when SW(1) = '1' else signed(socadc(31 downto 16));
+win2 <= myadc2 when SW(1) = '1' else signed(socadc(15 downto 0));
 
 
 process(sndclk)
@@ -129,36 +129,35 @@ end process;
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => EQ_out,
+      data_in => mixed,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
 		
---  comb_inst : entity work.comb(behavioral)
---	port map (
---	  rst => rst,
---    clk => clk,
---    sndclk => sndclk,
---    bl_gain => 0,
---    ff_gain1 => 255,
---    fb_gain1 => 0,
---    ff_gain2 => 0,
---    fb_gain2 => 0,
---    ff_gain3 => 0,
---    fb_gain3 => 0,
---    offset1 => resize(offset+256, 20),
---    offset2 => x"00000",
---    offset3 => x"00000",
---    word => mixed,
---    resp => flanger_fx
---  );
+  comb_inst : entity work.comb(behavioral)
+	port map (
+	  rst => rst,
+    clk => clk,
+    sndclk => sndclk,
+    bl_gain => 0,
+    ff_gain1 => 255,
+    fb_gain1 => 0,
+    ff_gain2 => 0,
+    fb_gain2 => 0,
+    ff_gain3 => 0,
+    fb_gain3 => 0,
+    offset1 => resize(offset+256, 20),
+    offset2 => resize(offset+256, 20),
+    offset3 => resize(offset+256, 20),
+    word => mixed,
+    resp => flanger_fx
+  );
 
 
   triangle_inst : entity work.triangle
-  generic map (
-    width => 10,
-	 speed => 2**10
-) port map (
+  port map (
+    max_ampl => x"03ff",
+	 speed => x"03ff",
     rst => rst,
     clk => clk,
     data => offset
@@ -170,10 +169,8 @@ end process;
       clk => sndclk,
       word1 => win1,
       word2 => win2,
-      word3 => win3,
-      word4 => win4,
-      word5 => signed(win56(31 downto 16)),
-      word6 => signed(win56(15 downto 0)),
+      word3 => pi1,
+      word4 => pi2,
       resp => mixed);
 		
 		
@@ -185,8 +182,8 @@ end process;
       dout => GPIO_DOUT,
       win1 => flanger_fx,
       win2 => flanger_fx,
-      wout1 => win1,
-      wout2 => win2);
+      wout1 => pi1,
+      wout2 => pi2);
 
   adc_inst1: entity work.adc(behavioral)
     generic map (
@@ -196,17 +193,17 @@ end process;
       clk => adcclk,
 		sndclk => sndclk2,
       data => GPIO_ADCDAT1,
-      word => win3);
+      word => myadc1);
 		
   adc_inst2: entity work.adc(behavioral)
     generic map (
       use_fir => false
-    )
+	 )
     port map (rst => rst,
       clk => adcclk,
 		sndclk => sndclk3,
       data => GPIO_ADCDAT2,
-      word => win4);
+      word => myadc2);
 		
   normalization_inst : entity work.normalization
 	port map (
@@ -237,13 +234,13 @@ end process;
 			AUD_DACLRCK => AUD_DACLRCK,
 			I2C_SDAT => FPGA_I2C_SDAT,
 			I2C_SCLK => FPGA_I2C_SCLK,
-			ADCDATA => win56
+			ADCDATA => socadc
 		);
 	
 	pll_inst: pll
 		port map (
 			refclk => CLOCK_50,
-			rst => '0',
+			rst => SW(9),
 			outclk_0 => bitclk,  -- 1.536 MHz
 			outclk_1 => clk, -- 49.152 MHz
 			outclk_2 => adcclk, -- 49.152 MHz, was 24.576 MHz

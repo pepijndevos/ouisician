@@ -10,8 +10,6 @@ entity mixer is
       word2   : in signed(15 downto 0);
       word3   : in signed(15 downto 0);
       word4   : in signed(15 downto 0);
-      word5   : in signed(15 downto 0);
-      word6   : in signed(15 downto 0);
       resp   : out signed(15 downto 0)
     );
 end;
@@ -23,7 +21,7 @@ begin
     if rst = '0' then
       resp <= to_signed(0, resp'length);
     elsif rising_edge(clk) then
-      resp <= word1 + word2 + word3 + word4 + word5 + word6;
+      resp <= word1 + word2 + word3 + word4;
     end if;
   end process;
 
