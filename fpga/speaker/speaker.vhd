@@ -26,12 +26,12 @@ entity speaker is
 		 pot_clk     : out std_logic;
 		 
 		 
-		dig0	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig1	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig2	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig3	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig4	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig5 	: OUT std_logic_vector(6 DOWNTO 0);
+		HEX0	: OUT std_logic_vector(6 DOWNTO 0); 
+		HEX1	: OUT std_logic_vector(6 DOWNTO 0); 
+		HEX2	: OUT std_logic_vector(6 DOWNTO 0); 
+		HEX3	: OUT std_logic_vector(6 DOWNTO 0); 
+		HEX4	: OUT std_logic_vector(6 DOWNTO 0); 
+		HEX5 	: OUT std_logic_vector(6 DOWNTO 0);
 		
 		SW : in std_logic_vector(9 downto 0);
 		
@@ -141,7 +141,7 @@ end process;
 Tremolo_inst : entity work.Tremolo_FX(behaviour)
 port map(
 	data_in => mixed,
-	data_out => Trem_out,
+	data_out => Trem_out1,
 	CLK_50 => adcclk,
 	newValue => sndclk,
 	reset => rst,
@@ -155,7 +155,7 @@ port map(
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => Trem_out,
+      data_in => Trem_out1,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
