@@ -82,9 +82,34 @@ architecture Behavioral of speaker is
   signal adcclk : std_logic;
   signal clk : std_logic;
 
-  signal Trem_out : signed(15 downto 0);
-  signal flanger_fx : signed(15 downto 0);
+  signal Trem_out1 : signed(15 downto 0);
+  signal Trem_out2 : signed(15 downto 0);
+  signal delay_out1 : signed(15 downto 0);
+  signal delay_out2 : signed(15 downto 0);
   signal offset : unsigned(15 downto 0);
+  
+   signal	max_ampl :  unsigned(15 downto 0);
+	signal	speed :  unsigned(15 downto 0);
+   signal   bl_gain1 :  integer range 0 to 255;
+   signal   ff_gain11 :  integer range 0 to 255;
+   signal   fb_gain11 :  integer range 0 to 255;
+   signal   ff_gain21 :  integer range 0 to 255;
+   signal   fb_gain21 :  integer range 0 to 255;
+   signal   ff_gain31 :  integer range 0 to 255;
+   signal   fb_gain31 :  integer range 0 to 255;
+   signal   offset11  :  unsigned(19 downto 0);
+   signal   offset21  :  unsigned(19 downto 0);
+   signal   offset31  :  unsigned(19 downto 0);
+	signal   bl_gain2 :  integer range 0 to 255;
+   signal   ff_gain12 :  integer range 0 to 255;
+   signal   fb_gain12 :  integer range 0 to 255;
+   signal   ff_gain22 :  integer range 0 to 255;
+   signal   fb_gain22 :  integer range 0 to 255;
+   signal   ff_gain32 :  integer range 0 to 255;
+   signal   fb_gain32:  integer range 0 to 255;
+   signal   offset12  :  unsigned(19 downto 0);
+   signal   offset22  :  unsigned(19 downto 0);
+	signal 	offset32 : unsigned(19 downto 0);
   
   	signal EQ_out : signed(15 downto 0):= (others=>'0');
 	signal chan_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0); 
@@ -134,41 +159,109 @@ end process;
 		data_outhigh => wout2
 		);
 		
-  comb_inst : entity work.comb(behavioral)
+ comb_inst1 : entity work.comb
 	port map (
 	  rst => rst,
     clk => clk,
     sndclk => sndclk,
-    bl_gain => 0,
-    ff_gain1 => 255,
-    fb_gain1 => 0,
-    ff_gain2 => 0,
-    fb_gain2 => 0,
-    ff_gain3 => 0,
-    fb_gain3 => 0,
-    offset1 => resize(offset+256, 20),
-    offset2 => resize(offset+256, 20),
-    offset3 => resize(offset+256, 20),
-    word => mixed,
-    resp => flanger_fx
+    bl_gain => bl_gain1,
+    ff_gain1 => ff_gain11,
+    fb_gain1 => fb_gain11,
+    ff_gain2 => ff_gain21,
+    fb_gain2 => fb_gain21,
+    ff_gain3 => ff_gain31,
+    fb_gain3 => fb_gain31,
+    offset1 => resize(offset+offset11, 20),
+    offset2 => resize(offset+offset21, 20),
+    offset3 => resize(offset+offset31, 20),
+    word => win1,
+    resp => delay_out1
+  );
+  
+ delayhandler_inst1 : entity work.delayhandler
+	generic map (
+		mychan => x"01",
+		base_addr => 6
+	)
+	port map (
+	 rst => rst,
+    clk => clk,
+	 chan => chan_temp,  
+	 filterid => filterid_temp,
+	 filterdata => filterdata_temp,
+	 max_ampl => max_ampl,
+	 speed => speed,
+    bl_gain => bl_gain1,
+    ff_gain1 => ff_gain11,
+    fb_gain1 => fb_gain11,
+    ff_gain2 => ff_gain21,
+    fb_gain2 => fb_gain21,
+    ff_gain3 => ff_gain31,
+    fb_gain3 => fb_gain31,
+    offset1 => offset11,
+    offset2 => offset21,
+    offset3 => offset31
   );
 
+   comb_inst2 : entity work.comb
+	port map (
+	  rst => rst,
+    clk => clk,
+    sndclk => sndclk,
+    bl_gain => bl_gain2,
+    ff_gain1 => ff_gain12,
+    fb_gain1 => fb_gain12,
+    ff_gain2 => ff_gain22,
+    fb_gain2 => fb_gain22,
+    ff_gain3 => ff_gain32,
+    fb_gain3 => fb_gain32,
+    offset1 => resize(offset+offset12, 20),
+    offset2 => resize(offset+offset22, 20),
+    offset3 => resize(offset+offset32, 20),
+    word => win2,
+    resp => delay_out2
+  );
+  
+ delayhandler_inst2 : entity work.delayhandler
+	generic map (
+		mychan => x"02",
+		base_addr => 18
+	)
+	port map (
+	 rst => rst,
+    clk => clk,
+	 chan => chan_temp,  
+	 filterid => filterid_temp,
+	 filterdata => filterdata_temp,
+	 max_ampl => open,
+	 speed => open,
+    bl_gain => bl_gain2,
+    ff_gain1 => ff_gain12,
+    fb_gain1 => fb_gain12,
+    ff_gain2 => ff_gain22,
+    fb_gain2 => fb_gain22,
+    ff_gain3 => ff_gain32,
+    fb_gain3 => fb_gain32,
+    offset1 => offset12,
+    offset2 => offset22,
+    offset3 => offset32
+);
 
   triangle_inst : entity work.triangle
   port map (
-    max_ampl => x"03ff",
-	 speed => x"03ff",
+    max_ampl => max_ampl,
+	 speed => speed,
     rst => rst,
     clk => clk,
     data => offset
-  );
+);
 
 
   mixer_inst: entity work.mixer
     port map (rst => rst,
       clk => sndclk,
-      word1 => win1,
-      word2 => win2,
+      word1 => delay_out1,
+      word2 => delay_out2,
       word3 => pi1,
       word4 => pi2,
       resp => mixed);
@@ -180,8 +273,8 @@ end process;
       rlclk => GPIO_LRCK,
       din => GPIO_DIN,
       dout => GPIO_DOUT,
-      win1 => flanger_fx,
-      win2 => flanger_fx,
+      win1 => mixed,
+      win2 => mixed,
       wout1 => pi1,
       wout2 => pi2);
 
