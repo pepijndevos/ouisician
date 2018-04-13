@@ -21,7 +21,7 @@ end Tremolo_FX;
 architecture behaviour of Tremolo_FX is
 signal CLK_3HZ : std_logic := '0';
 signal t_waveout : signed(2*t_height-1 downto 0) := (others=>'0');
-signal data_out_temp : signed(t_height+16-1 downto 0):= (others=>'0');
+signal data_out_temp : signed(t_waveout'length+data_in'length-1 downto 0):= (others=>'0');
 constant max_range : integer := (2**t_height-1)-1;
 signal counter_int :  integer := 10000;
 signal Trem_EN : std_logic := '0';
@@ -94,7 +94,8 @@ end process;
 process(CLK_50,Reset)
 begin
 if (Reset = '0') then
-	data_out <= (others =>'0');	
+	data_out <= (others =>'0');
+	Trem_EN <= '0';
 elsif(rising_edge(CLK_50)) then
 	IF filterid(7 DOWNTO 0) = "00010100" AND chan(2 DOWNTO 0) = "001" THEN --range value spi
 		Counter_int <= to_integer(signed(fil_data));
@@ -105,12 +106,10 @@ elsif(rising_edge(CLK_50)) then
 			Trem_EN <= '0';
 		end if;
 	END IF;
-	if(newValue = '1') then --need to be changed for different input handling 
-		if (Trem_EN = '1') then
+	if (Trem_EN = '1') then
 			data_out_temp <= resize(t_waveout*data_in,data_out_temp'LENGTH);
-			data_out<= resize(data_out_temp/(2**(t_height)),data_out'LENGTH);
-		end if;
-	elsif(Trem_EN = '0') then
+			data_out<= resize(data_out_temp/(2**(10)),data_out'LENGTH); --previous is set to 10 length.
+	else
 		data_out <= data_in;
 	end if;
 end if;
