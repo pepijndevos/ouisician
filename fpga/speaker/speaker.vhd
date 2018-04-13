@@ -225,7 +225,7 @@ end process;
  delayhandler_inst2 : entity work.delayhandler
 	generic map (
 		mychan => x"02",
-		base_addr => 18
+		base_addr => 6
 	)
 	port map (
 	 rst => rst,
