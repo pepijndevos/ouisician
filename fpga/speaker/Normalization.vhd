@@ -7,7 +7,7 @@ ENTITY normalization IS
 			pot_clk : out std_logic;
 			KEY : IN std_logic_vector(3 DOWNTO 0);
 			ic : OUT std_logic_vector(7 DOWNTO 0);
-			filterid: IN std_logic_vector(7 DOWNTO 0);
+						filterid: IN std_logic_vector(7 DOWNTO 0);
 			chan: IN std_logic_vector(7 DOWNTO 0);
 	      fil_data: IN std_logic_vector(31 DOWNTO 0)
 			
