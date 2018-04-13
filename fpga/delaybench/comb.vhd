@@ -4,13 +4,13 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity comb is
     port (
-      bl_gain : integer range 0 to 255;
-      ff_gain1 : integer range 0 to 255;
-      fb_gain1 : integer range 0 to 255;
-      ff_gain2 : integer range 0 to 255;
-      fb_gain2 : integer range 0 to 255;
-      ff_gain3 : integer range 0 to 255;
-      fb_gain3 : integer range 0 to 255;
+      bl_gain : integer range 0 to 256;
+      ff_gain1 : integer range 0 to 256;
+      fb_gain1 : integer range 0 to 256;
+      ff_gain2 : integer range 0 to 256;
+      fb_gain2 : integer range 0 to 256;
+      ff_gain3 : integer range 0 to 256;
+      fb_gain3 : integer range 0 to 256;
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
@@ -58,7 +58,7 @@ begin
     variable state : unsigned(3 downto 0);
     variable counter : unsigned(15 downto 0) := x"0000";
     variable mixed_input : signed(23 downto 0);
-    variable mixed_output : signed(31 downto 0);
+    variable mixed_output : signed(23 downto 0);
     variable temp : signed(15 downto 0);
     variable temp2 :signed(15 downto 0);
   begin
@@ -113,10 +113,14 @@ begin
           mixed_output := mixed_output + resize(temp2*ff_gain3, mixed_output'length);
           state := state + 1;
         when x"9" =>
-          mixed_input := mixed_input + resize(signed(word)*256, mixed_input'length);
-          mixed_output := resize(mixed_output*256 + mixed_input*bl_gain, mixed_output'length);
-          resp <= resize(mixed_output/65536, resp'length);
-          data <= std_logic_vector(resize(mixed_input/256, resp'length));
+          mixed_input := mixed_input/256 + resize(signed(word), mixed_input'length);
+ 		    state := state + 1;
+	     when x"A" =>
+          mixed_output := mixed_output + resize(mixed_input*bl_gain, mixed_output'length);
+ 		    state := state + 1;
+        when x"B" =>
+          resp <= resize(mixed_output/256, resp'length);
+          data <= std_logic_vector(resize(mixed_input, resp'length));
           address <= std_logic_vector(counter);
           wren <= '1';
           state := state + 1;

@@ -79,7 +79,7 @@ architecture Behavioral of speaker is
   signal sndclk3 : std_logic;
 
   signal bitclk : std_logic;
-  signal adcclk : std_logic;
+  signal halfclk : std_logic;
   signal clk : std_logic;
 
   signal Trem_out1 : signed(15 downto 0);
@@ -90,23 +90,23 @@ architecture Behavioral of speaker is
   
    signal	max_ampl :  unsigned(15 downto 0);
 	signal	speed :  unsigned(15 downto 0);
-   signal   bl_gain1 :  integer range 0 to 255;
-   signal   ff_gain11 :  integer range 0 to 255;
-   signal   fb_gain11 :  integer range 0 to 255;
-   signal   ff_gain21 :  integer range 0 to 255;
-   signal   fb_gain21 :  integer range 0 to 255;
-   signal   ff_gain31 :  integer range 0 to 255;
-   signal   fb_gain31 :  integer range 0 to 255;
+   signal   bl_gain1 :  integer range 0 to 256;
+   signal   ff_gain11 :  integer range 0 to 256;
+   signal   fb_gain11 :  integer range 0 to 256;
+   signal   ff_gain21 :  integer range 0 to 256;
+   signal   fb_gain21 :  integer range 0 to 256;
+   signal   ff_gain31 :  integer range 0 to 256;
+   signal   fb_gain31 :  integer range 0 to 256;
    signal   offset11  :  unsigned(19 downto 0);
    signal   offset21  :  unsigned(19 downto 0);
    signal   offset31  :  unsigned(19 downto 0);
-	signal   bl_gain2 :  integer range 0 to 255;
-   signal   ff_gain12 :  integer range 0 to 255;
-   signal   fb_gain12 :  integer range 0 to 255;
-   signal   ff_gain22 :  integer range 0 to 255;
-   signal   fb_gain22 :  integer range 0 to 255;
-   signal   ff_gain32 :  integer range 0 to 255;
-   signal   fb_gain32:  integer range 0 to 255;
+	signal   bl_gain2 :  integer range 0 to 256;
+   signal   ff_gain12 :  integer range 0 to 256;
+   signal   fb_gain12 :  integer range 0 to 256;
+   signal   ff_gain22 :  integer range 0 to 256;
+   signal   fb_gain22 :  integer range 0 to 256;
+   signal   ff_gain32 :  integer range 0 to 256;
+   signal   fb_gain32:  integer range 0 to 256;
    signal   offset12  :  unsigned(19 downto 0);
    signal   offset22  :  unsigned(19 downto 0);
 	signal 	offset32 : unsigned(19 downto 0);
@@ -124,8 +124,8 @@ architecture Behavioral of speaker is
 	
 begin
 GPIO_BCLK <= bitclk;
-GPIO_ADCCLK1 <= adcclk;
-GPIO_ADCCLK2 <= adcclk;
+GPIO_ADCCLK1 <= clk;
+GPIO_ADCCLK2 <= clk;
 
 win1 <= myadc1 when SW(1) = '1' else signed(socadc(31 downto 16));
 win2 <= myadc2 when SW(1) = '1' else signed(socadc(15 downto 0));
@@ -142,7 +142,7 @@ Tremolo_inst : entity work.Tremolo_FX(behaviour)
 port map(
 	data_in => mixed,
 	data_out => Trem_out1,
-	CLK_50 => adcclk,
+	CLK_50 => clk,
 	newValue => sndclk,
 	reset => rst,
 	chan => chan_temp, 
@@ -284,7 +284,7 @@ port map(
       use_fir => false
     )
     port map (rst => rst,
-      clk => adcclk,
+      clk => clk,
 		sndclk => sndclk2,
       data => GPIO_ADCDAT1,
       word => myadc1);
@@ -294,7 +294,7 @@ port map(
       use_fir => false
 	 )
     port map (rst => rst,
-      clk => adcclk,
+      clk => clk,
 		sndclk => sndclk3,
       data => GPIO_ADCDAT2,
       word => myadc2);
@@ -337,7 +337,7 @@ port map(
 			rst => SW(9),
 			outclk_0 => bitclk,  -- 1.536 MHz
 			outclk_1 => clk, -- 49.152 MHz
-			outclk_2 => adcclk, -- 49.152 MHz, was 24.576 MHz
+			outclk_2 => halfclk, -- 24.576 MHz
 			locked => rst);
 			
 			

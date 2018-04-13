@@ -12,17 +12,17 @@ architecture testbench of impulsebench is
 	signal sndclk : std_logic := '0';
 	signal word : signed(15 downto 0) := x"0000";
   signal resp : signed(15 downto 0);
-  signal offset : unsigned(9 downto 0);
+  signal offset : unsigned(15 downto 0);
 
   component comb
     port (
-      bl_gain : integer range 0 to 255;
-      ff_gain1 : integer range 0 to 255;
-      fb_gain1 : integer range 0 to 255;
-      ff_gain2 : integer range 0 to 255;
-      fb_gain2 : integer range 0 to 255;
-      ff_gain3 : integer range 0 to 255;
-      fb_gain3 : integer range 0 to 255;
+      bl_gain : integer range 0 to 256;
+      ff_gain1 : integer range 0 to 256;
+      fb_gain1 : integer range 0 to 256;
+      ff_gain2 : integer range 0 to 256;
+      fb_gain2 : integer range 0 to 256;
+      ff_gain3 : integer range 0 to 256;
+      fb_gain3 : integer range 0 to 256;
       rst    : in std_logic;
       clk    : in std_logic;
       sndclk : in std_logic;
@@ -35,14 +35,12 @@ architecture testbench of impulsebench is
   end component;
 
   component triangle is
-    generic(
-      width : integer := 10;
-      speed : integer := 2**5
-    );
     port(
       rst : in std_logic;
       clk : in std_logic;
-      data : out unsigned(width-1 downto 0)
+      max_ampl : in unsigned(15 downto 0);
+      speed : in unsigned (15 downto 0);
+      data : out unsigned(15 downto 0)
     );
   end component;
     
@@ -57,7 +55,7 @@ begin
     if rising_edge(sndclk) then
       counter := counter + 1;
       if counter = 10 then
-        word <= x"0fff";
+        word <= x"0ae9";
       else
         word <= x"0000";
       end if;
@@ -68,12 +66,12 @@ begin
     rst => rst,
     clk => clk,
     sndclk => sndclk,
-    bl_gain => 255,
-    ff_gain1 => 255,
+    bl_gain => 256,
+    ff_gain1 => 0,
     fb_gain1 => 0,
-    ff_gain2 => 255,
+    ff_gain2 => 0,
     fb_gain2 => 0,
-    ff_gain3 => 255,
+    ff_gain3 => 0,
     fb_gain3 => 0,
     offset1 => x"00020",
     offset2 => x"00040",
@@ -85,6 +83,8 @@ begin
   triangle_inst : triangle port map (
     rst => rst,
     clk => clk,
+    max_ampl => x"ffff",
+    speed => x"ffff",
     data => offset
   );
 end;

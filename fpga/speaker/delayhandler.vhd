@@ -16,13 +16,13 @@ entity delayhandler is
 		
 		max_ampl : out unsigned(15 downto 0);
 		speed : out unsigned(15 downto 0);
-      bl_gain : out integer range 0 to 255;
-      ff_gain1 : out integer range 0 to 255;
-      fb_gain1 : out integer range 0 to 255;
-      ff_gain2 : out integer range 0 to 255;
-      fb_gain2 : out integer range 0 to 255;
-      ff_gain3 : out integer range 0 to 255;
-      fb_gain3 : out integer range 0 to 255;
+      bl_gain : out integer range 0 to 256;
+      ff_gain1 : out integer range 0 to 256;
+      fb_gain1 : out integer range 0 to 256;
+      ff_gain2 : out integer range 0 to 256;
+      fb_gain2 : out integer range 0 to 256;
+      ff_gain3 : out integer range 0 to 256;
+      fb_gain3 : out integer range 0 to 256;
       offset1  : out unsigned(19 downto 0);
       offset2  : out unsigned(19 downto 0);
       offset3  : out unsigned(19 downto 0)
@@ -34,7 +34,7 @@ begin
   process(clk, rst)
   begin
     if rst = '0' then
-		bl_gain <= 255;
+		bl_gain <= 256;
 		ff_gain1 <= 0;
 		fb_gain1 <= 0;
 		ff_gain2 <= 0;

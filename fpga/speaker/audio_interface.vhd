@@ -70,7 +70,6 @@ signal SCLK_int, init_over, sck0, sck1, count_en, word_reset : std_logic;
 signal SCLK_inhibit : std_logic;
 
 signal dack0, dack1, bck0, bck1, adck0, adck1, flag, flag1 : std_logic;
-signal adc_reg_val : std_logic_vector(31 downto 0);
 
 CONSTANT word_limit : integer := 8;
 
@@ -488,17 +487,19 @@ BEGIN
 		end case;
 	end process;
 
-	adc_proc : process(Clk, bck0, bck1, adc_reg_val, adck0, adck1, Reset, adc_count, flag)
+	adc_proc : process(Clk, bck0, bck1, adck0, adck1, Reset, adc_count, flag)
+	variable adc_reg_val : std_logic_vector(31 downto 0);
 	begin
 		if (Reset = '0') then
-			adc_reg_val <= (OTHERS => '0'); 
+			adc_reg_val := (OTHERS => '0'); 
 			adc_count <= 31;
 			adc_full <= '0';
 		elsif(rising_edge(Clk)) then
-			adc_reg_val(adc_count) <= AUD_ADCDAT; -- put the bits in the 32 bits word
+			adc_reg_val(adc_count) := AUD_ADCDAT; -- put the bits in the 32 bits word
 			adc_full <= '0';
 			if (adc_count = 0) then
 				adc_full <= '1';
+			   ADCDATA <= adc_reg_val; -- put the 32 bit word in the ADCDATA
 			end if;
 			
 			if (adck0 = '1' and adck1 = '0') then -- Rising edge
@@ -523,7 +524,7 @@ BEGIN
 	--AUD_DACDAT <= adc_reg_val(Bcount);
 	data_over <= flag1;
 	init_finish <= init_over;
-	ADCDATA <= adc_reg_val; -- put the 32 bit word in the ADCDATA
+	--ADCDATA <= adc_reg_val; -- put the 32 bit word in the ADCDATA
 	
 			
 end Behavorial;

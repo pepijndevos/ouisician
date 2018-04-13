@@ -3,7 +3,7 @@ close all
 
 %% parameters
 
-OSF = 2^9; % ADC oversample factor
+OSF = 2^10; % ADC oversample factor
 Fso = 48e3; % audio sample rate
 Fsi = Fso*OSF; % ADC sample rate
 
@@ -26,14 +26,14 @@ SD=2*1e-4;
 
 f1 = [0, 1/D, 2/D1-1/D, 1];
 a1 = [1 1 0 0];
-eq1 = round(firpm(D1*3-1, f1, a1)*16000);
-%eq1 = firpm(D1*3-1, f1, a1);
+eq1s = round(firpm(D1*3-1, f1, a1)*16000);
+eq1 = firpm(D1*3-1, f1, a1);
 
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
 a2 = [1 1 0 0];
-eq2 = round(firpm(D2*32-1, f2, a2)*2^16);
-%eq2 = firpm(D2*32-1, f2, a2);
+eq2s = round(firpm(D2*32-1, f2, a2)*2^16);
+eq2 = firpm(D2*32-1, f2, a2);
 
 
 [h1, f1] = freqz(eq1, 1, 1000, Fsi);
@@ -51,8 +51,8 @@ ylabel('Magnitude (dB)');
 xlabel('Frequency (KHz)');
 title('Stage 2')
 
-csvwrite('fir1.csv',reshape(eq1, [], 16)');
-csvwrite('fir2.csv',reshape(eq2, [], 16)');
+csvwrite('fir1.csv',reshape(eq1s, [], 16)');
+csvwrite('fir2.csv',reshape(eq2s, [], 16)');
 
 %% dsp toolbox attempt
 
