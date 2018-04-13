@@ -54,7 +54,7 @@
         (def display (stoprecording)))
       (if (>= chan 1) ;only send sound controls to FPGA
       	(do (def display val)
-  		(SPIhandler chan numid val)))
+  		(SPIhandler id chan numid val)))
 
   	(update-clients id numid chan display)))
         

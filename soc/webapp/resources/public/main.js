@@ -27,6 +27,9 @@ sock.onmessage = function(e) {
     $('#' + msg.id).val(msg.display);
   }
 
+  
+
+
   if (msg.id == "recording") {
     
     if(msg.numid == 1) { //starting recording
@@ -56,6 +59,7 @@ sock.onmessage = function(e) {
       $("#streamkey").attr('disabled',false);
     }
   }
+  
 
 }
 
@@ -70,7 +74,7 @@ $('input.form-check-input').change(function() {
   if ((this.id == "streaming") || (this.id == "recording")) {
 	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
   }
-  if (this.id == "tremolo") {
+  if ((this.id == "tremolo-1") || (this.id == "tremolo-2")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
   }
   console.log(this.value);
