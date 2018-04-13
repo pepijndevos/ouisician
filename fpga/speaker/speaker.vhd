@@ -135,26 +135,27 @@ process(sndclk)
 begin
 	if rising_edge(sndclk) then
 		counter <= counter+1;
-		
 		LEDR <= std_logic_vector(mixed(15 downto 6));
 	end if;
 end process;
---	Tremolo_inst : entity work.Tremolo_FX(behaviour)
---	port map(
---		data_in => mixed,
---		data_out => Trem_out,
---		CLK_50 => adcclk,
---		newValue => sndclk,
---		Trem_EN => Trem_EN,
---		reset => rst
---	);
+Tremolo_inst : entity work.Tremolo_FX(behaviour)
+port map(
+	data_in => mixed,
+	data_out => Trem_out,
+	CLK_50 => adcclk,
+	newValue => sndclk,
+	reset => rst,
+	chan => chan_temp, 
+	filterid => filterid_temp,
+	fil_data => filterdata_temp
+);
 
   crossover_inst: entity work.Crossover
 	port map (
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => mixed,
+      data_in => Trem_out,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
@@ -341,26 +342,26 @@ end process;
 			
 			
 			
-	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
-	port map (
-        	main_CLK => clk,      
-        	Reset => rst,
-			dig0=>dig0,
-			dig1=>dig1,
-			dig2=>dig2 ,
-			dig3=>dig3 ,
-			dig4=>dig4 ,
-			dig5=>dig5,           
-        	new_val => sndclk,                
-        	data_in => mixed,                   
---		data_outbaseshelve => data_outbaseshelve_temp,
---		data_outmidpeak => data_outmidpeak_temp,
---		data_outtrebleshelve => data_outtrebleshelve_temp,
-		EQmain_out => EQ_out,
-		chanEQ => chan_temp,  
-		filteridEQ => filterid_temp,
-		filterdataEQ => filterdata_temp
-	);
+--	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
+--	port map (
+--        	main_CLK => clk,      
+--        	Reset => rst,
+--			dig0=>dig0,
+--			dig1=>dig1,
+--			dig2=>dig2 ,
+--			dig3=>dig3 ,
+--			dig4=>dig4 ,
+--			dig5=>dig5,           
+--        	new_val => sndclk,                
+--        	data_in => mixed,                   
+----		data_outbaseshelve => data_outbaseshelve_temp,
+----		data_outmidpeak => data_outmidpeak_temp,
+----		data_outtrebleshelve => data_outtrebleshelve_temp,
+--		EQmain_out => EQ_out,
+--		chanEQ => chan_temp,  
+--		filteridEQ => filterid_temp,
+--		filterdataEQ => filterdata_temp
+--	);
 
 SPIhandlerEqualizer : entity work.spi_slave_ui
 	port map (
