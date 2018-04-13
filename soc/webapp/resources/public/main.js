@@ -30,37 +30,21 @@ sock.onmessage = function(e) {
   if (msg.id == "tremolo-2-check") {
     if(msg.display == 1) {
       $("#tremolo-2-check").prop('checked', true);
-<<<<<<< HEAD
       ;$("#tremolo-2-slide").attr('disabled',false);
     }
 	else if(msg.display == 0) {
       $("#tremolo-2-check").prop('checked', false);
       ;$("#tremolo-2-slide").attr('disabled', true);
-=======
-      $("#tremolo-2-slide").attr('disabled',true);
-    }
-	else if(msg.display == 0) {
-      $("#tremolo-2-check").prop('checked', false);
-      $("#tremolo-2-slide").attr('disabled', false);
->>>>>>> 137b87bee07bb2f9a2beefa45f86bf38d736afb5
     }
   }
    if (msg.id == "tremolo-1-check") {
     if(msg.display == 1) {
       $("#tremolo-1-check").prop('checked', true);
-<<<<<<< HEAD
       ; $("#tremolo-1-slide").attr('disabled',false);
     }
 	else if(msg.display == 0) {
       $("#tremolo-1-check").prop('checked', false);
       ;$("#tremolo-1-slide").attr('disabled', true);
-=======
-      $("#tremolo-1-slide").attr('disabled',true);
-    }
-	else if(msg.display == 0) {
-      $("#tremolo-1-check").prop('checked', false);
-      $("#tremolo-1-slide").attr('disabled', false);
->>>>>>> 137b87bee07bb2f9a2beefa45f86bf38d736afb5
     }
   }
 
