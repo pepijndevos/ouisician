@@ -21,7 +21,7 @@ begin
     if rst = '0' then
       resp <= to_signed(0, resp'length);
     elsif rising_edge(clk) then
-      resp <= word1 + word2 + word3 + word4;
+      resp <= (word1 + word2) + (word3 + word4);
     end if;
   end process;
 

@@ -36,7 +36,7 @@ begin
     if rst = '0' then
 		bl_gain <= 255;
 		ff_gain1 <= 0;
-		fb_gain1 <= 128;
+		fb_gain1 <= 0;
 		ff_gain2 <= 0;
 		fb_gain2 <= 0;
 		ff_gain3 <= 0;
