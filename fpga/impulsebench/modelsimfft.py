@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 Fs = 48e3
-amplitude = 0x3fff
+amplitude = 4*16000
 db = 20*np.log10(amplitude)
 
 def timestamp(ps):
@@ -15,8 +15,16 @@ def std_logic(bits):
     except ValueError:
         return 0
 
+def two_complement(value):
+    length = len(value)
+    value = std_logic(value)
+    if (value & (1 << (length - 1))) != 0:
+        value = value - (1 << length)
+    return value
+
 c = {0: timestamp,
-     3: std_logic}
+     2: std_logic,
+     3: two_complement}
 
 data = pd.read_csv('list.lst',
         delim_whitespace=True,
@@ -26,12 +34,15 @@ data = pd.read_csv('list.lst',
         names=['ps', 'delta', 'sndclk', 'resp'],
         converters=c)
 
-resp = data[data['sndclk']==0]['resp']
+resp = data[data['sndclk']==1][pd.Timestamp(0.5, unit='ms'):]['resp']
+
+print(resp)
 
 dft = np.fft.fft(resp)
 frq = np.arange(len(dft))*Fs/len(dft)
 
-plt.plot(frq,20*np.log10(abs(dft))-db)
+plt.semilogx(frq,20*np.log10(abs(dft))-db)
+plt.grid(True, which='both')
 plt.xlabel("Frequency [hz]")
 plt.ylabel("Amplitude [dB]")
 plt.xlim(0, Fs/2)

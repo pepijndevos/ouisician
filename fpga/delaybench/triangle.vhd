@@ -23,6 +23,7 @@ begin
   if (rst = '0') then
     clock_counter := 0;
     triangle_counter := 0;
+    direction := '0';
   elsif(rising_edge(clk)) then
     if max_ampl = x"0000" then
 		data <= to_unsigned(0, data'LENGTH);

@@ -54,8 +54,8 @@ begin
   begin
     if rising_edge(sndclk) then
       counter := counter + 1;
-      if counter = 10 then
-        word <= x"0ae9";
+      if (counter mod 8) = 0 then
+        word <= x"3fff";
       else
         word <= x"0000";
       end if;
@@ -66,16 +66,16 @@ begin
     rst => rst,
     clk => clk,
     sndclk => sndclk,
-    bl_gain => 256,
-    ff_gain1 => 0,
+    bl_gain => 0,
+    ff_gain1 => 256,
     fb_gain1 => 0,
     ff_gain2 => 0,
     fb_gain2 => 0,
     ff_gain3 => 0,
     fb_gain3 => 0,
-    offset1 => x"00020",
-    offset2 => x"00040",
-    offset3 => x"00068",
+    offset1 => resize(offset, 20),
+    offset2 => x"00044",
+    offset3 => x"00078",
     word => word,
     resp => resp
   );
@@ -83,8 +83,8 @@ begin
   triangle_inst : triangle port map (
     rst => rst,
     clk => clk,
-    max_ampl => x"ffff",
-    speed => x"ffff",
+    max_ampl => x"00ff",
+    speed => x"03ff",
     data => offset
   );
 end;
