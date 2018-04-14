@@ -138,24 +138,25 @@ begin
 		LEDR <= std_logic_vector(mixed(15 downto 6));
 	end if;
 end process;
-Tremolo_inst : entity work.Tremolo_FX(behaviour)
-port map(
-	data_in => mixed,
-	data_out => Trem_out1,
-	CLK_50 => clk,
-	newValue => sndclk,
-	reset => rst,
-	chan => chan_temp, 
-	filterid => filterid_temp,
-	fil_data => filterdata_temp
-);
+
+--Tremolo_inst : entity work.Tremolo_FX(behaviour)
+--port map(
+--	data_in => mixed,
+--	data_out => Trem_out1,
+--	CLK_50 => clk,
+--	newValue => sndclk,
+--	reset => rst,
+--	chan => chan_temp, 
+--	filterid => filterid_temp,
+--	fil_data => filterdata_temp
+--);
 
   crossover_inst: entity work.Crossover
 	port map (
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => Trem_out1,
+      data_in => mixed,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
@@ -346,12 +347,12 @@ port map(
 --	port map (
 --        	main_CLK => clk,      
 --        	Reset => rst,
---			dig0=>dig0,
---			dig1=>dig1,
---			dig2=>dig2 ,
---			dig3=>dig3 ,
---			dig4=>dig4 ,
---			dig5=>dig5,           
+--			dig0=>HEX0,
+--			dig1=>HEX1,
+--			dig2=>HEX2 ,
+--			dig3=>HEX3 ,
+--			dig4=>HEX4 ,
+--			dig5=>HEX5,           
 --        	new_val => sndclk,                
 --        	data_in => mixed,                   
 ----		data_outbaseshelve => data_outbaseshelve_temp,

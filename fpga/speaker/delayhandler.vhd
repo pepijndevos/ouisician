@@ -42,7 +42,7 @@ begin
 		ff_gain3 <= 0;
 		fb_gain3 <= 0;
 		max_ampl <= x"0000";
-		speed <= x"03ff";
+		speed <= x"0000";
 		offset1 <= x"0fff0";
 		offset2 <= x"0fff0";
 		offset3 <= x"0fff0";

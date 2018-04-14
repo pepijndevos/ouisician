@@ -27,12 +27,12 @@ begin
   elsif(rising_edge(clk)) then
     if max_ampl = x"0000" then
 		data <= to_unsigned(0, data'LENGTH);
-	 elsif (clock_counter = speed ) then 
+	 elsif (clock_counter >= speed ) then 
       clock_counter := 0;
       if (direction = '0') then
         triangle_counter := triangle_counter + 1;
         data <= to_unsigned(triangle_counter,data'LENGTH);
-        if(triangle_counter = max_ampl) then
+        if(triangle_counter >= max_ampl) then
           direction := '1';
         end if;
       end if;
