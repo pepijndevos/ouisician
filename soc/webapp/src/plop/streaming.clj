@@ -17,45 +17,37 @@
 (def string-stream-youtube (str "ffmpeg -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
 
 (defn debugProcess [process]
-	(def reader (new java.io.BufferedReader (new java.io.InputStreamReader (.getInputStream process))))
+	(let [reader (new java.io.BufferedReader (new java.io.InputStreamReader (.getInputStream process)))]
 	
 	(while (not (nil? (.readLine reader)))
-		(println (.readLine reader))))
+		(println (.readLine reader)))))
 
+(def process-stream (atom nil))
 
 (defn startstream [platform] 
-	(if (not (boolean (resolve 'process-stream)))
-	(do
-		(if (== 1 platform)
-			(do
-				(println "Starting twitch stream")
-				(def string-stream string-stream-twitch)
-				(def platform-str "Twitch.tv"))
-			)
-		(if (== 2 platform)
-			(do
-				(println "Starting youtube stream")
-				(def string-stream string-stream-youtube)
-				(def platform-str "Youtube"))
-				)
-		(println string-stream)
-		(def pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream)))
-		(def process-stream (.start pb-stream))
-		
-		;(debugProcess process-stream)
-		
-		(str "Currently live on " platform-str))
+  (let [string-stream (if (= platform 1)
+                        string-stream-twitch
+                        string-stream-youtube)
+        platform-str (if (= platform 1)
+                       "Twitch.tv"
+                       "Youtube")]
+    (swap! process-stream
+      #(when-not %
+        (println platform-str)
+        (println string-stream)
+        (let [pb-stream (ProcessBuilder. (list "/bin/bash" "-c" string-stream))
+              stream (.start pb-stream)]
+        ;(debugProcess stream)
+        (str "Currently live on " platform-str)
+        stream)))
+   (str "Currently live on " platform-str)))
 	
-	(println "Already streaming")))
 	
 (defn stopstream []
-	(if (boolean (bound? #'process-stream))
-	(do 
-		(.destroy process-stream)
+  (swap! process-stream #(when %
+		(.destroy %)
 		(println "Stopping stream")
-		(str "Stopping live-stream"))
-	(println "No stream started"))	
-	)
+    nil)))
 
 (defn startrecording []
 	(if (not (boolean (resolve 'process-record)))
