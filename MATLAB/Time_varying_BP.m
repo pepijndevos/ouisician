@@ -4,11 +4,12 @@ clc;
 
 Fs = 48000;
 Ts = 1/48000;
-lpf = 450;
-hpf = 550;
-Fw = 5000;
+lpf = 100;
+hpf = 600;
+mid_freq = (100+300)/2;
+Fw = 25000;
 delta = Fw/Fs;
-range = 500:delta:3000;
+range = mid_freq:delta:2000;
 [x ,Sz] = size(range);
 b = zeros(Sz,1,3);
 a = zeros(Sz,1,3);
@@ -57,5 +58,4 @@ xlabel 'Radian Frequency (\omega/\pi)', ylabel 'Magnitude'
 % 
 % semilogx(w*Fs/pi/2,abs(Y))
 % xlim([0 0.5*10^4]);
-
 
