@@ -54,7 +54,7 @@ generic(
     port (
         main_CLK       : in std_logic;
         Reset          : in std_logic;
-	--dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
+	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
         --data_outbaseshelve        : out signed (15 downto 0);   -- Output

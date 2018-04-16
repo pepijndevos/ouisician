@@ -26,26 +26,6 @@ constant max_range : integer := (2**t_height-1)-1;
 signal counter_int :  integer := 10000;
 signal Trem_EN : std_logic := '0';
 begin
---
---process(CLK_50,reset)
---begin
---if(reset = '0') then
---	Trem_EN <= '0';
---	counter_int<=10000;
---elsif(rising_edge(CLK_50)) then
---	IF filterid(7 DOWNTO 0) = "00010100" AND chan(2 DOWNTO 0) = "001" THEN --range value spi
---		Counter_int <= to_integer(signed(fil_data));
---	elsif filterid(7 downto 0) = "00010011" and chan(2 downto 0) = "001" then -- on off range value
---		if fil_data(0) =  '1' then
---			Trem_EN <= '1';
---		elsif fil_data(0) = '0' then
---			Trem_EN <= '0';
---		end if;
---	END IF;
---end if;
---end process;
-
-
 
 --Counter for different frequencies
 process(CLK_50,Reset) -- 4.91 Hz, 1000 count : 49.1 Hz
