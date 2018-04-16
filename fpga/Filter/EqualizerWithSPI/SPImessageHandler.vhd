@@ -51,8 +51,27 @@ begin
 SPImessageDecoder : process(iCLK,iRESET_N)
 begin
 if(iRESET_N = '0') then
-	null;
--- do nothing here i guess? just keeps the coefficients equal
+
+A0LOW <= std_logic_vector(to_signed(4096,24));
+A1LOW <= std_logic_vector(to_signed(0,24));
+A2LOW <= std_logic_vector(to_signed(0,24));
+B0LOW <= std_logic_vector(to_signed(4096,24));
+B1LOW <= std_logic_vector(to_signed(0,24));
+B2LOW <= std_logic_vector(to_signed(0,24));
+         
+A0MID <= std_logic_vector(to_signed(4096,24));
+A1MID <= std_logic_vector(to_signed(-5929,24));
+A2MID <= std_logic_vector(to_signed(3377,24));
+B0MID <= std_logic_vector(to_signed(4096,24));
+B1MID <= std_logic_vector(to_signed(-5929,24));				
+B2MID <= std_logic_vector(to_signed(3377,24));
+         
+A0HIGH <=  std_logic_vector(to_signed(4096,24));
+A1HIGH <= std_logic_vector(to_signed(0,24));
+A2HIGH <= std_logic_vector(to_signed(0,24));
+B0HIGH <= std_logic_vector(to_signed(4096,24));
+B1HIGH <= std_logic_vector(to_signed(0,24));
+B2HIGH <= std_logic_vector(to_signed(0,24));
 elsif(rising_edge(iCLK)) then
 case chanHandler(2 DOWNTO 0) is 
 	when "001" | "010" | "011" | "100" =>-- we don't do channel distuingishing for now

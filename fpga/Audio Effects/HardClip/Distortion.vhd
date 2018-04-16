@@ -18,7 +18,7 @@ end entity Distortion_FX;
 architecture behaviour of Distortion_FX is
 
 signal Distortion_EN : std_logic:='0';
-signal clip_setting : integer := 3000;
+signal clip_setting : integer := 16000;
 signal data_out_temp : signed(15 downto 0):= (others =>'0'); 
 begin
 

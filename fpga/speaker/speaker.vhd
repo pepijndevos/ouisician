@@ -35,6 +35,8 @@ entity speaker is
 		
 		SW : in std_logic_vector(9 downto 0);
 		
+		WahWah_EN : in std_logic; --should be disabled when spi version is made. 
+		
 		--FROM MASTER
 		sclk	: IN STD_LOGIC;  --spi clk from master	
 		ss	: IN STD_LOGIC;  --active low slave select
@@ -84,6 +86,8 @@ architecture Behavioral of speaker is
 
   signal Trem_out1 : signed(15 downto 0);
   signal Trem_out2 : signed(15 downto 0);
+  signal Distort_out : signed(15 downto 0);
+  signal WahWah_out : signed(15 downto 0);
   signal delay_out1 : signed(15 downto 0);
   signal delay_out2 : signed(15 downto 0);
   signal offset : unsigned(15 downto 0);
@@ -171,19 +175,42 @@ end process;
       data => GPIO_ADCDAT2,
       word => myadc2);
 
---Tremolo_inst : entity work.Tremolo_FX(behaviour)
---port map(
---	data_in => mixed,
---	data_out => Trem_out1,
---	CLK_50 => clk,
---	newValue => sndclk,
---	reset => rst,
---	chan => chan_temp, 
---	filterid => filterid_temp,
---	fil_data => filterdata_temp
---);
+Distortion_inst : entity work.Distortion_FX(behaviour)
+	port map(
+		CLK_50 => clk,		
+		nReset => rst,		
+		new_val	=> sndclk,	
+		data_in	=> win1,	       
+		data_out	=> Distort_out,	
+		filterid =>  filterid_temp,
+		chan => chan_temp,
+		fil_data => filterdata_temp
+);
+	
+--
+Tremolo_inst : entity work.Tremolo_FX(behaviour)
+port map(
+	data_in => Distort_out,
+	data_out => Trem_out1,
+	CLK_50 => clk,
+	newValue => sndclk,
+	reset => rst,
+	chan => chan_temp, 
+	filterid => filterid_temp,
+	fil_data => filterdata_temp
+);
 
-
+	
+WahWah_inst : entity work.WahWah_FX(behaviour)
+port map (
+	CLK_50 => clk,		
+	nReset => rst,		
+	new_val =>	sndclk,	
+	data_in =>	Trem_out1,	 
+	data_out =>	WahWah_out,	
+	WahWah_EN => sw(8)
+);		
+			
 		
  comb_inst1 : entity work.comb
 	port map (
@@ -200,7 +227,7 @@ end process;
     offset1 => resize(offset+offset11, 20),
     offset2 => resize(offset+offset21, 20),
     offset3 => resize(offset+offset31, 20),
-    word => win1,
+    word => WahWah_out,
     resp => delay_out1
   );
   
@@ -311,7 +338,9 @@ end process;
 --		filteridEQ => filterid_temp,
 --		filterdataEQ => filterdata_temp
 --	);
-
+--
+--	
+	
   crossover_inst: entity work.Crossover
 	port map (
       main_CLK => clk,

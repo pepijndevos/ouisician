@@ -137,13 +137,13 @@ port map(
 process(CLK_50,nReset)
 begin
 if nReset = '0' then
-	data_out <= (others => '0');-
+	data_out <= (others => '0');
 elsif(rising_edge(CLK_50)) then
 	if(new_val = '1') then
 	if WahWah_EN = '0' then
 		data_out <= data_in;
 	elsif WahWah_EN = '1' then
-		data_out <= resize((BP_out*2+data_in/2),data_out'length);
+		data_out <= resize((BP_out*4+data_in/2),data_out'length); -- previously BP_out*4 and data_in/2
 	end if;
 	end if;
 end if;

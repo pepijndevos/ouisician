@@ -104,11 +104,14 @@ $('input.slider').change(function() {
   console.log(this.value);
 });
 
+<<<<<<< HEAD
 function send(id) {
 	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
 	console.log($(id).val());
 }
 
+=======
+>>>>>>> 403bb6ac87fdc23395ee5659616e16c51ef6b6c5
 // FLANGER PRESETS
 $('[id^=flangerpreset-ch]').change(function() {	  
 
@@ -117,8 +120,11 @@ $('[id^=flangerpreset-ch]').change(function() {
 		$('#tw-speed').val("0");
 		$('#tw-width').val("0");
 		
+<<<<<<< HEAD
 		
 		
+=======
+>>>>>>> 403bb6ac87fdc23395ee5659616e16c51ef6b6c5
 		$('#offset1-'+this.dataset.channel).val("0");
 		$('#offset2-'+this.dataset.channel).val("0");
 		$('#offset3-'+this.dataset.channel).val("0");
@@ -220,6 +226,7 @@ $('[id^=flangerpreset-ch]').change(function() {
     $('#fbgain2-'+this.dataset.channel).val("0");
     $('#fbgain3-'+this.dataset.channel).val("0");
   }
+<<<<<<< HEAD
   
   send("#tw-speed");
   send("#tw-width");
@@ -230,5 +237,7 @@ $('[id^=flangerpreset-ch]').change(function() {
   send('#fbgain1-'+this.dataset.channel);
   send('#fbgain2-'+this.dataset.channel);
   send('#fbgain3-'+this.dataset.channel);
+=======
+>>>>>>> 403bb6ac87fdc23395ee5659616e16c51ef6b6c5
 
 });
