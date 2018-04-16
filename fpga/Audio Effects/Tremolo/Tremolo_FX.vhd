@@ -88,7 +88,7 @@ elsif(rising_edge(CLK_50)) then
 	END IF;
 	if (Trem_EN = '1') then
 			data_out_temp <= resize(t_waveout*data_in,data_out_temp'LENGTH);
-			data_out<= resize(data_out_temp/(2**(10)),data_out'LENGTH); --previous is set to 10 length.
+			data_out<= resize(data_out_temp/(2**(9)),data_out'LENGTH); --previous is set to 10 length.
 	else
 		data_out <= data_in;
 	end if;
