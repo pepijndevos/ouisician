@@ -93,7 +93,7 @@ $('input.form-check-input').change(function() {
   if ((this.id == "streaming") || (this.id == "recording")) {
 	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
   }
-  if ((this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "(wawa-1-check") || (this.id == "wawa-2-check")) {
+  if ((this.id == "distortion-2-check") || (this.id == "distortion-1-check") || (this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "(wawa-1-check") || (this.id == "wawa-2-check")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
   }
   console.log(this.value);
