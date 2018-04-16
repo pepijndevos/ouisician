@@ -62,13 +62,17 @@
 
 
 
-(defn SPIhandler [id chan numid val]
+(defn SPIhandler [id chan numid vall]
+
+	(if (== numid 4)
+		(def valll (- 100 vall))
+		(def valll vall))
 	(if (.contains [1 2 3] numid)
-		(createEQpayload chan numid val)
+		(createEQpayload chan numid valll)
 
 		(do 
 			(println (str "-- Filter: " id " --"))
-			(def filterdata (getByteArray val))
+			(def filterdata (getByteArray valll))
 			(combineByteArrays chan numid 0 filterdata)
 			(SPItransfer packet))
 	)

@@ -104,6 +104,11 @@ $('input.slider').change(function() {
   console.log(this.value);
 });
 
+function send(id) {
+	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
+	console.log($(id).val());
+}
+
 // FLANGER PRESETS
 $('[id^=flangerpreset-ch]').change(function() {	  
 
@@ -213,5 +218,15 @@ $('[id^=flangerpreset-ch]').change(function() {
     $('#fbgain2-'+this.dataset.channel).val("0");
     $('#fbgain3-'+this.dataset.channel).val("0");
   }
+
+  send("#tw-speed");
+  send("#tw-width");
+  send('#blgain-'+this.dataset.channel);
+  send('#ffgain1-'+this.dataset.channel);
+  send('#ffgain2-'+this.dataset.channel);
+  send('#ffgain3-'+this.dataset.channel);
+  send('#fbgain1-'+this.dataset.channel);
+  send('#fbgain2-'+this.dataset.channel);
+  send('#fbgain3-'+this.dataset.channel);
 
 });
