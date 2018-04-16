@@ -29,12 +29,12 @@ ENTITY main IS
 		AUD_DACLRCK_GPIO_6: OUT std_logic; 
 		I2C_SDAT 			: OUT std_logic; -- serial interface data line
 		I2C_SCLK 			: OUT std_logic;  -- serial interface clock	
-		dig0	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig1	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig2	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig3	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig4	: OUT std_logic_vector(6 DOWNTO 0); 
-		dig5 	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig0	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig1	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig2	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig3	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig4	: OUT std_logic_vector(6 DOWNTO 0); 
+--		dig5 	: OUT std_logic_vector(6 DOWNTO 0); 
 		--FROM MASTER
 		sclk	: IN STD_LOGIC;  --spi clk from master	
 		ss	: IN STD_LOGIC;  --active low slave select
@@ -79,7 +79,7 @@ component Equalizermain is
     port (
         main_CLK       : in std_logic;
         Reset          : in std_logic;
-	dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
+	--dig0, dig1, dig2 , dig3 , dig4 , dig5 : OUT std_logic_vector(6 DOWNTO 0); 
         new_val       : in std_logic;                         -- indicates a new input value
         data_in         : in signed (15 downto 0);               
         --data_outbaseshelve        : out signed (15 downto 0);   -- Output
@@ -144,12 +144,12 @@ Equalizer : Equalizermain -- equalizer Port/signal => main port/ignal
 	port map (
         	main_CLK => clk,      
         	Reset => Reset,
-			dig0=>dig0,
-			dig1=>dig1,
-			dig2=>dig2 ,
-			dig3=>dig3 ,
-			dig4=>dig4 ,
-			dig5=>dig5,           
+--			dig0=>dig0,
+--			dig1=>dig1,
+--			dig2=>dig2 ,
+--			dig3=>dig3 ,
+--			dig4=>dig4 ,
+--			dig5=>dig5,           
         	new_val => data_over_temp,                
         	data_in => data_in_temp,                   
 --		data_outbaseshelve => data_outbaseshelve_temp,

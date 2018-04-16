@@ -23,7 +23,7 @@ GENERIC(
 	filterid : inout STD_LOGIC_VECTOR(7 DOWNTO 0);
 	filterdata : inout STD_LOGIC_VECTOR(31 DOWNTO 0);
 	--TO MASTER
-	--output : in std_logic_vector(d_width-1 DOWNTO 0);
+	output : in std_logic_vector(d_width-1 DOWNTO 0);
 	miso	: out STD_LOGIC := 'Z'  --master in, slave out
 	
 	);
