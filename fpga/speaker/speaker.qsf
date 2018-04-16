@@ -160,10 +160,16 @@ set_location_assignment PIN_K12 -to FPGA_I2C_SDAT
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_I2C_SCLK -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_I2C_SDAT -entity DE1_SoC
 
-set_location_assignment PIN_AC18 -to GPIO_DIN -comment GPIO_0[0]
-set_location_assignment PIN_Y17 -to GPIO_LRCK -comment GPIO_0[1]
-set_location_assignment PIN_AD17 -to GPIO_BCLK -comment GPIO_0[2]
-set_location_assignment PIN_Y18 -to GPIO_DOUT -comment GPIO_0[3]
+#set_location_assignment PIN_AC18 -to GPIO_DIN -comment GPIO_0[0]
+#set_location_assignment PIN_Y17 -to GPIO_LRCK -comment GPIO_0[1]
+#set_location_assignment PIN_AD17 -to GPIO_BCLK -comment GPIO_0[2]
+#set_location_assignment PIN_Y18 -to GPIO_DOUT -comment GPIO_0[3]
+
+set_location_assignment PIN_AB17 -to GPIO_DIN -comment GPIO_1[0]
+set_location_assignment PIN_AA21 -to GPIO_LRCK -comment GPIO_1[1]
+set_location_assignment PIN_AB21 -to GPIO_BCLK -comment GPIO_1[2]
+set_location_assignment PIN_AC23 -to GPIO_DOUT -comment GPIO_1[3]
+
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_DIN -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_LRCK -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_BCLK -entity DE1_SoC
@@ -192,10 +198,10 @@ set_location_assignment PIN_AG26 -to mosi
 set_location_assignment PIN_AH24 -to ss
 set_location_assignment PIN_AG22 -to miso
 
-#set_location_assignment PIN_AC18 -to GPIO_0[0]
-#set_location_assignment PIN_Y17 -to GPIO_0[1]
-#set_location_assignment PIN_AD17 -to GPIO_0[2]
-#set_location_assignment PIN_Y18 -to GPIO_0[3]
+set_location_assignment PIN_AC18 -to GPIO_0[0]
+set_location_assignment PIN_Y17 -to GPIO_0[1]
+set_location_assignment PIN_AD17 -to GPIO_0[2]
+set_location_assignment PIN_Y18 -to GPIO_0[3]
 #set_location_assignment PIN_AK16 -to GPIO_0[4]
 #set_location_assignment PIN_AK18 -to GPIO_0[5]
 #set_location_assignment PIN_AK19 -to GPIO_0[6]
@@ -263,7 +269,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_0[6] -entity DE
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_0[7] -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_0[8] -entity DE1_SoC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_0[9] -entity DE1_SoC
-set_location_assignment PIN_AB17 -to GPIO_1[0]
+#set_location_assignment PIN_AB17 -to GPIO_1[0]
 set_location_assignment PIN_AG26 -to GPIO_1[10]
 set_location_assignment PIN_AH24 -to GPIO_1[11]
 set_location_assignment PIN_AH27 -to GPIO_1[12]
@@ -274,7 +280,7 @@ set_location_assignment PIN_AK27 -to GPIO_1[16]
 set_location_assignment PIN_AJ26 -to GPIO_1[17]
 set_location_assignment PIN_AK26 -to GPIO_1[18]
 set_location_assignment PIN_AH25 -to GPIO_1[19]
-set_location_assignment PIN_AA21 -to GPIO_1[1]
+#set_location_assignment PIN_AA21 -to GPIO_1[1]
 set_location_assignment PIN_AJ25 -to GPIO_1[20]
 set_location_assignment PIN_AJ24 -to GPIO_1[21]
 set_location_assignment PIN_AK24 -to GPIO_1[22]
@@ -285,14 +291,14 @@ set_location_assignment PIN_AK22 -to GPIO_1[26]
 set_location_assignment PIN_AJ22 -to GPIO_1[27]
 set_location_assignment PIN_AH22 -to GPIO_1[28]
 set_location_assignment PIN_AG22 -to GPIO_1[29]
-set_location_assignment PIN_AB21 -to GPIO_1[2]
+#set_location_assignment PIN_AB21 -to GPIO_1[2]
 set_location_assignment PIN_AF24 -to GPIO_1[30]
 set_location_assignment PIN_AF23 -to GPIO_1[31]
 set_location_assignment PIN_AE22 -to GPIO_1[32]
 set_location_assignment PIN_AD21 -to GPIO_1[33]
 set_location_assignment PIN_AA20 -to GPIO_1[34]
 set_location_assignment PIN_AC22 -to GPIO_1[35]
-set_location_assignment PIN_AC23 -to GPIO_1[3]
+#set_location_assignment PIN_AC23 -to GPIO_1[3]
 set_location_assignment PIN_AD24 -to GPIO_1[4]
 set_location_assignment PIN_AE23 -to GPIO_1[5]
 set_location_assignment PIN_AE24 -to GPIO_1[6]
