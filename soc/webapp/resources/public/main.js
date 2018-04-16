@@ -93,7 +93,7 @@ $('input.form-check-input').change(function() {
   if ((this.id == "streaming") || (this.id == "recording")) {
 	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
   }
-  if ((this.id == "tremolo-1-check") || (this.id == "tremolo-2-check")) {
+  if ((this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "(wawa-1-check") || (this.id == "wawa-2-check")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
   }
   console.log(this.value);
@@ -102,4 +102,38 @@ $('input.form-check-input').change(function() {
 $('input.slider').change(function() {
   sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
   console.log(this.value);
+});
+
+// FLANGER PRESETS
+$('#flangerpreset-ch2').change(function() {
+
+  if($(this).val() == "1") {
+    $('#offset1-2').val("1048575");
+    $('#offset2-2').val("1048575");
+    $('#offset3-2').val("1048575");
+
+    $('#blgain-2').val("1048575");
+
+    $('#ffgain1-2').val("1048575");
+    $('#ffgain2-2').val("1048575");
+    $('#ffgain3-2').val("1048575");
+
+    $('#fbgain1-2').val("1048575");
+    $('#fbgain2-2').val("1048575");
+    $('#fbgain3-2').val("1048575");
+  }
+  else if($(this).val() == "2") {
+    $('#offset1-2').val("1");
+    $('#offset2-2').val("1");
+    $('#offset3-2').val("1");
+    $('#blgain-2').val("1");
+
+    $('#ffgain1-2').val("1");
+    $('#ffgain2-2').val("1");
+    $('#ffgain3-2').val("1");
+    
+    $('#fbgain1-2').val("1");
+    $('#fbgain2-2').val("1");
+    $('#fbgain3-2').val("1");
+  }
 });
