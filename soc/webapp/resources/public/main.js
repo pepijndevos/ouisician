@@ -104,36 +104,131 @@ $('input.slider').change(function() {
   console.log(this.value);
 });
 
+function send(id) {
+	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
+	console.log($(id).val());
+}
+
 // FLANGER PRESETS
-$('#flangerpreset-ch2').change(function() {
+$('[id^=flangerpreset-ch]').change(function() {	  
 
-  if($(this).val() == "1") {
-    $('#offset1-2').val("1048575");
-    $('#offset2-2').val("1048575");
-    $('#offset3-2').val("1048575");
+	//NoNE
+	if($(this).val() == "1") {
+		$('#tw-speed').val("0");
+		$('#tw-width').val("0");
+		
+		
+		
+		$('#offset1-'+this.dataset.channel).val("0");
+		$('#offset2-'+this.dataset.channel).val("0");
+		$('#offset3-'+this.dataset.channel).val("0");
 
-    $('#blgain-2').val("1048575");
+		$('#blgain-'+this.dataset.channel).val("0");
 
-    $('#ffgain1-2').val("1048575");
-    $('#ffgain2-2').val("1048575");
-    $('#ffgain3-2').val("1048575");
+		$('#ffgain1-'+this.dataset.channel).val("0");
+		$('#ffgain2-'+this.dataset.channel).val("0");
+		$('#ffgain3-'+this.dataset.channel).val("0");
 
-    $('#fbgain1-2').val("1048575");
-    $('#fbgain2-2').val("1048575");
-    $('#fbgain3-2').val("1048575");
-  }
+		$('#fbgain1-'+this.dataset.channel).val("0");
+		$('#fbgain2-'+this.dataset.channel).val("0");
+		$('#fbgain3-'+this.dataset.channel).val("0");
+	  }
+//CHORUS
   else if($(this).val() == "2") {
-    $('#offset1-2').val("1");
-    $('#offset2-2').val("1");
-    $('#offset3-2').val("1");
-    $('#blgain-2').val("1");
+	$('#tw-speed').val("0");
+	$('#tw-width').val("0");
+	
+    $('#offset1-'+this.dataset.channel).val("1");
+    $('#offset2-'+this.dataset.channel).val("100");
+    $('#offset3-'+this.dataset.channel).val("1000");
 
-    $('#ffgain1-2').val("1");
-    $('#ffgain2-2').val("1");
-    $('#ffgain3-2').val("1");
-    
-    $('#fbgain1-2').val("1");
-    $('#fbgain2-2').val("1");
-    $('#fbgain3-2').val("1");
+    $('#blgain-'+this.dataset.channel).val("64");
+
+    $('#ffgain1-'+this.dataset.channel).val("64");
+    $('#ffgain2-'+this.dataset.channel).val("64");
+    $('#ffgain3-'+this.dataset.channel).val("64");
+
+    $('#fbgain1-'+this.dataset.channel).val("0");
+    $('#fbgain2-'+this.dataset.channel).val("0");
+    $('#fbgain3-'+this.dataset.channel).val("0");
   }
+  //RESONATOR
+  else if($(this).val() == "3") {
+	$('#tw-speed').val("0");
+	$('#tw-width').val("0");
+	
+    $('#offset1-'+this.dataset.channel).val("10");
+    $('#offset2-'+this.dataset.channel).val("10");
+    $('#offset3-'+this.dataset.channel).val("10");
+    $('#blgain-'+this.dataset.channel).val("255");
+
+    $('#ffgain1-'+this.dataset.channel).val("0");
+    $('#ffgain2-'+this.dataset.channel).val("0");
+    $('#ffgain3-'+this.dataset.channel).val("0");
+    
+    $('#fbgain1-'+this.dataset.channel).val("128");
+    $('#fbgain2-'+this.dataset.channel).val("0");
+    $('#fbgain3-'+this.dataset.channel).val("0");
+  }
+  //ECHO
+  else if($(this).val() == "4") {
+	$('#tw-speed').val("0");
+	$('#tw-width').val("0");
+	
+    $('#offset1-'+this.dataset.channel).val("1000000");
+    $('#offset2-'+this.dataset.channel).val("1000000");
+    $('#offset3-'+this.dataset.channel).val("1000000");
+    $('#blgain-'+this.dataset.channel).val("255");
+
+    $('#ffgain1-'+this.dataset.channel).val("0");
+    $('#ffgain2-'+this.dataset.channel).val("0");
+    $('#ffgain3-'+this.dataset.channel).val("0");
+    
+    $('#fbgain1-'+this.dataset.channel).val("128");
+    $('#fbgain2-'+this.dataset.channel).val("0");
+    $('#fbgain3-'+this.dataset.channel).val("0");
+  }
+  //SLAPBACK
+  else if($(this).val() == "5") {
+	$('#tw-speed').val("0");
+	$('#tw-width').val("0");
+	
+    $('#offset1-'+this.dataset.channel).val("0");
+    $('#offset2-'+this.dataset.channel).val("0");
+    $('#offset3-'+this.dataset.channel).val("0");
+    $('#blgain-'+this.dataset.channel).val("255");
+
+    $('#ffgain1-'+this.dataset.channel).val("0");
+    $('#ffgain2-'+this.dataset.channel).val("0");
+    $('#ffgain3-'+this.dataset.channel).val("0");
+    
+    $('#fbgain1-'+this.dataset.channel).val("255");
+    $('#fbgain2-'+this.dataset.channel).val("0");
+    $('#fbgain3-'+this.dataset.channel).val("0");
+  }
+  //VIBRATO
+  else if($(this).val() == "6") {
+	$('#tw-speed').val("1000");
+	$('#tw-width').val("2000");
+	$('#blgain-'+this.dataset.channel).val("0");
+	
+	$('#ffgain1-'+this.dataset.channel).val("255");
+    $('#ffgain2-'+this.dataset.channel).val("255");
+    $('#ffgain3-'+this.dataset.channel).val("255");
+	
+	$('#fbgain1-'+this.dataset.channel).val("0");
+    $('#fbgain2-'+this.dataset.channel).val("0");
+    $('#fbgain3-'+this.dataset.channel).val("0");
+  }
+  
+  send("#tw-speed");
+  send("#tw-width");
+  send('#blgain-'+this.dataset.channel);
+  send('#ffgain1-'+this.dataset.channel);
+  send('#ffgain2-'+this.dataset.channel);
+  send('#ffgain3-'+this.dataset.channel);
+  send('#fbgain1-'+this.dataset.channel);
+  send('#fbgain2-'+this.dataset.channel);
+  send('#fbgain3-'+this.dataset.channel);
+
 });

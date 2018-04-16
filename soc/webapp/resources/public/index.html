@@ -105,7 +105,7 @@ input[type="range"] {
           </div></label><input type="range" min="8000" max="20000" value="10000" class="slider" id="tremolo-1-slide" data-channel="1" data-id="20">
         </div>
         <div class="col-4">
-          <label>Distortion</label><input type="range" min="0" max="100" value="50" class="slider" id="distortion-1" data-channel="1" data-id="18">
+          <label>Distortion</label><input type="range" min="3000" max="32768" value="50" class="slider" id="distortion-1" data-channel="1" data-id="18">
         </div>
       </div>
 	  
@@ -159,7 +159,17 @@ input[type="range"] {
   
   <div class="col-md-9">
  <div class="card"><div class="card-body">
- <h5 class="card-title">Delay - Channel 1</h5>
+ <h5 class="card-title">Delay - Channel 1
+             <select class="bootstrap-select" id="flangerpreset-ch1" data-channel="1">
+              <option value="1" selected="selected">Disabled</option>
+			  <option value="2">Chorus</option>
+              <option value="3">Resonator</option>
+			  <option value="4">Echo</option>
+			  <option value="5">Slapback</option>
+			  <option value="6">Vibrato</option>
+            </select>
+ 
+ </h5>
   <div class="card-text row">
    <div class="col-xs-12 col-md-4">
 
@@ -241,10 +251,14 @@ input[type="range"] {
   
   <div class="col-md-9">
  <div class="card"><div class="card-body">
- <h5 class="card-title">Flanger - Channel 2 
-            <select class="bootstrap-select" id="flangerpreset-ch2">
-              <option value="1" selected="selected">Preset 1</option>
-              <option value="2">Preset 2</option>
+ <h5 class="card-title">Delay - Channel 2 
+            <select class="bootstrap-select" id="flangerpreset-ch2" data-channel="2">
+              <option value="1" selected="selected">Disabled</option>
+			  <option value="2">Chorus</option>
+              <option value="3">Resonator</option>
+			  <option value="4">Echo</option>
+			  <option value="5">Slapback</option>
+			  <option value="6">Vibrato</option>
             </select>
           </h5>
   <div class="card-text row">
