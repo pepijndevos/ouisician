@@ -54,7 +54,7 @@ begin
 signal_in <= data_in;
 data_out <=  signal_out;
 
-IIR1_LPF : IIRDF1
+IIR1_DF1 : IIRDF1
 Generic map(
     W_in =>W_in,
 	 W_coef => W_coef,
@@ -73,7 +73,7 @@ port map (
 	IIR_out     => IIR_connect
 );
 
-IIR2_LPF : IIRDF1
+IIR2_DF1 : IIRDF1
 Generic map(
     W_in =>W_in,
 	 W_coef => W_coef,

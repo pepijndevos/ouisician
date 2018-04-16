@@ -25,8 +25,14 @@ begin
 process(clk_50,nReset)
 begin
 if(rising_edge(clk_50)) then
-	IF filterid(7 DOWNTO 0) = "00010010"  AND chan(2 DOWNTO 0) = "001" THEN --range value spi
+	IF filterid(7 DOWNTO 0) = "00010010"  THEN --range value spi
 		clip_setting <= to_integer(signed(fil_data)); -- will spi data be signed?
+	ELSIF filterid(7 downto 0) = "00010111" then -- on off range value
+		if fil_data(0) =  '1' then
+			Distortion_EN <= '1';
+		elsif fil_data(0) = '0' then
+			Distortion_EN <= '0';
+		end if;
 	END IF;
 end if;
 end process;

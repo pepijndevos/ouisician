@@ -9,7 +9,9 @@ port (
 	new_val		: in std_logic;       -- indicates a new input value, input from data_over
 	data_in		: in signed (15 downto 0);         
 	data_out		: out signed (15 downto 0);   -- Output
-	WahWah_EN 	: in std_logic
+	filterid: IN std_logic_vector(7 DOWNTO 0);
+	chan: IN std_logic_vector(7 DOWNTO 0);
+	fil_data: IN std_logic_vector(31 DOWNTO 0)
 );
 end entity WahWah_FX;
 
@@ -29,7 +31,7 @@ generic (
 	W_coef : integer;
 	A0 : integer;
 	A2 : integer;
-	B0 : integer ;
+	B0 : integer;
 	B1 : integer;
 	B2 : integer    
 );
@@ -53,7 +55,26 @@ signal BP_out : signed(W_in-1 downto 0) := (others =>'0');
 signal data_out_temp:  signed(W_in-1 downto 0) := (others =>'0');
 signal BW_clk : std_logic := '0';
 signal newCLK : std_logic := '0';
+signal count_int : integer:= 8000 ;
+
+signal WahWah_EN : std_logic := '0';
 begin
+
+process(clk_50,nReset)
+begin
+if(rising_edge(clk_50)) then
+	IF filterid(7 DOWNTO 0) ="00010110"THEN --range value spi
+		count_int <= to_integer(signed(fil_data));
+	elsif filterid(7 downto 0) = "00010101"then -- on off range value
+		if fil_data(0) =  '1' then
+			WahWah_EN <= '1';
+		elsif fil_data(0) = '0' then
+			WahWah_EN <= '0';
+		end if;
+	END IF;
+end if;
+end process;
+
 
 process(CLK_50,nReset) -- 4.91 Hz, 1000 count : 49.1 Hz
 variable counter : integer := 0;
@@ -63,7 +84,7 @@ if (nReset = '0') then
 	newCLK <= '0';
 elsif(rising_edge(CLK_50)) then
 	counter := counter + 1;
-	if (counter = 8000 ) then 
+	if (counter = count_int ) then 
 		newCLK <= NOT newCLK;
 		counter := 0;
 	end if;
