@@ -54,7 +54,6 @@ architecture Behavioral of speaker is
 			rst      : in  std_logic := 'X'; -- reset
 			outclk_0 : out std_logic;        -- clk
 			outclk_1 : out std_logic;         -- clk
-			outclk_2 : out std_logic;         -- clk
 			locked   : out std_logic
 		);
 	end component pll;
@@ -389,7 +388,6 @@ port map (
 			rst => SW(9),
 			outclk_0 => bitclk,  -- 1.536 MHz
 			outclk_1 => clk, -- 49.152 MHz
-			outclk_2 => halfclk, -- 24.576 MHz
 			locked => rst);
 			
 
