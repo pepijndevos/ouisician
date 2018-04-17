@@ -188,7 +188,7 @@ Distortion_inst : entity work.Distortion_FX(behaviour)
 
 Tremolo_inst : entity work.Tremolo_FX(behaviour)
 port map(
-	data_in => win1,
+	data_in => Distort_out,
 	data_out => Trem_out1 ,
 	CLK_50 => clk,
 	newValue => sndclk,
