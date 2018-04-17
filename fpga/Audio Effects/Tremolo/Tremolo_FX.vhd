@@ -76,6 +76,7 @@ begin
 if (Reset = '0') then
 	data_out <= (others =>'0');
 	Trem_EN <= '0';
+	data_out_temp <= (others =>'0');
 elsif(rising_edge(CLK_50)) then
 	IF filterid(7 DOWNTO 0) = "00010100" AND chan(2 DOWNTO 0) = "001" THEN --range value spi
 		Counter_int <= to_integer(signed(fil_data));

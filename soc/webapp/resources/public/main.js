@@ -13,6 +13,12 @@ function addAudioFile(file) {
     $( "#record-filelist" ).append( audioplayer );
 }
 
+sock.onopen = function(e) {
+	send("#vol-1");
+	send("#vol-2");
+	send("#vol-3");
+}
+
 sock.onmessage = function(e) {
 
   msg = JSON.parse(e.data);
@@ -30,21 +36,65 @@ sock.onmessage = function(e) {
   if (msg.id == "tremolo-2-check") {
     if(msg.display == 1) {
       $("#tremolo-2-check").prop('checked', true);
-      ;$("#tremolo-2-slide").attr('disabled',false);
+      //$("#tremolo-2-slide").attr('disabled',false);
     }
 	else if(msg.display == 0) {
       $("#tremolo-2-check").prop('checked', false);
-      ;$("#tremolo-2-slide").attr('disabled', true);
+      //$("#tremolo-2-slide").attr('disabled', true);
     }
   }
    if (msg.id == "tremolo-1-check") {
     if(msg.display == 1) {
       $("#tremolo-1-check").prop('checked', true);
-      ; $("#tremolo-1-slide").attr('disabled',false);
+      //$("#tremolo-1-slide").attr('disabled',false);
     }
 	else if(msg.display == 0) {
       $("#tremolo-1-check").prop('checked', false);
-      ;$("#tremolo-1-slide").attr('disabled', true);
+      //$("#tremolo-1-slide").attr('disabled', true);
+    }
+  }
+  
+     if (msg.id == "wawa-1-check") {
+    if(msg.display == 1) {
+      $("#wawa-1-check").prop('checked', true);
+      ; $("#wawa-1-slide").attr('disabled',false);
+    }
+	else if(msg.display == 0) {
+      $("#wawa-1-check").prop('checked', false);
+      //$("#wawa-1-slide").attr('disabled', true);
+    }
+  }
+  
+       if (msg.id == "wawa-2-check") {
+    if(msg.display == 1) {
+      $("#wawa-2-check").prop('checked', true);
+      // $("#wawa-2-slide").attr('disabled',false);
+    }
+	else if(msg.display == 0) {
+      $("#wawa-2-check").prop('checked', false);
+      //$("#wawa-2-slide").attr('disabled', true);
+    }
+  }
+  
+   if (msg.id == "distortion-1-check") {
+    if(msg.display == 1) {
+      $("#distortion-1-check").prop('checked', true);
+      //$("#distortion-1-slide").attr('disabled',false);
+    }
+	else if(msg.display == 0) {
+      $("#distortion-1-check").prop('checked', false);
+      //$("#distortion-1-slide").attr('disabled', true);
+    }
+  }
+  
+     if (msg.id == "distortion-2-check") {
+    if(msg.display == 1) {
+      $("#distortion-2-check").prop('checked', true);
+      //$("#distortion-2-slide").attr('disabled',false);
+    }
+	else if(msg.display == 0) {
+      $("#distortion-2-check").prop('checked', false);
+      //$("#distortion-2-slide").attr('disabled', true);
     }
   }
 
@@ -93,7 +143,7 @@ $('input.form-check-input').change(function() {
   if ((this.id == "streaming") || (this.id == "recording")) {
 	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
   }
-  if ((this.id == "distortion-2-check") || (this.id == "distortion-1-check") || (this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "(wawa-1-check") || (this.id == "wawa-2-check")) {
+  if ((this.id == "distortion-2-check") || (this.id == "distortion-1-check") || (this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "wawa-1-check") || (this.id == "wawa-2-check")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
   }
   console.log(this.value);
@@ -121,7 +171,7 @@ $('[id^=flangerpreset-ch]').change(function() {
 		$('#offset2-'+this.dataset.channel).val("0");
 		$('#offset3-'+this.dataset.channel).val("0");
 
-		$('#blgain-'+this.dataset.channel).val("0");
+		$('#blgain-'+this.dataset.channel).val("255");
 
 		$('#ffgain1-'+this.dataset.channel).val("0");
 		$('#ffgain2-'+this.dataset.channel).val("0");
@@ -173,7 +223,7 @@ $('[id^=flangerpreset-ch]').change(function() {
 	$('#tw-speed').val("0");
 	$('#tw-width').val("0");
 	
-    $('#offset1-'+this.dataset.channel).val("1000000");
+    $('#offset1-'+this.dataset.channel).val("50000");
     $('#offset2-'+this.dataset.channel).val("1000000");
     $('#offset3-'+this.dataset.channel).val("1000000");
     $('#blgain-'+this.dataset.channel).val("255");
@@ -206,8 +256,8 @@ $('[id^=flangerpreset-ch]').change(function() {
   }
   //VIBRATO
   else if($(this).val() == "6") {
-	$('#tw-speed').val("1000");
-	$('#tw-width').val("2000");
+	$('#tw-speed').val("5000");
+	$('#tw-width').val("1000");
 	$('#blgain-'+this.dataset.channel).val("0");
 	
 	$('#ffgain1-'+this.dataset.channel).val("255");
@@ -233,14 +283,20 @@ $('[id^=flangerpreset-ch]').change(function() {
 
 $('#reset').click(function() {
 	
+	$("[id$='-check']").each(function() {
+		$('#' + this.id).prop('checked', false);
+		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(0), chan: Number(this.dataset.channel), platform: 0}));
+	});
+	
 	$('.slider').each(function() {
 		$('#' + this.id).val(this.dataset.default);
 		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
 	});
 	
-	$("[id$='-check']").each(function() {
-		$('#' + this.id).prop('checked', false);
-		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(0), chan: Number(this.dataset.channel), platform: 0}));
+	$("[id^=flangerpreset-ch]").each(function() {
+		$('#' + this.id).val("1");
 	});
+	
+
 	
 });
