@@ -63,9 +63,9 @@ begin
 process(clk_50,nReset)
 begin
 if(rising_edge(clk_50)) then
-	IF filterid(7 DOWNTO 0) ="00010110"THEN --range value spi
+	IF filterid(7 DOWNTO 0) ="00010110"  AND chan(2 DOWNTO 0) = "001" THEN--range value spi
 		count_int <= to_integer(signed(fil_data));
-	elsif filterid(7 downto 0) = "00010101"then -- on off range value
+	elsif filterid(7 downto 0) = "00010101"  AND chan(2 DOWNTO 0) = "001" THEN -- on off range value
 		if fil_data(0) =  '1' then
 			WahWah_EN <= '1';
 		elsif fil_data(0) = '0' then
