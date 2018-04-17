@@ -33,70 +33,16 @@ sock.onmessage = function(e) {
     $('#' + msg.id).val(msg.display);
   }
 
-  if (msg.id == "tremolo-2-check") {
+  if (msg.id.indexOf("-check") >= 0) {
     if(msg.display == 1) {
-      $("#tremolo-2-check").prop('checked', true);
-      //$("#tremolo-2-slide").attr('disabled',false);
+      $("#" + msg.id).prop('checked', true);
     }
 	else if(msg.display == 0) {
-      $("#tremolo-2-check").prop('checked', false);
-      //$("#tremolo-2-slide").attr('disabled', true);
+      $("#" + msg.id).prop('checked', false);
+
     }
   }
-   if (msg.id == "tremolo-1-check") {
-    if(msg.display == 1) {
-      $("#tremolo-1-check").prop('checked', true);
-      //$("#tremolo-1-slide").attr('disabled',false);
-    }
-	else if(msg.display == 0) {
-      $("#tremolo-1-check").prop('checked', false);
-      //$("#tremolo-1-slide").attr('disabled', true);
-    }
-  }
-  
-     if (msg.id == "wawa-1-check") {
-    if(msg.display == 1) {
-      $("#wawa-1-check").prop('checked', true);
-      ; $("#wawa-1-slide").attr('disabled',false);
-    }
-	else if(msg.display == 0) {
-      $("#wawa-1-check").prop('checked', false);
-      //$("#wawa-1-slide").attr('disabled', true);
-    }
-  }
-  
-       if (msg.id == "wawa-2-check") {
-    if(msg.display == 1) {
-      $("#wawa-2-check").prop('checked', true);
-      // $("#wawa-2-slide").attr('disabled',false);
-    }
-	else if(msg.display == 0) {
-      $("#wawa-2-check").prop('checked', false);
-      //$("#wawa-2-slide").attr('disabled', true);
-    }
-  }
-  
-   if (msg.id == "distortion-1-check") {
-    if(msg.display == 1) {
-      $("#distortion-1-check").prop('checked', true);
-      //$("#distortion-1-slide").attr('disabled',false);
-    }
-	else if(msg.display == 0) {
-      $("#distortion-1-check").prop('checked', false);
-      //$("#distortion-1-slide").attr('disabled', true);
-    }
-  }
-  
-     if (msg.id == "distortion-2-check") {
-    if(msg.display == 1) {
-      $("#distortion-2-check").prop('checked', true);
-      //$("#distortion-2-slide").attr('disabled',false);
-    }
-	else if(msg.display == 0) {
-      $("#distortion-2-check").prop('checked', false);
-      //$("#distortion-2-slide").attr('disabled', true);
-    }
-  }
+
 
 
   if (msg.id == "recording") {
@@ -146,17 +92,17 @@ $('input.form-check-input').change(function() {
   if ((this.id == "distortion-2-check") || (this.id == "distortion-1-check") || (this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "wawa-1-check") || (this.id == "wawa-2-check")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
   }
-  console.log(this.value);
+  //console.log(this.value);
 });
 
 $('input.slider').change(function() {
   sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
-  console.log(this.value);
+  //console.log(this.value);
 });
 
 function send(id) {
 	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
-	console.log($(id).val());
+	//console.log($(id).val());
 }
 
 // FLANGER PRESETS
@@ -164,22 +110,17 @@ $('[id^=flangerpreset-ch]').change(function() {
 
 	//NoNE
 	if($(this).val() == "1") {
-		$('#tw-speed').val("0");
-		$('#tw-width').val("0");
-		
-		$('#offset1-'+this.dataset.channel).val("0");
-		$('#offset2-'+this.dataset.channel).val("0");
-		$('#offset3-'+this.dataset.channel).val("0");
 
-		$('#blgain-'+this.dataset.channel).val("255");
+		$(".delay-ch" + this.dataset.channel + " .slider").each(function() {
+			console.log(this.id);
+			$('#' + this.id).val(this.dataset.default);
+		});
 
-		$('#ffgain1-'+this.dataset.channel).val("0");
-		$('#ffgain2-'+this.dataset.channel).val("0");
-		$('#ffgain3-'+this.dataset.channel).val("0");
+		$(".trianglewave .slider").each(function() {
+			console.log(this.id);
+			$('#' + this.id).val(this.dataset.default);
+		});
 
-		$('#fbgain1-'+this.dataset.channel).val("0");
-		$('#fbgain2-'+this.dataset.channel).val("0");
-		$('#fbgain3-'+this.dataset.channel).val("0");
 	  }
 //CHORUS
   else if($(this).val() == "2") {
@@ -269,16 +210,13 @@ $('[id^=flangerpreset-ch]').change(function() {
     $('#fbgain3-'+this.dataset.channel).val("0");
   }
 
-  send("#tw-speed");
-  send("#tw-width");
-  send('#blgain-'+this.dataset.channel);
-  send('#ffgain1-'+this.dataset.channel);
-  send('#ffgain2-'+this.dataset.channel);
-  send('#ffgain3-'+this.dataset.channel);
-  send('#fbgain1-'+this.dataset.channel);
-  send('#fbgain2-'+this.dataset.channel);
-  send('#fbgain3-'+this.dataset.channel);
+	$(".delay-ch" + this.dataset.channel + " .slider").each(function() {
+		send('#' + this.id);
+	});
 
+	$(".trianglewave .slider").each(function() {
+		send('#' + this.id);
+	});
 });
 
 $('#reset').click(function() {

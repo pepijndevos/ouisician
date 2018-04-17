@@ -14,7 +14,7 @@
 (def bitrate "96k")
 (def string-stream-twitch (str "avconv -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-twitch streamkey-twitch))
 
-(def string-stream-youtube (str "ffpmeg -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
+(def string-stream-youtube (str "avconv -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
 
 (defn debugProcess [process]
 	(let [reader (new java.io.BufferedReader (new java.io.InputStreamReader (.getInputStream process)))]
