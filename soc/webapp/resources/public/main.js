@@ -13,6 +13,12 @@ function addAudioFile(file) {
     $( "#record-filelist" ).append( audioplayer );
 }
 
+sock.onopen = function(e) {
+	send("#vol-1");
+	send("#vol-2");
+	send("#vol-3");
+}
+
 sock.onmessage = function(e) {
 
   msg = JSON.parse(e.data);
@@ -233,14 +239,16 @@ $('[id^=flangerpreset-ch]').change(function() {
 
 $('#reset').click(function() {
 	
+	$("[id$='-check']").each(function() {
+		$('#' + this.id).prop('checked', false);
+		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(0), chan: Number(this.dataset.channel), platform: 0}));
+	});
+	
 	$('.slider').each(function() {
 		$('#' + this.id).val(this.dataset.default);
 		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
 	});
 	
-	$("[id$='-check']").each(function() {
-		$('#' + this.id).prop('checked', false);
-		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(0), chan: Number(this.dataset.channel), platform: 0}));
-	});
+
 	
 });
