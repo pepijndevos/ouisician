@@ -15,14 +15,12 @@ function addAudioFile(file) {
 
 function send(id) {
 	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
-	//console.log($(id).val());
+	console.log("<-- WebSocket TX - id: " + $(id).attr('id') + " | channel: " + $(id).data("channel") + " | value: " + $(id).val());
 }
 
 function updateSliderVal(id) {
 	var value = $(id).val();
-	console.log(value);
 	var id = $(id).attr('id');
-	console.log(id);
 	$('#' + id + '-val').text(value);
 
 	//console.log($(id).val());
@@ -48,7 +46,7 @@ sock.onmessage = function(e) {
   msg = JSON.parse(e.data);
 
 
-  console.log("WebSocket RX - id: " + msg.id + " | channel: " + msg.chan + " | value: " + msg.display);
+  console.log("--> WebSocket RX - id: " + msg.id + " | channel: " + msg.chan + " | value: " + msg.display);
 
 
   if (msg.chan > 0) {
@@ -111,15 +109,18 @@ $('input.form-check-input').change(function() {
   }
   if ((this.id == "streaming") || (this.id == "recording")) {
 	sock.send(JSON.stringify({numid: Number(checked), id: this.id, val: $('#streamkey').val(), chan: Number(0), platform: Number($( "#streamplatform option:selected" ).val())}));
+	console.log("<-- WebSocket TX - id: " + this.id + " | channel: " + 0 + " | value: " + $('#streamkey').val());
   }
   if ((this.id == "distortion-2-check") || (this.id == "distortion-1-check") || (this.id == "tremolo-1-check") || (this.id == "tremolo-2-check") || (this.id == "wawa-1-check") || (this.id == "wawa-2-check")) {
 	sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(checked), chan: Number(this.dataset.channel), platform: 0}));
+	console.log("<-- WebSocket TX - id: " + this.id + " | channel: " + this.dataset.channel + " | value: " + checked);
   }
   //console.log(this.value);
 });
 
 $('input.slider').change(function() {
   sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
+  console.log("<-- WebSocket TX - id: " + this.id + " | channel: " + this.dataset.channel + " | value: " + this.value);
   //console.log(this.value);
 });
 
@@ -132,12 +133,10 @@ $('[id^=flangerpreset-ch]').change(function() {
 	if($(this).val() == "1") {
 
 		$(".delay-ch" + this.dataset.channel + " .slider").each(function() {
-			console.log(this.id);
 			$('#' + this.id).val(this.dataset.default);
 		});
 
 		$(".trianglewave .slider").each(function() {
-			console.log(this.id);
 			$('#' + this.id).val(this.dataset.default);
 		});
 
@@ -251,6 +250,7 @@ $('#reset').click(function() {
 	$('.slider').each(function() {
 		$('#' + this.id).val(this.dataset.default);
 		sock.send(JSON.stringify({numid: Number(this.dataset.id), id: this.id, val: Number(this.value), chan: Number(this.dataset.channel), platform: 0}));
+		updateSliderVal('#' + this.id);
 	});
 	
 	$("[id^=flangerpreset-ch]").each(function() {
