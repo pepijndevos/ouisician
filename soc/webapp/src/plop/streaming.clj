@@ -12,9 +12,9 @@
 (def streamkey-youtube "17mp-vm1y-kpzd-2998")			
 (def device "hw:CARD=FPGA,DEV=1")
 (def bitrate "96k")
-(def string-stream-twitch (str "ffmpeg -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -c:a aac -ar 44100 -b:a " bitrate " -f flv rtmp://" platform-twitch streamkey-twitch))
+(def string-stream-twitch (str "avconv -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-twitch streamkey-twitch))
 
-(def string-stream-youtube (str "ffmpeg -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
+(def string-stream-youtube (str "ffpmeg -f concat -i list.txt -f alsa -i " device " -map 0:v -map 1:a -c:v copy -b:a " bitrate " -ar 44100 -c:a aac -f flv rtmp://" platform-youtube streamkey-youtube))
 
 (defn debugProcess [process]
 	(let [reader (new java.io.BufferedReader (new java.io.InputStreamReader (.getInputStream process)))]
