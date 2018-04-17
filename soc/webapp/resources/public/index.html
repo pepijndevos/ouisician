@@ -18,9 +18,11 @@ input[type="range"] {
   </head>
 <body>
 
+<button type="button" class="btn btn-primary btn-md" style="float:right; margin:1%;" id="reset">Reset</button>
+
 <div class="container">
 
-  <h1>Ouisician</h1>
+  <h1>Ouisician </h1>  
   
   <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -45,17 +47,17 @@ input[type="range"] {
         <h5 class="card-title">Equaliser</h5>
           <div class="card-text row">
             <div class="col-12">
-            <label>Bass</label><input type="range" min="-10" max="10" value="0" class="slider" id="eq-bass" data-channel="1" data-id="1">
+            <label>Bass</label><input type="range" min="-10" max="10" value="0" data-default="0" class="slider" id="eq-bass" data-channel="1" data-id="1">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-            <label>Mid</label><input type="range" min="-10" max="10" value="0" class="slider" id="eq-mid" data-channel="1" data-id="2">
+            <label>Mid</label><input type="range" min="-10" max="10" value="0" data-default="0" class="slider" id="eq-mid" data-channel="1" data-id="2">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-            <label>Treble</label><input type="range" min="-15" max="15" value="0" class="slider" id="eq-treble" data-channel="1" data-id="3">
+            <label>Treble</label><input type="range" min="-15" max="15" value="0" data-default="0" class="slider" id="eq-treble" data-channel="1" data-id="3">
             </div>
           </div>
       </div>
@@ -69,17 +71,17 @@ input[type="range"] {
         <h5 class="card-title">Volume</h5>
           <div class="card-text row">
             <div class="col-12">
-            <label>Channel 1</label><input type="range" min="0" max="100" value="25" class="slider" id="vol-1" data-channel="1" data-id="4">
+            <label>Channel 1</label><input type="range" min="0" max="100" value="25" data-default="25" class="slider" id="vol-1" data-channel="1" data-id="4">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-             <label>Channel 2</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-2" data-channel="2" data-id="4">
+             <label>Channel 2</label><input type="range" min="0" max="100" value="50" data-default="50" class="slider" id="vol-2" data-channel="2" data-id="4">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-             <label>Channel 3</label><input type="range" min="0" max="100" value="50" class="slider" id="vol-2" data-channel="3" data-id="4">
+             <label>Channel 3</label><input type="range" min="0" max="100" value="50" data-default="50" class="slider" id="vol-3" data-channel="3" data-id="4">
             </div>
           </div>
       </div>
@@ -96,20 +98,20 @@ input[type="range"] {
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="wawa-1-check" data-channel="1" data-id="21">
             <label class="form-check-label" for="wawa-1-check">WaWa</label>
-          </div></label><input type="range" min="5000" max="12000" value="5000" class="slider" id="wawa-1-slide" data-channel="1" data-id="22">
+          </div></label><input type="range" min="5000" max="12000" value="5000" data-default="5000" class="slider" id="wawa-1-slide" data-channel="1" data-id="22">
         </div>
         <div class="col-4">
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="tremolo-1-check" data-channel="1" data-id="19">
             <label class="form-check-label" for="tremolo-1-check">Tremolo</label>
-          </div></label><input type="range" min="8000" max="20000" value="10000" class="slider" id="tremolo-1-slide" data-channel="1" data-id="20">
+          </div></label><input type="range" min="8000" max="20000" value="10000" data-default="10000" class="slider" id="tremolo-1-slide" data-channel="1" data-id="20">
         </div>
 		
 		<div class="col-4">
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="distortion-1-check" data-channel="1" data-id="23">
             <label class="form-check-label" for="distortion-1-check">Distortion</label>
-          </div></label><input type="range" min="8000" max="20000" value="10000" class="slider" id="distortion-1-slide" data-channel="1" data-id="18">
+          </div></label><input type="range" min="8000" max="20000" value="10000" data-default="10000" class="slider" id="distortion-1-slide" data-channel="1" data-id="18">
         </div>
 
       </div>
@@ -122,19 +124,19 @@ input[type="range"] {
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="wawa-2-check" data-channel="2" data-id="21">
             <label class="form-check-label" for="wawa-2-check">WaWa</label>
-          </div></label><input type="range" min="5000" max="12000" value="5000" class="slider" id="wawa-2-slide" data-channel="2" data-id="22">
+          </div></label><input type="range" min="5000" max="12000" value="5000" data-default="5000" class="slider" id="wawa-2-slide" data-channel="2" data-id="22">
         </div>
         <div class="col-4">
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="tremolo-2-check" data-channel="2" data-id="19">
             <label class="form-check-label" for="tremolo-2-check">Tremolo</label>
-          </div></label><input type="range" min="8000" max="20000" value="10000" class="slider" id="tremolo-2-slide" data-channel="2" data-id="20">
+          </div></label><input type="range" min="8000" max="20000" value="10000" data-default="10000" class="slider" id="tremolo-2-slide" data-channel="2" data-id="20">
         </div>
         		<div class="col-4">
           <label><div class="form-check">
             <input class="form-check-input" type="checkbox" id="distortion-2-check" data-channel="2" data-id="23">
             <label class="form-check-label" for="distortion-2-check">Distortion</label>
-          </div></label><input type="range" min="8000" max="20000" value="10000" class="slider" id="distortion-2-slide" data-channel="2" data-id="18">
+          </div></label><input type="range" min="8000" max="20000" value="10000" data-default="10000" class="slider" id="distortion-2-slide" data-channel="2" data-id="18">
         </div>
       </div>
   </div>
@@ -152,12 +154,12 @@ input[type="range"] {
         <h5 class="card-title">Triangle wave</h5>
           <div class="card-text row">
             <div class="col-12">
-            <label>Amplitude</label><input type="range" min="0" max="4095" value="0" class="slider" id="tw-width" data-channel="1" data-id="6">
+            <label>Amplitude</label><input type="range" min="0" max="4095" value="0" data-default="0" class="slider" id="tw-width" data-channel="1" data-id="6">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-            <label>Speed</label><input type="range" min="0" max="4095" value="0" class="slider" id="tw-speed" data-channel="1" data-id="7">
+            <label>Speed</label><input type="range" min="0" max="4095" value="0" data-default="0" class="slider" id="tw-speed" data-channel="1" data-id="7">
             </div>
           </div>
       </div>
@@ -186,17 +188,17 @@ input[type="range"] {
         <!--<h5 class="card-title">Offset</h5>-->
           <div class="card-text row">
             <div class="col-12">
-            <label>Offset 1</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset1-1" data-channel="1" data-id="15">
+            <label>Offset 1</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset1-1" data-channel="1" data-id="15">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-            <label>Offset 2</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset2-1" data-channel="1" data-id="16">
+            <label>Offset 2</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset2-1" data-channel="1" data-id="16">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-12">
-            <label>Offset 3</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset3-1" data-channel="1" data-id="17">
+            <label>Offset 3</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset3-1" data-channel="1" data-id="17">
             </div>
           </div>
       </div>
@@ -211,31 +213,31 @@ input[type="range"] {
         <!--<h5 class="card-title">Gain</h5>-->
           <div class="card-text row">
             <div class="col-6">
-            <label>Blend gain</label><input type="range" min="0" max="255" value="0" class="slider" id="blgain-1" data-channel="1" data-id="8">
+            <label>Blend gain</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="blgain-1" data-channel="1" data-id="8">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-6">
-            <label>Feed-forward gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain1-1" data-channel="1" data-id="9">
+            <label>Feed-forward gain 1</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain1-1" data-channel="1" data-id="9">
             </div>
 			<div class="col-6">
-            <label>Feed-back gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain1-1" data-channel="1" data-id="10">
+            <label>Feed-back gain 1</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain1-1" data-channel="1" data-id="10">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-6">
-            <label>Feed-forward gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain2-1" data-channel="1" data-id="11">
+            <label>Feed-forward gain 2</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain2-1" data-channel="1" data-id="11">
             </div>
 			 <div class="col-6">
-            <label>Feed-back gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain2-1" data-channel="1" data-id="12">
+            <label>Feed-back gain 2</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain2-1" data-channel="1" data-id="12">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-6">
-            <label for="ffgain3-1">Feed-forward gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain3-1" data-channel="1" data-id="13">
+            <label for="ffgain3-1">Feed-forward gain 3</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain3-1" data-channel="1" data-id="13">
             </div>
 			<div class="col-6">
-            <label>Feed-back gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain3-1" data-channel="1" data-id="14">
+            <label>Feed-back gain 3</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain3-1" data-channel="1" data-id="14">
             </div>
           </div>
       </div>
@@ -277,17 +279,17 @@ input[type="range"] {
         <!--<h5 class="card-title">Offset</h5>-->
           <div class="card-text row">
             <div class="col-12">
-            <label>Offset 1</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset1-2" data-channel="2" data-id="15">
+            <label>Offset 1</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset1-2" data-channel="2" data-id="15">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-12">
-            <label>Offset 2</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset2-2" data-channel="2" data-id="16">
+            <label>Offset 2</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset2-2" data-channel="2" data-id="16">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-12">
-            <label>Offset 3</label><input type="range" min="0" max="1048575" step="16" value="0" class="slider" id="offset3-2" data-channel="2" data-id="17">
+            <label>Offset 3</label><input type="range" min="0" max="1048575" step="16" value="0" data-default="0" class="slider" id="offset3-2" data-channel="2" data-id="17">
             </div>
           </div>
       </div>
@@ -302,31 +304,31 @@ input[type="range"] {
         <!--<h5 class="card-title">Gain</h5>-->
           <div class="card-text row">
             <div class="col-6">
-            <label>Blend gain</label><input type="range" min="0" max="255" value="0" class="slider" id="blgain-2" data-channel="2" data-id="8">
+            <label>Blend gain</label><input type="range" min="0" max="255" value="0" class="slider" data-default="0" id="blgain-2" data-channel="2" data-id="8">
             </div>
           </div>
           <div class="card-text row">
             <div class="col-6">
-            <label>Feed-forward gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain1-2" data-channel="2" data-id="9">
+            <label>Feed-forward gain 1</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain1-2" data-channel="2" data-id="9">
             </div>
 			<div class="col-6">
-            <label for="fbgain1-2">Feed-back gain 1</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain1-2" data-channel="2" data-id="10">
+            <label for="fbgain1-2">Feed-back gain 1</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain1-2" data-channel="2" data-id="10">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-6">
-            <label>Feed-forward gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain2-2" data-channel="2" data-id="11">
+            <label>Feed-forward gain 2</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain2-2" data-channel="2" data-id="11">
             </div>
 			 <div class="col-6">
-            <label>Feed-back gain 2</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain2-2" data-channel="2" data-id="12">
+            <label>Feed-back gain 2</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain2-2" data-channel="2" data-id="12">
             </div>
           </div>
 		  <div class="card-text row">
             <div class="col-6">
-            <label>Feed-forward gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="ffgain3-2" data-channel="2" data-id="13">
+            <label>Feed-forward gain 3</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="ffgain3-2" data-channel="2" data-id="13">
             </div>
 			<div class="col-6">
-            <label>Feed-back gain 3</label><input type="range" min="0" max="255" value="0" class="slider" id="fbgain3-2" data-channel="2" data-id="14">
+            <label>Feed-back gain 3</label><input type="range" min="0" max="255" value="0" data-default="0" class="slider" id="fbgain3-2" data-channel="2" data-id="14">
             </div>
           </div>
       </div>
