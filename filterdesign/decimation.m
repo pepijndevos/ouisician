@@ -26,8 +26,8 @@ SD=2*1e-4;
 
 f1 = [0, 1/D, 2/D1-1/D, 1];
 a1 = [1 1 0 0];
-eq1s = round(firpm(D1*4-1, f1, a1)*16000);
-eq1 = firpm(D1*4-1, f1, a1);
+eq1s = round(firpm(D1*3-1, f1, a1)*16000);
+eq1 = firpm(D1*3-1, f1, a1);
 
 
 f2 = [0, 1/D2-D1*SD, 1/D2, 1];
