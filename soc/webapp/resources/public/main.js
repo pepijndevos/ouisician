@@ -13,24 +13,47 @@ function addAudioFile(file) {
     $( "#record-filelist" ).append( audioplayer );
 }
 
+function send(id) {
+	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
+	//console.log($(id).val());
+}
+
+function updateSliderVal(id) {
+	var value = $(id).val();
+	console.log(value);
+	var id = $(id).attr('id');
+	console.log(id);
+	$('#' + id + '-val').text(value);
+
+	//console.log($(id).val());
+}
+
+$('.slider').on('input',function() {	
+	updateSliderVal('#' + this.id);
+});
+
 sock.onopen = function(e) {
 	send("#vol-1");
 	send("#vol-2");
 	send("#vol-3");
+
+	$("#nav-sfx .slider").each(function() {
+			$("<span id='"+ this.id + "-val' style='float:right; font-size:0.8em'>"+this.value+"</span>").insertBefore('#' + this.id);
+		});
 }
+
 
 sock.onmessage = function(e) {
 
   msg = JSON.parse(e.data);
 
 
-  console.log(msg.id);
-  console.log(msg.chan);
-  console.log(msg.display);
+  console.log("WebSocket RX - id: " + msg.id + " | channel: " + msg.chan + " | value: " + msg.display);
 
 
   if (msg.chan > 0) {
     $('#' + msg.id).val(msg.display);
+    updateSliderVal('#' + msg.id);
   }
 
   if (msg.id.indexOf("-check") >= 0) {
@@ -100,10 +123,7 @@ $('input.slider').change(function() {
   //console.log(this.value);
 });
 
-function send(id) {
-	sock.send(JSON.stringify({numid: Number($(id).data("id")), id: $(id).attr('id'), val: Number($(id).val()), chan: Number($(id).data("channel")), platform: 0}));
-	//console.log($(id).val());
-}
+
 
 // FLANGER PRESETS
 $('[id^=flangerpreset-ch]').change(function() {	  
@@ -212,10 +232,12 @@ $('[id^=flangerpreset-ch]').change(function() {
 
 	$(".delay-ch" + this.dataset.channel + " .slider").each(function() {
 		send('#' + this.id);
+		updateSliderVal('#' + this.id);
 	});
 
 	$(".trianglewave .slider").each(function() {
 		send('#' + this.id);
+		updateSliderVal('#' + this.id);
 	});
 });
 
