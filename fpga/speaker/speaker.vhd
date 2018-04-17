@@ -35,7 +35,6 @@ entity speaker is
 		
 		SW : in std_logic_vector(9 downto 0);
 		
-		WahWah_EN : in std_logic; --should be disabled when spi version is made. 
 		
 		--FROM MASTER
 		sclk	: IN STD_LOGIC;  --spi clk from master	
@@ -175,19 +174,19 @@ end process;
       data => GPIO_ADCDAT2,
       word => myadc2);
 
---Distortion_inst : entity work.Distortion_FX(behaviour)
---	port map(
---		CLK_50 => clk,		
---		nReset => rst,		
---		new_val	=> sndclk,	
---		data_in	=> win1,	       
---		data_out	=> Distort_out,	
---		filterid =>  filterid_temp,
---		chan => chan_temp,
---		fil_data => filterdata_temp
---);
---	
---
+Distortion_inst : entity work.Distortion_FX(behaviour)
+	port map(
+		CLK_50 => clk,		
+		nReset => rst,		
+		new_val	=> sndclk,	
+		data_in	=> win1,	       
+		data_out	=> Distort_out,	
+		filterid =>  filterid_temp,
+		chan => chan_temp,
+		fil_data => filterdata_temp
+);
+	
+
 Tremolo_inst : entity work.Tremolo_FX(behaviour)
 port map(
 	data_in => win1,
@@ -208,7 +207,9 @@ port map (
 	new_val =>	sndclk,	
 	data_in =>	Trem_out1,	 
 	data_out =>	WahWah_out,	
-	WahWah_EN => sw(8)
+	filterid => filterid_temp,
+	chan => chan_temp,
+	fil_data =>  filterdata_temp
 );		
 			
 		
@@ -318,26 +319,26 @@ port map (
       word4 => pi2,
       resp => mixed);
 
-	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
-	port map (
-        	main_CLK => clk,      
-        	Reset => rst,
-			dig0=>HEX0,
-			dig1=>HEX1,
-			dig2=>HEX2 ,
-			dig3=>HEX3 ,
-			dig4=>HEX4 ,
-			dig5=>HEX5,           
-        	new_val => sndclk,                
-        	data_in => mixed,                   
---		data_outbaseshelve => data_outbaseshelve_temp,
---		data_outmidpeak => data_outmidpeak_temp,
---		data_outtrebleshelve => data_outtrebleshelve_temp,
-		EQmain_out => EQ_out,
-		chanEQ => chan_temp,  
-		filteridEQ => filterid_temp,
-		filterdataEQ => filterdata_temp
-	);
+--	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
+--	port map (
+--        	main_CLK => clk,      
+--        	Reset => rst,
+--			dig0=>HEX0,
+--			dig1=>HEX1,
+--			dig2=>HEX2 ,
+--			dig3=>HEX3 ,
+--			dig4=>HEX4 ,
+--			dig5=>HEX5,           
+--        	new_val => sndclk,                
+--        	data_in => mixed,                   
+----		data_outbaseshelve => data_outbaseshelve_temp,
+----		data_outmidpeak => data_outmidpeak_temp,
+----		data_outtrebleshelve => data_outtrebleshelve_temp,
+--		EQmain_out => EQ_out,
+--		chanEQ => chan_temp,  
+--		filteridEQ => filterid_temp,
+--		filterdataEQ => filterdata_temp
+--	);
 
 	
 	
@@ -346,7 +347,7 @@ port map (
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => EQ_out,
+      data_in => mixed,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
