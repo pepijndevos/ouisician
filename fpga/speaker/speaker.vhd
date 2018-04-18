@@ -114,6 +114,7 @@ architecture Behavioral of speaker is
 	signal 	offset32 : unsigned(19 downto 0);
   
   	signal EQ_out : signed(15 downto 0):= (others=>'0');
+  	signal EQ_temp : signed(15 downto 0):= (others=>'0');
 	signal chan_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0); 
 	signal filterid_temp :  STD_LOGIC_VECTOR(7 DOWNTO 0);
 	signal filterdata_temp :  STD_LOGIC_VECTOR(31 DOWNTO 0); 
@@ -318,27 +319,27 @@ port map (
       word4 => pi2,
       resp => mixed);
 
---	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
---	port map (
---        	main_CLK => clk,      
---        	Reset => rst,
---			dig0=>HEX0,
---			dig1=>HEX1,
---			dig2=>HEX2 ,
---			dig3=>HEX3 ,
---			dig4=>HEX4 ,
---			dig5=>HEX5,           
---        	new_val => sndclk,                
---        	data_in => mixed,                   
-----		data_outbaseshelve => data_outbaseshelve_temp,
-----		data_outmidpeak => data_outmidpeak_temp,
-----		data_outtrebleshelve => data_outtrebleshelve_temp,
---		EQmain_out => EQ_out,
---		chanEQ => chan_temp,  
---		filteridEQ => filterid_temp,
---		filterdataEQ => filterdata_temp
---	);
-
+	Equalizer : entity work.Equalizermain -- equalizer Port/signal => main port/ignal
+	port map (
+        	main_CLK => clk,      
+        	Reset => rst,
+			dig0=>HEX0,
+			dig1=>HEX1,
+			dig2=>HEX2 ,
+			dig3=>HEX3 ,
+			dig4=>HEX4 ,
+			dig5=>HEX5,           
+        	new_val => sndclk,                
+        	data_in => mixed,                   
+--		data_outbaseshelve => data_outbaseshelve_temp,
+--		data_outmidpeak => data_outmidpeak_temp,
+--		data_outtrebleshelve => data_outtrebleshelve_temp,
+		EQmain_out => EQ_temp,
+		chanEQ => chan_temp,  
+		filteridEQ => filterid_temp,
+		filterdataEQ => filterdata_temp
+	);
+EQ_out <= EQ_temp when SW(6) = '1' else mixed;
 	
 	
   crossover_inst: entity work.Crossover
@@ -346,7 +347,7 @@ port map (
       main_CLK => clk,
       Reset => rst,
       new_val => sndclk,
-      data_in => mixed,
+      data_in => EQ_out,
       data_outlow => wout1,
 		data_outhigh => wout2
 		);
