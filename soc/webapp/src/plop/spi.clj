@@ -20,7 +20,7 @@
 		(def spi (SpiFactory/getInstance (SpiChannel/getByNumber chan) speed (SpiMode/getByNumber mode)))
 		(printSPIsettings :chan chan :speed speed :mode mode))
 			
-(setSPIsettings :mode 1)
+(setSPIsettings :mode 1 :speed 10000000)
 
 (defn SPItransfer [packet]
 		(println "TX" (seq packet))
