@@ -1,4 +1,4 @@
-Circuit: * C:\Gedeeld\Project\Git\Normalization\LTspice\Test.asc
+Circuit: * D:\GitHub\ouisician\Normalization\LTspice\Test.asc
 
 WARNING: Node U1:1:U11:VP1 is floating.
 WARNING: Node U1:1:14 is floating.
@@ -15,43 +15,86 @@ Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to sk
 Starting Gmin stepping
 Gmin = 10
 Gmin = 1.07374
-vernier = 0.5
-vernier = 0.25
-vernier = 0.125
-Gmin = 0.717975
-vernier = 0.166667
-vernier = 0.222222
-Gmin = 0.485472
-vernier = 0.296296
-Gmin = 0.259172
-vernier = 0.395061
-vernier = 0.526748
-Gmin = 0.0946116
-vernier = 0.702331
-vernier = 0.936441
-Gmin = 0.0200397
-vernier = 1
-Gmin = 0.00229389
-Gmin = 0.000246304
-Gmin = 2.64467e-005
-Gmin = 2.8397e-006
-Gmin = 3.0491e-007
-Gmin = 3.27395e-008
-Gmin = 3.51537e-009
-Gmin = 3.7746e-010
-Gmin = 4.05295e-011
-Gmin = 4.35182e-012
-Gmin = 4.67273e-013
+Gmin = 0.115292
+Gmin = 0.0123794
+Gmin = 0.00132923
+Gmin = 0.000142725
+Gmin = 1.5325e-005
+Gmin = 1.6455e-006
+Gmin = 1.76685e-007
+Gmin = 1.89714e-008
+Gmin = 2.03704e-009
+Gmin = 2.18725e-010
+Gmin = 2.34854e-011
+Gmin = 2.52173e-012
+Gmin = 2.70769e-013
 Gmin = 0
 Gmin stepping succeeded in finding the operating point.
 
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0300018 to 0.0300018
+Heightened Def Con from 0.0349982 ++++++++++++++++++to 0.0349982
+Heightened Def Con from 0.0349982 ++++++++to 0.0349982
+Heightened Def Con from 0.0349982 +++to 0.0349982
+Heightened Def Con from 0.0349982 +++to 0.0349982
+Heightened Def Con from 0.0400018 to 0.0400018
+Heightened Def Con from 0.0400018 to 0.0400018
+Heightened Def Con from 0.0400018 to 0.0400018
+Heightened Def Con from 0.0400018 to 0.0400018
+Heightened Def Con from 0.0500018 ++++++++++++++++++to 0.0500018
+Heightened Def Con from 0.0500018 +++++++to 0.0500018
+Heightened Def Con from 0.0500018 +++to 0.0500018
+Heightened Def Con from 0.0500018 +++to 0.0500018
+Heightened Def Con from 0.0500018 +++to 0.0500018
+Heightened Def Con from 0.0600018 ++++++++++++++++++to 0.0600018
+Heightened Def Con from 0.0600018 +++++++to 0.0600018
+Heightened Def Con from 0.0600018 +++to 0.0600018
+Heightened Def Con from 0.0600018 +++to 0.0600018
+Heightened Def Con from 0.0600018 +++to 0.0600018
+Heightened Def Con from 0.0700018 ++++++++++++++++++to 0.0700018
+Heightened Def Con from 0.0700018 +++++++to 0.0700018
+Heightened Def Con from 0.0700018 +++to 0.0700018
+Heightened Def Con from 0.0700018 +++to 0.0700018
+Heightened Def Con from 0.0700018 +++to 0.0700018
+Heightened Def Con from 0.0749982 ++++++++++++++++++to 0.0749982
+Heightened Def Con from 0.0749982 ++++++++to 0.0749982
+Heightened Def Con from 0.0749982 +++to 0.0749982
+Heightened Def Con from 0.0749982 +++to 0.0749982
+Heightened Def Con from 0.0800018 ++++++++++++++++++to 0.0800018
+Heightened Def Con from 0.0800018 +++++++to 0.0800018
+Heightened Def Con from 0.0800018 +++to 0.0800018
+Heightened Def Con from 0.0800018 +++to 0.0800018
+Heightened Def Con from 0.0800018 +++to 0.0800018
+Heightened Def Con from 0.0849982 to 0.0849982
+Heightened Def Con from 0.0849982 ++++++++++++++++++to 0.0849982
+Heightened Def Con from 0.0849982 ++++++++to 0.0849982
+Heightened Def Con from 0.0849982 +++to 0.0849982
+Heightened Def Con from 0.0849982 +++to 0.0849982
+Heightened Def Con from 0.0900018 ++++++++++++++++++to 0.0900018
+Heightened Def Con from 0.0900018 +++++++to 0.0900018
+Heightened Def Con from 0.0900018 +++to 0.0900018
+Heightened Def Con from 0.0900018 +++to 0.0900018
+Heightened Def Con from 0.0900018 +++to 0.0900018
 
+<<<<<<< HEAD
 Date: Sun Apr 01 22:11:57 2018
 Total elapsed time: 0.606 seconds.
+=======
+Date: Thu Mar 29 15:07:32 2018
+Total elapsed time: 0.660 seconds.
+>>>>>>> 5a0c7c4fff5da166dd5a9e6e4102438b33c9ab7a
 
 tnom = 27
 temp = 27
 method = modified trap
+<<<<<<< HEAD
 totiter = 10280
 traniter = 9255
 tranpoints = 1986
@@ -63,4 +106,18 @@ solver = Normal
 Thread vector: 43.8/22.2[2] 8.5/5.4[2] 12.5/9.2[2] 1.8/3.6[1]  2592/500
 Matrix Compiler1: 4.76 KB object code size  4.7/2.2/[1.2]
 Matrix Compiler2: 6.39 KB object code size  3.3/4.1/[1.7]
+=======
+totiter = 57932
+traniter = 57513
+tranpoints = 8344
+accept = 4459
+rejected = 4202
+matrix size = 71
+fillins = 38
+solver = Normal
+Thread vector: 10.2/6.8[2] 2.3/2.2[1] 2.6/2.5[1] 0.3/1.1[1]  2592/500
+Matrix Compiler1: 4.70 KB object code size  1.3/0.6/[0.3]
+Matrix Compiler2: 6.18 KB object code size  0.7/1.0/[0.5]
+
+>>>>>>> 5a0c7c4fff5da166dd5a9e6e4102438b33c9ab7a
 

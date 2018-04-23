@@ -1,0 +1,35 @@
+* C:\Gedeeld\Project\Git\Normalization\LTspice\Final_design.asc
+XU1 N007 N002 N001 0 N003 LM4562
+Vin Vin 0 SINE(0 0.02 100) AC 0.02
+R1 N007 N009 470k
+C1 Vin N007 20µ
+R3 N001 N009 1k
+C2 N009 0 220µ
+Vdd N001 0 10
+R§DigPot N002 N010 100
+R5 N002 N003 10k
+R4 N009 0 1k
+C3 N003 N005 1µ Rser=0.1
+R7 N005 0 15k
+R6 N005 Vband 5k
+C4 Vband 0 1n Rser=0.1
+R8 N001 N008 1k
+C5 N008 0 220µ Rser=0.1
+R10 N008 0 1k
+R9 N006 N008 470k
+XU2 N006 N004 N001 0 N004 level.2 Avol=1Meg GBW=10Meg Slew=10Meg ilimit=25m rail=0 Vos=0 phimargin=45 en=0 enk=0 in=0 ink=0 Rin=500Meg
+C7 N004 Vout 20µ
+R11 Vout 0 1k
+R12 N001 N010 1k
+C6 N010 0 220µ
+R13 N010 0 1k
+C8 Vband N006 20µ Rser=0.1
+C9 N001 0 100µ
+C10 N001 0 100n
+C11 N001 0 100n
+;tran 0 1 0 0.01
+.ac oct 100 0.1 1000k
+.lib NewOpamps\LM4562.lib
+.lib UniversalOpamps2.sub
+.backanno
+.end
